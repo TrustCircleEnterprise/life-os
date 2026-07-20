@@ -644,9 +644,68 @@ a{color:inherit;text-decoration:none}
   </div>
 </div>
 <div class="view" id="v-whl">
-  <div class="card" style="background:rgba(45,212,191,.04);border-color:rgba(45,212,191,.2)"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><div><div style="font-size:13px;font-weight:500;margin-bottom:3px">🤝 Wholesaling — Trust Circle Enterprise</div><div style="font-size:11px;color:var(--text2)">7 active deals · 2 overdue · $28k revenue</div></div><a href="https://trustcircleenterprise.github.io/wholesale-tracker/" target="_blank" class="btn suc" style="text-decoration:none">Deal Tracker ↗</a></div></div>
+  <div class="card" style="background:rgba(45,212,191,.04);border-color:rgba(45,212,191,.2)">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+      <div><div style="font-size:13px;font-weight:500;margin-bottom:3px">🤝 Wholesaling — Trust Circle Enterprise</div>
+      <div style="font-size:11px;color:var(--text2)" id="whl-summary">0 active deals · $0 pipeline</div></div>
+      <div class="btn-row">
+        <a href="https://trustcircleenterprise.github.io/wholesale-tracker/" target="_blank" class="btn suc" style="text-decoration:none">Full Tracker ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- PIPELINE -->
+  <div class="card"><div class="card-line" style="background:var(--teal)"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div class="ct" style="margin-bottom:0">🏗️ Deal Pipeline</div>
+      <button class="btn go" onclick="showAddDeal()" style="font-size:10px;padding:4px 10px">+ Add Deal</button>
+    </div>
+
+    <!-- ADD DEAL FORM -->
+    <div id="add-deal-form" style="display:none;background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:12px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+        <div><div style="font-size:10px;color:var(--text3);margin-bottom:3px">Property Address</div>
+          <input class="finput" id="deal-addr" type="text" placeholder="123 Oak St, Atlanta GA" style="font-size:11px;padding:6px 8px"></div>
+        <div><div style="font-size:10px;color:var(--text3);margin-bottom:3px">Seller Name</div>
+          <input class="finput" id="deal-seller" type="text" placeholder="John Smith" style="font-size:11px;padding:6px 8px"></div>
+        <div><div style="font-size:10px;color:var(--text3);margin-bottom:3px">Asking Price</div>
+          <input class="finput" id="deal-ask" type="number" placeholder="$0" style="font-size:11px;padding:6px 8px"></div>
+        <div><div style="font-size:10px;color:var(--text3);margin-bottom:3px">Potential Profit</div>
+          <input class="finput" id="deal-profit" type="number" placeholder="$0" style="font-size:11px;padding:6px 8px"></div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <select class="finput" id="deal-status" style="flex:1;font-size:11px;padding:6px 8px;color:var(--text);background:var(--bg3)">
+          <option style="background:#1a2235;color:#eef2ff">New Lead</option>
+          <option style="background:#1a2235;color:#eef2ff">Contacted</option>
+          <option style="background:#1a2235;color:#eef2ff">Negotiating</option>
+          <option style="background:#1a2235;color:#eef2ff">Under Contract</option>
+          <option style="background:#1a2235;color:#eef2ff">Closed</option>
+        </select>
+        <input class="finput" id="deal-note" type="text" placeholder="Notes..." style="flex:2;font-size:11px;padding:6px 8px">
+        <button class="btn go" onclick="addDeal()" style="font-size:11px;padding:6px 10px;white-space:nowrap">Add</button>
+        <button class="btn" onclick="document.getElementById('add-deal-form').style.display='none'" style="font-size:11px;padding:6px 10px">Cancel</button>
+      </div>
+    </div>
+
+    <!-- PIPELINE STAGES -->
+    <div style="display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;padding-bottom:4px">
+      <div style="text-align:center;font-size:10px;flex:1;min-width:70px"><div style="background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:var(--r);padding:5px;margin-bottom:3px" id="stage-new">0</div><div style="color:var(--text3)">New</div></div>
+      <div style="color:var(--text3);align-self:center;font-size:12px;flex-shrink:0">→</div>
+      <div style="text-align:center;font-size:10px;flex:1;min-width:70px"><div style="background:rgba(77,158,255,.08);border:1px solid rgba(77,158,255,.2);border-radius:var(--r);padding:5px;margin-bottom:3px;color:var(--blue)" id="stage-contacted">0</div><div style="color:var(--text3)">Contacted</div></div>
+      <div style="color:var(--text3);align-self:center;font-size:12px;flex-shrink:0">→</div>
+      <div style="text-align:center;font-size:10px;flex:1;min-width:70px"><div style="background:rgba(245,166,35,.08);border:1px solid rgba(245,166,35,.2);border-radius:var(--r);padding:5px;margin-bottom:3px;color:var(--amber)" id="stage-negotiating">0</div><div style="color:var(--text3)">Negotiating</div></div>
+      <div style="color:var(--text3);align-self:center;font-size:12px;flex-shrink:0">→</div>
+      <div style="text-align:center;font-size:10px;flex:1;min-width:70px"><div style="background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.2);border-radius:var(--r);padding:5px;margin-bottom:3px;color:var(--purple)" id="stage-contract">0</div><div style="color:var(--text3)">Contract</div></div>
+      <div style="color:var(--text3);align-self:center;font-size:12px;flex-shrink:0">→</div>
+      <div style="text-align:center;font-size:10px;flex:1;min-width:70px"><div style="background:rgba(0,209,122,.08);border:1px solid rgba(0,209,122,.2);border-radius:var(--r);padding:5px;margin-bottom:3px;color:var(--green)" id="stage-closed">0</div><div style="color:var(--text3)">Closed</div></div>
+    </div>
+
+    <!-- DEAL LIST -->
+    <div id="deal-list"><div style="font-size:12px;color:var(--text3);text-align:center;padding:12px">No deals yet. Add your first deal above.</div></div>
+  </div>
+
   <div class="card"><div class="ct">Today's Tasks</div>
-    <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,20)"></div><div class="tt">Follow up on 2 overdue leads</div><span style="font-size:9px;padding:1px 6px;border-radius:100px;background:rgba(255,77,77,.1);border:1px solid rgba(255,77,77,.2);color:var(--red);white-space:nowrap">URGENT</span><span class="txp">+20</span></div>
+    <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,20)"></div><div class="tt">Follow up on overdue leads</div><span style="font-size:9px;padding:1px 6px;border-radius:100px;background:rgba(255,77,77,.1);border:1px solid rgba(255,77,77,.2);color:var(--red);white-space:nowrap">URGENT</span><span class="txp">+20</span></div>
     <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Log GHL activity for active deals</div><span class="txp">+10</span></div>
     <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Check xLeads for new sellers</div><span class="txp">+10</span></div>
   </div>
@@ -1422,7 +1481,7 @@ load();
 setDates();setQuote();
 renderHabits();renderAreas();renderAchs();renderRevs();
 updateStats();updateSB();updateScorecard();updateMomentum();updateFT();updateWt();
-renderAff();restoreMC();restoreNotes();renderRevenues();restoreExamDate();restoreTasks();restoreTop3();renderTrades();renderStreakCal();
+renderAff();restoreMC();restoreNotes();renderRevenues();restoreExamDate();restoreTasks();restoreTop3();renderTrades();renderStreakCal();renderDeals();
 // Auto-save every 30 seconds as backup
 setInterval(save, 30000);
 
@@ -1618,6 +1677,115 @@ window.togHab=function(id,xp){
   save();
   renderStreakCal();
 };
+
+
+// ── WHOLESALE PIPELINE ─────────────────────────────────
+function showAddDeal(){
+  const f=document.getElementById('add-deal-form');
+  if(f)f.style.display=f.style.display==='none'?'block':'none';
+}
+
+function addDeal(){
+  const addr=document.getElementById('deal-addr')?.value?.trim();
+  if(!addr){alert('Enter a property address');return;}
+  S.deals=S.deals||[];
+  S.deals.push({
+    id:Date.now(),
+    addr,
+    seller:document.getElementById('deal-seller')?.value||'',
+    ask:parseFloat(document.getElementById('deal-ask')?.value)||0,
+    profit:parseFloat(document.getElementById('deal-profit')?.value)||0,
+    status:document.getElementById('deal-status')?.value||'New Lead',
+    note:document.getElementById('deal-note')?.value||'',
+    date:today(),
+    lastContact:today()
+  });
+  // Clear form
+  ['deal-addr','deal-seller','deal-ask','deal-profit','deal-note'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.value='';
+  });
+  document.getElementById('add-deal-form').style.display='none';
+  awardXP(15);renderDeals();save();
+}
+
+function updateDealStatus(id,status){
+  const deal=S.deals?.find(d=>d.id===id);
+  if(deal){deal.status=status;deal.lastContact=today();}
+  renderDeals();save();
+}
+
+function deleteDeal(id){
+  if(!confirm('Delete this deal?'))return;
+  S.deals=S.deals?.filter(d=>d.id!==id)||[];
+  renderDeals();save();
+}
+
+function renderDeals(){
+  const deals=S.deals||[];
+  const list=document.getElementById('deal-list');
+
+  // Update stage counts
+  const stages={'New Lead':0,'Contacted':0,'Negotiating':0,'Under Contract':0,'Closed':0};
+  deals.forEach(d=>stages[d.status]=(stages[d.status]||0)+1);
+  const g=id=>document.getElementById(id);
+  if(g('stage-new'))g('stage-new').textContent=stages['New Lead'];
+  if(g('stage-contacted'))g('stage-contacted').textContent=stages['Contacted'];
+  if(g('stage-negotiating'))g('stage-negotiating').textContent=stages['Negotiating'];
+  if(g('stage-contract'))g('stage-contract').textContent=stages['Under Contract'];
+  if(g('stage-closed'))g('stage-closed').textContent=stages['Closed'];
+
+  // Summary
+  const active=deals.filter(d=>d.status!=='Closed').length;
+  const pipeline=deals.filter(d=>d.status!=='Closed').reduce((s,d)=>s+d.profit,0);
+  const sumEl=document.getElementById('whl-summary');
+  if(sumEl)sumEl.textContent=active+' active deals · $'+pipeline.toLocaleString()+' pipeline';
+
+  if(!deals.length){
+    if(list)list.innerHTML='<div style="font-size:12px;color:var(--text3);text-align:center;padding:12px">No deals yet. Add your first deal above.</div>';
+    return;
+  }
+
+  const STATUS_COLORS={
+    'New Lead':'var(--text3)',
+    'Contacted':'var(--blue)',
+    'Negotiating':'var(--amber)',
+    'Under Contract':'var(--purple)',
+    'Closed':'var(--green)'
+  };
+
+  // Sort: active first, then by date
+  const sorted=[...deals].sort((a,b)=>{
+    if(a.status==='Closed'&&b.status!=='Closed')return 1;
+    if(b.status==='Closed'&&a.status!=='Closed')return -1;
+    return b.id-a.id;
+  });
+
+  if(list)list.innerHTML=sorted.map(d=>{
+    const daysSince=Math.floor((Date.now()-new Date(d.lastContact).getTime())/864e5);
+    const overdue=d.status!=='Closed'&&daysSince>=7;
+    return `<div style="background:rgba(255,255,255,.03);border:1px solid ${overdue?'rgba(255,77,77,.3)':' var(--border)'};border-radius:var(--r);padding:10px 12px;margin-bottom:7px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px">
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:500;color:var(--text);margin-bottom:2px">${d.addr}</div>
+          ${d.seller?`<div style="font-size:10px;color:var(--text3)">Seller: ${d.seller}</div>`:''}
+          ${d.note?`<div style="font-size:10px;color:var(--text2);margin-top:2px">${d.note}</div>`:''}
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          ${d.profit?`<div style="font-size:13px;font-weight:600;color:var(--green);font-family:var(--mono)">+$${d.profit.toLocaleString()}</div>`:''}
+          ${d.ask?`<div style="font-size:10px;color:var(--text3)">Ask: $${d.ask.toLocaleString()}</div>`:''}
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+        <select onchange="updateDealStatus(${d.id},this.value)" style="background:rgba(255,255,255,.06);border:1px solid var(--border2);border-radius:100px;padding:3px 8px;font-size:10px;color:${STATUS_COLORS[d.status]||'var(--text2)'};font-family:var(--font);cursor:pointer">
+          ${['New Lead','Contacted','Negotiating','Under Contract','Closed'].map(s=>`<option style="background:#1a2235;color:#eef2ff"${s===d.status?' selected':''}>${s}</option>`).join('')}
+        </select>
+        ${overdue?`<span style="font-size:9px;padding:2px 6px;border-radius:100px;background:rgba(255,77,77,.1);border:1px solid rgba(255,77,77,.2);color:var(--red)">⚠️ ${daysSince}d no contact</span>`:''}
+        <span style="font-size:10px;color:var(--text3);margin-left:auto">Added ${d.date}</span>
+        <button onclick="deleteDeal(${d.id})" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:12px;padding:1px 4px" title="Delete">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
 
 </script>
 </body>
