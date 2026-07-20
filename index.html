@@ -339,6 +339,33 @@ a{color:inherit;text-decoration:none}
 <div class="view on" id="v-mission">
   <div class="mot"><div class="mot-q" id="daily-q">"The secret of getting ahead is getting started."</div><div class="mot-a" id="daily-a">— Mark Twain</div></div>
 
+  <!-- DAILY TOP 3 -->
+  <div class="card" style="background:linear-gradient(135deg,rgba(245,166,35,.05),rgba(255,77,77,.05));border-color:rgba(245,166,35,.25);margin-bottom:12px">
+    <div class="card-line" style="background:linear-gradient(90deg,var(--amber),var(--red))"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div><div class="ct" style="margin-bottom:0">🎯 Daily Top 3</div><div style="font-size:10px;color:var(--text3);margin-top:2px">Lock in your 3 non-negotiables before anything else</div></div>
+      <button class="btn" onclick="saveTop3()" style="font-size:10px;padding:4px 10px;background:rgba(245,166,35,.15);border-color:rgba(245,166,35,.3);color:var(--amber)">Save</button>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:7px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="width:22px;height:22px;border-radius:50%;background:rgba(255,77,77,.15);border:1px solid rgba(255,77,77,.3);color:var(--red);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">1</div>
+        <input class="finput" id="top3-1" placeholder="Most important thing today..." style="flex:1;font-size:12px;padding:6px 10px;background:rgba(255,255,255,.04)">
+        <div class="chk" id="top3-chk1" onclick="checkTop3(1)" style="width:18px;height:18px;flex-shrink:0"></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="width:22px;height:22px;border-radius:50%;background:rgba(245,166,35,.15);border:1px solid rgba(245,166,35,.3);color:var(--amber);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">2</div>
+        <input class="finput" id="top3-2" placeholder="Second priority..." style="flex:1;font-size:12px;padding:6px 10px;background:rgba(255,255,255,.04)">
+        <div class="chk" id="top3-chk2" onclick="checkTop3(2)" style="width:18px;height:18px;flex-shrink:0"></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="width:22px;height:22px;border-radius:50%;background:rgba(77,158,255,.15);border:1px solid rgba(77,158,255,.3);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">3</div>
+        <input class="finput" id="top3-3" placeholder="Third priority..." style="flex:1;font-size:12px;padding:6px 10px;background:rgba(255,255,255,.04)">
+        <div class="chk" id="top3-chk3" onclick="checkTop3(3)" style="width:18px;height:18px;flex-shrink:0"></div>
+      </div>
+    </div>
+    <div style="font-size:10px;color:var(--text3);text-align:center;margin-top:8px" id="top3-saved"></div>
+  </div>
+
   <!-- COUNTDOWNS -->
   <div class="g4">
     <div class="card" style="text-align:center"><div class="card-line" style="background:var(--red)"></div><div class="cd-lbl">RE Exam</div><div class="cd-big" id="cd-re" style="color:var(--red)">19</div><div class="cd-goal">days left</div></div>
@@ -363,7 +390,7 @@ a{color:inherit;text-decoration:none}
       <div class="qh"><div class="qico" style="background:rgba(0,209,122,.1);border:1px solid rgba(0,209,122,.2)">🚀</div><div><div class="qlbl" style="color:var(--green)">Moves Me Forward</div><div class="qdesc">High-impact long-term tasks</div></div></div>
       <div id="impact-l">
         <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div style="flex:1"><div class="tt">Follow up 2 overdue wholesale leads</div><div class="ts">🤝 7+ days · Revenue opportunity</div></div><span class="txp">+15</span></div>
-        <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div style="flex:1"><div class="tt">Post Zenith Drip Co. content</div><div class="ts">🖼️ Day 15 of 90</div></div><span class="txp">+10</span></div>
+        
         <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div style="flex:1"><div class="tt">Spanish + Polish — 15 min each</div><div class="ts">🌎 6-month fluency goals</div></div><span class="txp">+15</span></div>
         <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div style="flex:1"><div class="tt">Credit utilization check</div><div class="ts">💳 Goal: 620 · Under 30%</div></div><span class="txp">+10</span></div>
       </div>
@@ -625,7 +652,67 @@ a{color:inherit;text-decoration:none}
   </div>
 </div>
 <div class="view" id="v-forex">
-  <div class="card" style="background:rgba(77,158,255,.04);border-color:rgba(77,158,255,.2)"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><div><div style="font-size:13px;font-weight:500;margin-bottom:3px">📈 Forex Trading — 4-day streak</div><div style="font-size:11px;color:var(--text2)">GBP/JPY · XAU/USD · Goal: 7 days → withdrawals</div></div><div class="btn-row"><a href="https://trustcircleenterprise.github.io/forex-dashboard/" target="_blank" class="btn go" style="text-decoration:none">Dashboard ↗</a><a href="https://trustcircleenterprise.github.io/trade-journal/" target="_blank" class="btn" style="text-decoration:none">Journal ↗</a></div></div></div>
+  <div class="card" style="background:rgba(77,158,255,.04);border-color:rgba(77,158,255,.2)"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><div><div style="font-size:13px;font-weight:500;margin-bottom:3px">📈 Forex Trading — <span id="fx-streak-lbl">0</span>-day streak</div><div style="font-size:11px;color:var(--text2)">GBP/JPY · XAU/USD · Goal: 7 days → withdrawals</div></div><div class="btn-row"><a href="https://trustcircleenterprise.github.io/forex-dashboard/" target="_blank" class="btn go" style="text-decoration:none">Dashboard ↗</a><a href="https://trustcircleenterprise.github.io/trade-journal/" target="_blank" class="btn" style="text-decoration:none">Journal ↗</a></div></div></div>
+
+  <!-- TRADE LOGGER -->
+  <div class="card"><div class="card-line" style="background:var(--blue)"></div><div class="ct">📊 Trade Logger</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:6px;margin-bottom:10px;align-items:end">
+      <div>
+        <div style="font-size:10px;color:var(--text3);margin-bottom:3px">Pair</div>
+        <select class="finput" id="fx-pair" style="font-size:11px;padding:5px 6px;color:var(--text);background:var(--bg3)">
+          <option style="background:#1a2235;color:#eef2ff">GBP/JPY</option>
+          <option style="background:#1a2235;color:#eef2ff">XAU/USD</option>
+          <option style="background:#1a2235;color:#eef2ff">EUR/USD</option>
+          <option style="background:#1a2235;color:#eef2ff">GBP/USD</option>
+          <option style="background:#1a2235;color:#eef2ff">Other</option>
+        </select>
+      </div>
+      <div>
+        <div style="font-size:10px;color:var(--text3);margin-bottom:3px">Direction</div>
+        <select class="finput" id="fx-dir" style="font-size:11px;padding:5px 6px;color:var(--text);background:var(--bg3)">
+          <option style="background:#1a2235;color:#eef2ff">Buy</option>
+          <option style="background:#1a2235;color:#eef2ff">Sell</option>
+        </select>
+      </div>
+      <div>
+        <div style="font-size:10px;color:var(--text3);margin-bottom:3px">Result</div>
+        <select class="finput" id="fx-result" style="font-size:11px;padding:5px 6px;color:var(--text);background:var(--bg3)">
+          <option style="background:#1a2235;color:#eef2ff">Win</option>
+          <option style="background:#1a2235;color:#eef2ff">Loss</option>
+          <option style="background:#1a2235;color:#eef2ff">Break Even</option>
+        </select>
+      </div>
+      <div>
+        <div style="font-size:10px;color:var(--text3);margin-bottom:3px">P&L ($)</div>
+        <input class="finput" id="fx-pnl" type="number" placeholder="0.00" style="font-size:11px;padding:5px 8px">
+      </div>
+      <button class="btn go" onclick="logTrade()" style="font-size:11px;padding:6px 12px;white-space:nowrap;align-self:end">+ Log</button>
+    </div>
+
+    <!-- STATS -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px">
+      <div style="background:rgba(0,209,122,.06);border:1px solid rgba(0,209,122,.15);border-radius:var(--r);padding:8px;text-align:center">
+        <div style="font-size:16px;font-weight:600;color:var(--green)" id="fx-winrate">0%</div>
+        <div style="font-size:9px;color:var(--text3)">WIN RATE</div>
+      </div>
+      <div style="background:rgba(77,158,255,.06);border:1px solid rgba(77,158,255,.15);border-radius:var(--r);padding:8px;text-align:center">
+        <div style="font-size:16px;font-weight:600;color:var(--blue)" id="fx-trades">0</div>
+        <div style="font-size:9px;color:var(--text3)">TRADES</div>
+      </div>
+      <div style="background:rgba(0,209,122,.06);border:1px solid rgba(0,209,122,.15);border-radius:var(--r);padding:8px;text-align:center">
+        <div style="font-size:16px;font-weight:600;font-family:var(--mono)" id="fx-total-pnl" style="color:var(--green)">$0</div>
+        <div style="font-size:9px;color:var(--text3)">TOTAL P&L</div>
+      </div>
+      <div style="background:rgba(245,166,35,.06);border:1px solid rgba(245,166,35,.15);border-radius:var(--r);padding:8px;text-align:center">
+        <div style="font-size:16px;font-weight:600;color:var(--amber)" id="fx-today-pnl">$0</div>
+        <div style="font-size:9px;color:var(--text3)">TODAY</div>
+      </div>
+    </div>
+
+    <!-- TRADE LIST -->
+    <div id="fx-list"><div style="font-size:12px;color:var(--text3);text-align:center;padding:8px">No trades logged yet.</div></div>
+  </div>
+
   <div class="card"><div class="ct">Daily Rules</div>
     <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Pre-market review + news calendar</div><span class="txp">+15</span></div>
     <div class="tr"><div class="chk" onclick="ck(this,25)"></div><div class="tt">4/4 confluence only — zero exceptions</div><span class="txp">+25</span></div>
@@ -641,6 +728,30 @@ a{color:inherit;text-decoration:none}
 <div class="view" id="v-fitness"><div class="card" style="background:rgba(244,114,182,.04);border-color:rgba(244,114,182,.2)"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><div><div style="font-size:13px;font-weight:500">💪 Fitness & Health</div><div style="font-size:11px;color:var(--text2)">Daily training · Goal weight · Burn Bootcamp</div></div><a href="https://trustcircleenterprise.github.io/goal-weight-tracker/" target="_blank" class="btn" style="text-decoration:none;background:var(--pink);border-color:var(--pink);color:#fff;font-weight:600">Weight Tracker ↗</a></div></div><div class="card"><div class="ct">Daily Tasks</div><div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,20)"></div><div class="tt">Complete daily workout</div><span class="txp">+20</span></div><div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Log nutrition / macros</div><span class="txp">+10</span></div><div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Log weight & progress</div><span class="txp">+15</span></div></div></div>
 <div class="view" id="v-credit"><div class="card" style="background:rgba(245,166,35,.04);border-color:rgba(245,166,35,.2)"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><div><div style="font-size:13px;font-weight:500">💳 Credit — Road to 620</div><div style="font-size:11px;color:var(--text2)">572 → 620 → home equity → Tesla + clear $19k</div></div><a href="https://trustcircleenterprise.github.io/credit-tracker/" target="_blank" class="btn" style="text-decoration:none;background:var(--amber);border-color:var(--amber);color:#000;font-weight:600">Credit Tracker ↗</a></div></div><div class="card"><div class="ct">Daily Tasks</div><div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,15)"></div><div class="tt">All minimums on autopay</div><span class="txp">+15</span></div><div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Keep utilization under 30%</div><span class="txp">+15</span></div></div></div>
 <div class="view" id="v-art"><div class="card" style="background:rgba(167,139,250,.04);border-color:rgba(167,139,250,.2)"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><div><div style="font-size:13px;font-weight:500">🖼️ Zenith Drip Co.</div><div style="font-size:11px;color:var(--text2)">Find Your Calm, One Gem at a Time 💜</div></div><a href="https://trustcircleenterprise.github.io/art-sales/" target="_blank" class="btn" style="text-decoration:none;background:var(--purple);border-color:var(--purple);color:#fff;font-weight:600">90-Day Plan ↗</a></div></div><div class="card"><div class="ct">Daily Tasks</div><div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,20)"></div><div class="tt">Post today's content</div><span class="txp">+20</span></div><div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Work on current painting</div><span class="txp">+10</span></div></div></div>
+
+  <!-- HABIT STREAK CALENDAR -->
+  <div class="card"><div class="card-line" style="background:var(--green)"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div class="ct" style="margin-bottom:0">📅 Habit Streak Calendar</div>
+      <div style="font-size:10px;color:var(--text3)" id="cal-month"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:6px">
+      <div style="font-size:9px;color:var(--text3);text-align:center">Mo</div>
+      <div style="font-size:9px;color:var(--text3);text-align:center">Tu</div>
+      <div style="font-size:9px;color:var(--text3);text-align:center">We</div>
+      <div style="font-size:9px;color:var(--text3);text-align:center">Th</div>
+      <div style="font-size:9px;color:var(--text3);text-align:center">Fr</div>
+      <div style="font-size:9px;color:var(--text3);text-align:center">Sa</div>
+      <div style="font-size:9px;color:var(--text3);text-align:center">Su</div>
+    </div>
+    <div id="streak-cal" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px"></div>
+    <div style="display:flex;gap:10px;align-items:center;margin-top:8px;flex-wrap:wrap">
+      <div style="display:flex;gap:4px;align-items:center"><div style="width:10px;height:10px;border-radius:2px;background:var(--green)"></div><span style="font-size:10px;color:var(--text3)">Full day (8+ habits)</span></div>
+      <div style="display:flex;gap:4px;align-items:center"><div style="width:10px;height:10px;border-radius:2px;background:rgba(0,209,122,.4)"></div><span style="font-size:10px;color:var(--text3)">Partial (4-7)</span></div>
+      <div style="display:flex;gap:4px;align-items:center"><div style="width:10px;height:10px;border-radius:2px;background:rgba(0,209,122,.1);border:1px solid var(--border)"></div><span style="font-size:10px;color:var(--text3)">Low (1-3)</span></div>
+      <div style="display:flex;gap:4px;align-items:center"><div style="width:10px;height:10px;border-radius:2px;background:var(--border)"></div><span style="font-size:10px;color:var(--text3)">None</span></div>
+    </div>
+  </div>
 
 <!-- GOALS -->
 <div class="view" id="v-goals">
@@ -1311,7 +1422,7 @@ load();
 setDates();setQuote();
 renderHabits();renderAreas();renderAchs();renderRevs();
 updateStats();updateSB();updateScorecard();updateMomentum();updateFT();updateWt();
-renderAff();restoreMC();restoreNotes();renderRevenues();restoreExamDate();restoreTasks();
+renderAff();restoreMC();restoreNotes();renderRevenues();restoreExamDate();restoreTasks();restoreTop3();renderTrades();renderStreakCal();
 // Auto-save every 30 seconds as backup
 setInterval(save, 30000);
 
@@ -1361,6 +1472,152 @@ function importData(){
     setTimeout(()=>{const m=document.getElementById('backup-msg');if(m)m.textContent='';},3000);
   }catch(e){alert('Invalid backup code. Make sure you copied the full code.');}
 }
+
+
+// ── DAILY TOP 3 ────────────────────────────────────────
+function saveTop3(){
+  S.top3=S.top3||{};
+  S.top3.date=today();
+  S.top3.items=[
+    document.getElementById('top3-1')?.value||'',
+    document.getElementById('top3-2')?.value||'',
+    document.getElementById('top3-3')?.value||''
+  ];
+  S.top3.done=S.top3.done||[false,false,false];
+  save();
+  const el=document.getElementById('top3-saved');
+  if(el){el.textContent='✓ Saved for today';el.style.color='var(--green)';}
+  setTimeout(()=>{const e=document.getElementById('top3-saved');if(e)e.textContent='';},2000);
+  awardXP(10);
+}
+
+function checkTop3(n){
+  S.top3=S.top3||{date:today(),items:['','',''],done:[false,false,false]};
+  S.top3.done=S.top3.done||[false,false,false];
+  S.top3.done[n-1]=!S.top3.done[n-1];
+  const el=document.getElementById('top3-chk'+n);
+  if(el){if(S.top3.done[n-1])el.classList.add('on');else el.classList.remove('on');}
+  if(S.top3.done[n-1])awardXP(25);
+  save();
+}
+
+function restoreTop3(){
+  if(!S.top3)return;
+  // Only restore if same day
+  if(S.top3.date!==today()){S.top3={date:today(),items:['','',''],done:[false,false,false]};save();return;}
+  const items=S.top3.items||[];
+  const done=S.top3.done||[];
+  [1,2,3].forEach((n,i)=>{
+    const inp=document.getElementById('top3-'+n);if(inp)inp.value=items[i]||'';
+    const chk=document.getElementById('top3-chk'+n);
+    if(chk){if(done[i])chk.classList.add('on');else chk.classList.remove('on');}
+  });
+}
+
+// ── FOREX TRADE LOGGER ─────────────────────────────────
+function logTrade(){
+  const pair=document.getElementById('fx-pair')?.value||'GBP/JPY';
+  const dir=document.getElementById('fx-dir')?.value||'Buy';
+  const result=document.getElementById('fx-result')?.value||'Win';
+  const pnl=parseFloat(document.getElementById('fx-pnl')?.value)||0;
+  S.trades=S.trades||[];
+  S.trades.push({pair,dir,result,pnl,date:today(),id:Date.now()});
+  const pnlEl=document.getElementById('fx-pnl');if(pnlEl)pnlEl.value='';
+  awardXP(result==='Win'?20:result==='Loss'?5:10);
+  renderTrades();save();
+}
+
+function renderTrades(){
+  const trades=S.trades||[];
+  const list=document.getElementById('fx-list');
+  const wins=trades.filter(t=>t.result==='Win').length;
+  const wr=trades.length?Math.round((wins/trades.length)*100):0;
+  const totalPnl=trades.reduce((s,t)=>s+t.pnl,0);
+  const todayPnl=trades.filter(t=>t.date===today()).reduce((s,t)=>s+t.pnl,0);
+
+  const g=id=>document.getElementById(id);
+  if(g('fx-winrate'))g('fx-winrate').textContent=wr+'%';
+  if(g('fx-trades'))g('fx-trades').textContent=trades.length;
+  const pnlColor=totalPnl>=0?'var(--green)':'var(--red)';
+  if(g('fx-total-pnl')){g('fx-total-pnl').textContent=(totalPnl>=0?'+$':'-$')+Math.abs(totalPnl).toFixed(2);g('fx-total-pnl').style.color=pnlColor;}
+  const todayColor=todayPnl>=0?'var(--green)':'var(--red)';
+  if(g('fx-today-pnl')){g('fx-today-pnl').textContent=(todayPnl>=0?'+$':'-$')+Math.abs(todayPnl).toFixed(2);g('fx-today-pnl').style.color=todayColor;}
+
+  // Update streak label
+  const strLbl=document.getElementById('fx-streak-lbl');
+  if(strLbl)strLbl.textContent=S.streak||0;
+
+  if(!trades.length){
+    if(list)list.innerHTML='<div style="font-size:12px;color:var(--text3);text-align:center;padding:8px">No trades logged yet.</div>';
+    return;
+  }
+  const RICO={'Win':'✅','Loss':'❌','Break Even':'➖'};
+  if(list)list.innerHTML=[...trades].reverse().slice(0,10).map(t=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-top:1px solid var(--border);font-size:11px">
+      <span>${RICO[t.result]||'•'}</span>
+      <span style="font-weight:500;color:var(--text);flex-shrink:0">${t.pair}</span>
+      <span style="color:var(--text3)">${t.dir}</span>
+      <span style="margin-left:auto;font-weight:600;font-family:var(--mono);color:${t.pnl>=0?'var(--green)':'var(--red)'}">${t.pnl>=0?'+$':'-$'}${Math.abs(t.pnl).toFixed(2)}</span>
+      <span style="color:var(--text3);font-size:10px">${t.date}</span>
+      <button onclick="delTrade(${t.id})" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:12px;padding:1px 4px">✕</button>
+    </div>`).join('');
+}
+
+function delTrade(id){
+  S.trades=S.trades.filter(t=>t.id!==id);
+  renderTrades();save();
+}
+
+// ── HABIT STREAK CALENDAR ──────────────────────────────
+function renderStreakCal(){
+  const el=document.getElementById('streak-cal');
+  const monthEl=document.getElementById('cal-month');
+  if(!el)return;
+
+  const now=new Date();
+  const year=now.getFullYear();
+  const month=now.getMonth();
+  if(monthEl)monthEl.textContent=now.toLocaleDateString('en-US',{month:'long',year:'numeric'});
+
+  // First day of month
+  const firstDay=new Date(year,month,1);
+  // 0=Sun,1=Mon...adjust so Mon=0
+  let startDow=firstDay.getDay()-1;if(startDow<0)startDow=6;
+  const daysInMonth=new Date(year,month+1,0).getDate();
+
+  const history=S.habitHistory||{};
+
+  let html='';
+  // Empty cells before first day
+  for(let i=0;i<startDow;i++)html+='<div></div>';
+  // Day cells
+  for(let d=1;d<=daysInMonth;d++){
+    const dateStr=new Date(year,month,d).toLocaleDateString('en-CA');
+    const count=history[dateStr]||0;
+    const isToday=dateStr===today();
+    let bg,border='';
+    if(count>=8)bg='var(--green)';
+    else if(count>=4)bg='rgba(0,209,122,.4)';
+    else if(count>=1)bg='rgba(0,209,122,.12)';
+    else bg='rgba(255,255,255,.04)';
+    if(isToday)border='border:2px solid var(--blue);';
+    const title=count?`${count} habits`:'No habits logged';
+    html+=`<div style="aspect-ratio:1;border-radius:3px;background:${bg};${border}display:flex;align-items:center;justify-content:center;font-size:9px;color:rgba(255,255,255,.5);cursor:default" title="${d} — ${title}">${d}</div>`;
+  }
+  el.innerHTML=html;
+}
+
+// Save habit count for today to history when habits change
+const _origTogHab=togHab;
+window.togHab=function(id,xp){
+  _origTogHab(id,xp);
+  // Save today's habit count to history
+  const count=Object.values(S.habits).filter(Boolean).length;
+  S.habitHistory=S.habitHistory||{};
+  S.habitHistory[today()]=count;
+  save();
+  renderStreakCal();
+};
 
 </script>
 </body>
