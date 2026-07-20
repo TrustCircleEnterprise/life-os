@@ -331,7 +331,7 @@ a{color:inherit;text-decoration:none}
   <div class="g4">
     <div class="card" style="text-align:center"><div class="card-line" style="background:var(--red)"></div><div class="cd-lbl">RE Exam</div><div class="cd-big" id="cd-re" style="color:var(--red)">19</div><div class="cd-goal">days left</div></div>
     <div class="card" style="text-align:center"><div class="card-line" style="background:var(--blue)"></div><div class="cd-lbl">Trade Goal</div><div class="cd-big" id="cd-trade" style="color:var(--blue)">3</div><div class="cd-goal">days to 7-streak</div></div>
-    <div class="card" style="text-align:center"><div class="card-line" style="background:var(--amber)"></div><div class="cd-lbl">Credit 620</div><div class="cd-big" style="color:var(--amber)">48</div><div class="cd-goal">points to go</div></div>
+    <div class="card" style="text-align:center"><div class="card-line" style="background:var(--amber)"></div><div class="cd-lbl">Credit 620</div><div class="cd-big" id="cd-credit" style="color:var(--amber)">48</div><div class="cd-goal">points to go</div></div>
     <div class="card" style="text-align:center"><div class="card-line" style="background:var(--purple)"></div><div class="cd-lbl">Spanish</div><div class="cd-big" style="color:var(--purple)">25</div><div class="cd-goal">weeks to fluency</div></div>
   </div>
 
@@ -559,7 +559,17 @@ a{color:inherit;text-decoration:none}
 
 <!-- BUSINESS VIEWS -->
 <div class="view" id="v-re">
-  <div class="card" style="background:rgba(0,209,122,.04);border-color:rgba(0,209,122,.2)"><div class="card-line" style="background:var(--green)"></div><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><div><div style="font-size:13px;font-weight:500;margin-bottom:3px">🏠 Realtor Business</div><div style="font-size:11px;color:var(--text2)">GA License → Property Manager → CAM · 19 days to exam</div></div><a href="https://trustcircleenterprise.github.io/ga-real-estate/?v=5" target="_blank" class="btn suc" style="text-decoration:none">Exam Tracker ↗</a></div></div>
+  <div class="card" style="background:rgba(0,209,122,.04);border-color:rgba(0,209,122,.2)"><div class="card-line" style="background:var(--green)"></div>
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+    <div><div style="font-size:13px;font-weight:500;margin-bottom:3px">🏠 Realtor Business</div><div style="font-size:11px;color:var(--text2)">GA License → Property Manager → CAM</div></div>
+    <a href="https://trustcircleenterprise.github.io/ga-real-estate/?v=5" target="_blank" class="btn suc" style="text-decoration:none">Exam Tracker ↗</a>
+  </div>
+  <div style="background:rgba(0,0,0,.2);border-radius:var(--r);padding:10px 12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <span style="font-size:12px;color:var(--text2)">📅 Set your exam date:</span>
+    <input type="date" id="exam-date-inp" class="finput" style="width:160px;font-size:12px;padding:5px 8px" onchange="setExamDate(this.value)">
+    <span style="font-size:11px;color:var(--text3)" id="exam-date-lbl">Not set yet</span>
+  </div>
+</div>
   <div class="card"><div class="ct">Today's Tasks</div>
     <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,20)"></div><div class="tt">Study 1 hr for RE exam</div><span class="txp">+20</span></div>
     <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Review 1 listing or deal</div><span class="txp">+10</span></div>
@@ -746,6 +756,28 @@ let S={habits:{},tasks:0,streak:0,lastDate:null,streakCounted:false,xp:0,level:7
 const today=()=>new Date().toLocaleDateString('en-CA');
 
 function save(){try{localStorage.setItem(LS,JSON.stringify(S));}catch(e){}}
+
+function setExamDate(dateStr){
+  S.examDate=dateStr;
+  const lbl=document.getElementById('exam-date-lbl');
+  if(lbl){
+    const exam=new Date(dateStr);
+    const now=new Date();
+    const days=Math.max(0,Math.ceil((exam-now)/864e5));
+    lbl.textContent=`${days} days away`;
+    lbl.style.color=days<=7?'var(--red)':days<=14?'var(--amber)':'var(--green)';
+  }
+  save();
+  updateExamCountdown();
+}
+
+function restoreExamDate(){
+  if(S.examDate){
+    const inp=document.getElementById('exam-date-inp');
+    if(inp)inp.value=S.examDate;
+    setExamDate(S.examDate);
+  }
+}
 function load(){
   try{
     const r=localStorage.getItem(LS);
@@ -1048,6 +1080,50 @@ function setDates(){
   if(g('plan-date'))g('plan-date').textContent=now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
   if(g('ev-date'))g('ev-date').textContent=now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
   if(g('cd-trade'))g('cd-trade').textContent=Math.max(0,7-(S.streak||0));
+  // RE Exam countdown - calculated from user-set exam date or default
+  updateExamCountdown();
+  // Credit points remaining
+  updateCreditCountdown();
+}
+
+function updateExamCountdown(){
+  const g=id=>document.getElementById(id);
+  const examDateStr=S.examDate||null;
+  const el=g('cd-re');if(!el)return;
+  if(examDateStr){
+    const exam=new Date(examDateStr);
+    const now=new Date();
+    const days=Math.max(0,Math.ceil((exam-now)/864e5));
+    el.textContent=days;
+    el.style.color=days<=7?'var(--red)':days<=14?'var(--amber)':'var(--blue)';
+    const lbl=el.nextElementSibling?.nextElementSibling||el.parentElement.querySelector('.cd-goal');
+    if(lbl)lbl.textContent=days===0?'TODAY! 🎯':'days to exam';
+  } else {
+    el.textContent='?';
+    el.style.color='var(--text3)';
+  }
+}
+
+function updateCreditCountdown(){
+  const g=id=>document.getElementById(id);
+  const el=g('cd-credit');if(!el)return;
+  // Get latest credit score from localStorage
+  try{
+    const cr=localStorage.getItem('credit_tracker_v1');
+    if(cr){
+      const state=JSON.parse(cr);
+      if(state.scores&&state.scores.length){
+        const sorted=[...state.scores].sort((a,b)=>new Date(b.date)-new Date(a.date));
+        const latest=sorted[0].score;
+        const goal=620;
+        const remaining=Math.max(0,goal-latest);
+        el.textContent=remaining;
+        el.style.color=remaining===0?'var(--green)':remaining<=20?'var(--amber)':'var(--amber)';
+        const lbl=el.parentElement.querySelector('.cd-goal');
+        if(lbl)lbl.textContent=remaining===0?'Goal reached! 🎉':'points to 620';
+      }
+    }
+  }catch(e){}
 }
 
 // QUOTE
@@ -1074,7 +1150,7 @@ load();
 setDates();setQuote();
 renderHabits();renderAreas();renderAchs();renderRevs();
 updateStats();updateSB();updateScorecard();updateMomentum();updateFT();updateWt();
-renderAff();restoreMC();restoreNotes();renderRevenues();
+renderAff();restoreMC();restoreNotes();renderRevenues();restoreExamDate();
 </script>
 </body>
 </html>
