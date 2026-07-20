@@ -310,6 +310,18 @@ a{color:inherit;text-decoration:none}
   <div class="nav-sec">Review</div>
   <button class="ni" onclick="sv('evening')"><span class="ni-ico">🌙</span>Evening Review</button>
   <button class="ni" onclick="sv('weekly')"><span class="ni-ico">📋</span>Weekly CEO</button>
+  <div style="padding:10px 14px;border-top:1px solid var(--border);margin-top:auto">
+    <div style="font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px">💾 Data Backup</div>
+    <div style="display:flex;gap:5px;margin-bottom:5px">
+      <button class="btn" onclick="exportData()" style="flex:1;font-size:10px;padding:5px;background:rgba(0,209,122,.1);border-color:rgba(0,209,122,.3);color:var(--green)">📤 Copy</button>
+      <button class="btn" onclick="showImport()" style="flex:1;font-size:10px;padding:5px;background:rgba(77,158,255,.1);border-color:rgba(77,158,255,.3);color:var(--blue)">📥 Restore</button>
+    </div>
+    <div id="import-wrap" style="display:none">
+      <textarea id="import-ta" style="width:100%;background:rgba(255,255,255,.05);border:1px solid var(--border2);border-radius:var(--r);padding:6px;font-size:10px;color:var(--text);font-family:var(--mono);height:60px;resize:none" placeholder="Paste backup code here..."></textarea>
+      <button class="btn go" onclick="importData()" style="width:100%;font-size:10px;padding:5px;margin-top:4px">Restore Data</button>
+    </div>
+    <div style="font-size:9px;color:var(--text3);text-align:center;margin-top:4px" id="backup-msg"></div>
+  </div>
 </aside>
 
 <!-- MAIN -->
@@ -1302,6 +1314,54 @@ updateStats();updateSB();updateScorecard();updateMomentum();updateFT();updateWt(
 renderAff();restoreMC();restoreNotes();renderRevenues();restoreExamDate();restoreTasks();
 // Auto-save every 30 seconds as backup
 setInterval(save, 30000);
+
+// ── BACKUP / RESTORE ───────────────────────────────────
+function exportData(){
+  try{
+    const data=JSON.stringify(S);
+    const encoded=btoa(unescape(encodeURIComponent(data)));
+    navigator.clipboard.writeText(encoded).then(()=>{
+      const msg=document.getElementById('backup-msg');
+      if(msg){msg.textContent='✓ Copied! Paste on any device.';msg.style.color='var(--green)';}
+      setTimeout(()=>{const m=document.getElementById('backup-msg');if(m)m.textContent='';},3000);
+    }).catch(()=>{
+      // Fallback - show in textarea
+      const ta=document.getElementById('import-ta');
+      const wrap=document.getElementById('import-wrap');
+      if(wrap)wrap.style.display='block';
+      if(ta)ta.value=encoded;
+      const msg=document.getElementById('backup-msg');
+      if(msg){msg.textContent='Copy the code above.';msg.style.color='var(--amber)';}
+    });
+  }catch(e){alert('Export failed: '+e);}
+}
+
+function showImport(){
+  const wrap=document.getElementById('import-wrap');
+  if(wrap)wrap.style.display=wrap.style.display==='none'?'block':'none';
+}
+
+function importData(){
+  const ta=document.getElementById('import-ta');
+  const code=ta?.value?.trim();
+  if(!code){alert('Paste your backup code first');return;}
+  try{
+    const decoded=decodeURIComponent(escape(atob(code)));
+    const data=JSON.parse(decoded);
+    S=Object.assign({},S,data);
+    save();
+    // Re-render everything
+    renderHabits();renderAreas();renderAchs();renderRevs();
+    updateStats();updateSB();updateScorecard();updateMomentum();updateWt();
+    renderAff();restoreMC();restoreNotes();renderRevenues();restoreExamDate();restoreTasks();
+    if(ta)ta.value='';
+    const wrap=document.getElementById('import-wrap');if(wrap)wrap.style.display='none';
+    const msg=document.getElementById('backup-msg');
+    if(msg){msg.textContent='✓ Data restored!';msg.style.color='var(--green)';}
+    setTimeout(()=>{const m=document.getElementById('backup-msg');if(m)m.textContent='';},3000);
+  }catch(e){alert('Invalid backup code. Make sure you copied the full code.');}
+}
+
 </script>
 </body>
 </html>
