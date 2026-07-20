@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Makisha's Life OS 2.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#05070d;--bg2:#080c14;--bg3:#0d1320;--bg4:#12192a;
+  --glass:rgba(255,255,255,0.03);--glass2:rgba(255,255,255,0.055);
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.1);--border3:rgba(255,255,255,0.16);
+  --text:#eef2ff;--text2:#7b8db8;--text3:#3d4f6e;
+  --green:#00d17a;--blue:#4d9eff;--amber:#f5a623;--red:#ff4d4d;
+  --purple:#a78bfa;--pink:#f472b6;--teal:#2dd4bf;--cyan:#22d3ee;
+  --orange:#fb923c;--gold:#fbbf24;
+  --font:'DM Sans',sans-serif;--mono:'DM Mono',monospace;--display:'DM Serif Display',serif;
+  --r:10px;--rl:16px;--sidebar:256px;
+}
+html,body{height:100%;overflow:hidden;font-family:var(--font)}
+body{background:var(--bg);color:var(--text);display:flex}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 80% 50% at 10% 5%,rgba(77,158,255,0.04) 0%,transparent 55%),
+  radial-gradient(ellipse 60% 40% at 90% 90%,rgba(0,209,122,0.03) 0%,transparent 55%)}
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-thumb{background:var(--border3);border-radius:2px}
+.sidebar{width:var(--sidebar);flex-shrink:0;height:100vh;overflow-y:auto;background:rgba(8,12,20,0.96);border-right:1px solid var(--border);display:flex;flex-direction:column;position:relative;z-index:20}
+.logo-wrap{padding:18px 16px 14px;border-bottom:1px solid var(--border)}
+.logo-main{font-size:14px;font-weight:600;letter-spacing:-0.02em}
+.logo-sub{font-size:10px;color:var(--green);font-style:italic;margin-top:2px}
+.logo-date{font-size:10px;color:var(--text3);margin-top:4px}
+.sb-xp{padding:10px 16px;border-bottom:1px solid var(--border);background:rgba(167,139,250,0.04)}
+.sb-xp-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.sb-level{font-size:11px;font-weight:600;color:var(--purple)}
+.sb-total{font-size:10px;color:var(--text3)}
+.xp-bar{height:4px;background:var(--border2);border-radius:2px;overflow:hidden;margin-bottom:3px}
+.xp-fill{height:4px;border-radius:2px;background:linear-gradient(90deg,var(--purple),var(--pink));transition:width 0.8s ease}
+.xp-meta{font-size:9px;color:var(--text3);display:flex;justify-content:space-between}
+.streak-row{display:flex;gap:5px;margin-top:7px}
+.spill{flex:1;text-align:center;padding:3px 5px;border-radius:var(--r);border:1px solid var(--border);background:var(--glass);font-size:10px;font-weight:500}
+.nav-sec{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;font-weight:600;padding:11px 16px 3px}
+.ni{display:flex;align-items:center;gap:8px;padding:6px 12px;margin:1px 6px;border-radius:var(--r);cursor:pointer;font-size:12px;color:var(--text2);transition:all .15s;border:1px solid transparent;background:transparent;width:calc(100% - 12px);text-align:left;font-family:var(--font)}
+.ni:hover{background:var(--glass2);color:var(--text);border-color:var(--border)}
+.ni.on{background:rgba(77,158,255,0.1);color:var(--blue);border-color:rgba(77,158,255,0.2)}
+.ni-ico{font-size:13px;width:17px;text-align:center;flex-shrink:0}
+.ni-xp{margin-left:auto;font-size:9px;color:var(--text3)}
+.main{flex:1;display:flex;flex-direction:column;height:100vh;overflow:hidden;position:relative;z-index:1}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:11px 22px;border-bottom:1px solid var(--border);background:rgba(8,12,20,0.85);backdrop-filter:blur(20px);flex-shrink:0;z-index:10}
+.tb-title{font-size:14px;font-weight:500;letter-spacing:-0.01em}
+.tb-sub{font-size:10px;color:var(--text3);margin-top:1px}
+.tb-right{display:flex;align-items:center;gap:12px}
+.ls-num{font-size:22px;font-weight:600;color:var(--green);line-height:1}
+.ls-lbl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+.str-badge{background:rgba(245,166,35,0.12);border:1px solid rgba(245,166,35,0.25);border-radius:100px;padding:3px 10px;font-size:11px;color:var(--amber);font-weight:600}
+.content{flex:1;overflow-y:auto;padding:18px 22px}
+.view{display:none;animation:fi .18s ease}
+.view.on{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+.card{background:var(--glass);border:1px solid var(--border);border-radius:var(--rl);padding:16px;position:relative;overflow:hidden;transition:border-color .15s}
+.card:hover{border-color:var(--border2)}
+.ca{position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--ac,var(--blue)),transparent)}
+.ct{font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:9px;margin-bottom:13px}
+.stat{background:var(--glass);border:1px solid var(--border);border-radius:var(--rl);padding:12px 14px;transition:all .15s}
+.stat:hover{border-color:var(--border2);transform:translateY(-1px)}
+.stat-n{font-size:24px;font-weight:600;line-height:1;margin-bottom:2px}
+.stat-l{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.05em}
+.mc-quad{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:13px}
+.mc-panel{border-radius:var(--rl);padding:14px;border:1px solid;position:relative;overflow:hidden}
+.mc-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:1.5px}
+.must{background:rgba(255,77,77,.05);border-color:rgba(255,77,77,.2)}.must::before{background:linear-gradient(90deg,transparent,var(--red),transparent)}
+.impact{background:rgba(0,209,122,.05);border-color:rgba(0,209,122,.2)}.impact::before{background:linear-gradient(90deg,transparent,var(--green),transparent)}
+.behind{background:rgba(245,166,35,.05);border-color:rgba(245,166,35,.2)}.behind::before{background:linear-gradient(90deg,transparent,var(--amber),transparent)}
+.cw{background:var(--glass);border-color:var(--border2)}.cw::before{background:linear-gradient(90deg,transparent,var(--text3),transparent)}
+.mc-head{display:flex;align-items:center;gap:8px;margin-bottom:11px}
+.mc-ico{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.mc-lbl{font-size:12px;font-weight:600}
+.mc-desc{font-size:10px;color:var(--text3);margin-top:1px}
+.tr{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-top:1px solid var(--border);transition:padding .1s}
+.tr:first-child{border-top:none;padding-top:0}
+.tr:hover{padding-left:3px}
+.chk{width:15px;height:15px;border-radius:4px;border:1.5px solid var(--border2);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;margin-top:1px}
+.chk.on{background:var(--green);border-color:var(--green)}
+.chk.on::after{content:'✓';font-size:9px;color:#000;font-weight:800}
+.tt{font-size:12px;flex:1;line-height:1.4;cursor:pointer}
+.tt.done{text-decoration:line-through;color:var(--text3)}
+.txp{font-size:9px;color:var(--amber);font-weight:600;white-space:nowrap;flex-shrink:0}
+.alert{display:flex;align-items:flex-start;gap:9px;padding:8px 11px;border-radius:var(--r);margin-bottom:5px;font-size:12px;border:1px solid}
+.red-a{background:rgba(255,77,77,.06);border-color:rgba(255,77,77,.2)}
+.amb-a{background:rgba(245,166,35,.06);border-color:rgba(245,166,35,.2)}
+.grn-a{background:rgba(0,209,122,.06);border-color:rgba(0,209,122,.2)}
+.blu-a{background:rgba(77,158,255,.06);border-color:rgba(77,158,255,.2)}
+.a-ico{font-size:13px;flex-shrink:0;margin-top:1px}
+.a-body{flex:1;line-height:1.4}
+.a-act{font-size:10px;color:var(--blue);cursor:pointer;white-space:nowrap;margin-left:5px;font-weight:600;padding:2px 7px;border-radius:100px;border:1px solid rgba(77,158,255,.3);transition:all .15s}
+.a-act:hover{background:var(--blue);color:#fff}
+.habit-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:7px}
+.hab{background:var(--glass);border:1px solid var(--border);border-radius:var(--rl);padding:11px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:9px}
+.hab:hover{border-color:var(--border2);background:var(--glass2)}
+.hab.done{border-color:rgba(0,209,122,.3);background:rgba(0,209,122,.06)}
+.hab-ico{font-size:18px;flex-shrink:0}
+.hab-name{font-size:11px;font-weight:500;flex:1}
+.hab-xp{font-size:9px;color:var(--amber)}
+.hab-chk{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;transition:all .15s}
+.hab.done .hab-chk{background:var(--green);border-color:var(--green);color:#000;font-weight:800}
+.area-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:9px;margin-bottom:13px}
+.area{background:var(--glass);border:1px solid var(--border);border-radius:var(--rl);padding:14px;cursor:pointer;transition:all .15s;position:relative;overflow:hidden}
+.area:hover{border-color:var(--border2);transform:translateY(-2px);background:var(--glass2)}
+.area-bar{position:absolute;top:0;left:0;right:0;height:2px}
+.area-ico{font-size:22px;margin-bottom:8px;display:block}
+.area-name{font-size:12px;font-weight:500;margin-bottom:2px}
+.area-desc{font-size:10px;color:var(--text3);margin-bottom:8px}
+.area-prog{height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.area-pf{height:3px;border-radius:2px;transition:width .8s ease}
+.area-ft{display:flex;justify-content:space-between;margin-top:5px;font-size:10px;color:var(--text3)}
+.prog-row{display:flex;align-items:center;gap:9px;padding:7px 0;border-top:1px solid var(--border)}
+.prog-row:first-child{border-top:none;padding-top:0}
+.prog-lbl{font-size:12px;flex:0 0 125px}
+.prog-bar{flex:1;height:5px;background:var(--border2);border-radius:3px;overflow:hidden}
+.prog-fill{height:5px;border-radius:3px;transition:width .8s ease}
+.prog-pct{font-size:10px;color:var(--text3);min-width:32px;text-align:right}
+.ql-wrap{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:13px}
+.ql{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:100px;border:1px solid var(--border);background:var(--glass);color:var(--text2);font-size:11px;cursor:pointer;text-decoration:none;transition:all .15s;font-family:var(--font)}
+.ql:hover{border-color:var(--border3);color:var(--text);background:var(--glass2);transform:translateY(-1px)}
+.tl-row{display:flex;gap:11px;padding:9px 0;border-top:1px solid var(--border)}
+.tl-row:first-child{border-top:none;padding-top:0}
+.tl-time{font-size:10px;color:var(--text3);width:46px;flex-shrink:0;font-family:var(--mono);padding-top:2px}
+.tl-dot{width:6px;height:6px;border-radius:50%;margin-top:4px;flex-shrink:0;box-shadow:0 0 5px currentColor}
+.tl-title{font-size:12px;font-weight:500}
+.tl-sub{font-size:10px;color:var(--text3);margin-top:2px}
+.ach-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:7px}
+.ach{background:var(--glass);border:1px solid var(--border);border-radius:var(--rl);padding:11px 8px;text-align:center;transition:all .15s}
+.ach.ul{border-color:rgba(251,191,36,.3);background:rgba(251,191,36,.06)}
+.ach-ico{font-size:26px;margin-bottom:5px;display:block}
+.ach.lk .ach-ico{filter:grayscale(1);opacity:.3}
+.ach-name{font-size:10px;font-weight:500;color:var(--text2)}
+.ach.lk .ach-name{color:var(--text3)}
+.ach-pts{font-size:9px;color:var(--gold);margin-top:2px}
+.badge-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:11px}
+.badge{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:100px;font-size:10px;font-weight:600;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.3);color:var(--gold)}
+.chart-bars{display:flex;align-items:flex-end;gap:4px;height:75px;margin:9px 0 3px}
+.cbar{flex:1;border-radius:3px 3px 0 0;transition:height .6s ease;cursor:pointer;position:relative;min-height:4px}
+.cbar-tip{position:absolute;bottom:calc(100% + 3px);left:50%;transform:translateX(-50%);font-size:8px;color:var(--text);background:var(--bg4);border:1px solid var(--border2);border-radius:3px;padding:1px 5px;white-space:nowrap;opacity:0;transition:opacity .15s;pointer-events:none}
+.cbar:hover .cbar-tip{opacity:1}
+.chart-lbl{flex:1;text-align:center;font-size:9px;color:var(--text3)}
+.btn{font-size:11px;padding:7px 14px;border-radius:var(--r);border:1px solid var(--border2);background:var(--glass);color:var(--text2);cursor:pointer;font-family:var(--font);transition:all .15s}
+.btn:hover{background:var(--glass2);color:var(--text)}
+.btn.go{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600}
+.btn.go:hover{background:#2d7ee0}
+.btn.suc{background:var(--green);border-color:var(--green);color:#000;font-weight:600}
+.btn.gld{background:var(--gold);border-color:var(--gold);color:#000;font-weight:600}
+.btn-row{display:flex;gap:7px;flex-wrap:wrap}
+.finput{background:var(--glass);border:1px solid var(--border2);border-radius:var(--r);padding:7px 11px;font-size:12px;color:var(--text);font-family:var(--font);width:100%}
+.finput:focus{outline:none;border-color:var(--blue)}
+.flabel{font-size:10px;color:var(--text3);margin-bottom:3px;display:block;text-transform:uppercase;letter-spacing:.06em}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.mot{background:linear-gradient(135deg,rgba(77,158,255,.07),rgba(167,139,250,.07));border:1px solid rgba(77,158,255,.14);border-radius:var(--rl);padding:16px 20px;text-align:center;margin-bottom:13px;position:relative;overflow:hidden}
+.mot-q{font-family:var(--display);font-size:16px;font-style:italic;line-height:1.5;margin-bottom:5px}
+.mot-a{font-size:11px;color:var(--text3)}
+.rev-q{margin-bottom:12px}
+.rev-q label{font-size:12px;font-weight:500;display:block;margin-bottom:5px}
+.rev-ta{width:100%;background:var(--glass);border:1px solid var(--border2);border-radius:var(--r);padding:9px 11px;font-size:12px;color:var(--text);font-family:var(--font);resize:none;height:64px}
+.rev-ta:focus{outline:none;border-color:var(--blue)}
+.ai-fab{position:fixed;bottom:22px;right:22px;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));border:none;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(77,158,255,.4);transition:all .2s;z-index:1000}
+.ai-fab:hover{transform:scale(1.08);box-shadow:0 6px 26px rgba(77,158,255,.55)}
+.ai-fab.open{border-radius:var(--rl);width:340px;height:auto;bottom:22px;right:22px;align-items:flex-start;padding:0}
+.ai-panel{display:none;width:100%}
+.ai-panel.open{display:flex;flex-direction:column}
+.ai-hd{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.1)}
+.ai-title{font-size:12px;font-weight:600;color:#fff}
+.ai-close{background:none;border:none;color:rgba(255,255,255,.5);font-size:16px;cursor:pointer}
+.ai-close:hover{color:#fff}
+.ai-body{padding:10px 14px;max-height:250px;overflow-y:auto;display:flex;flex-direction:column;gap:7px}
+.ai-msg-ai{font-size:11px;line-height:1.6;padding:7px 9px;border-radius:var(--r);background:rgba(255,255,255,.08);color:#fff}
+.ai-msg-user{font-size:11px;line-height:1.6;padding:7px 9px;border-radius:var(--r);background:rgba(77,158,255,.2);color:#fff;align-self:flex-end;max-width:80%}
+.ai-iw{padding:9px 14px;border-top:1px solid rgba(255,255,255,.1);display:flex;gap:7px}
+.ai-inp{flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:var(--r);padding:6px 9px;font-size:11px;color:#fff;font-family:var(--font)}
+.ai-inp::placeholder{color:rgba(255,255,255,.4)}
+.ai-inp:focus{outline:none;border-color:rgba(255,255,255,.3)}
+.ai-send{background:none;border:none;color:var(--blue);font-size:14px;cursor:pointer;padding:3px}
+.tabs{display:flex;gap:5px;margin-bottom:14px;flex-wrap:wrap}
+.tab{font-size:11px;padding:4px 11px;border-radius:100px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;font-family:var(--font);transition:all .15s}
+.tab:hover{color:var(--text);border-color:var(--border2)}
+.tab.on{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600}
+.tabv{display:none}.tabv.vis{display:block}
+.xp-notif{position:fixed;top:58px;right:18px;background:rgba(251,191,36,.15);border:1px solid rgba(251,191,36,.3);border-radius:100px;padding:5px 13px;font-size:11px;color:var(--gold);font-weight:600;z-index:9999;pointer-events:none;opacity:0;transform:translateY(4px);transition:all .3s}
+.xp-notif.show{opacity:1;transform:translateY(0)}
+@media(max-width:900px){.sidebar{display:none}.mc-quad{grid-template-columns:1fr}}
+@media(max-width:600px){.stat-grid{grid-template-columns:1fr 1fr}.area-grid{grid-template-columns:1fr 1fr}.content{padding:12px}.ai-fab.open{width:calc(100vw - 28px);right:14px}}
+
+.focus-timer{background:linear-gradient(135deg,rgba(77,158,255,.08),rgba(167,139,250,.08));border:1px solid rgba(77,158,255,.2);border-radius:var(--rl);padding:16px;text-align:center;margin-bottom:12px}
+.ft-display{font-size:52px;font-weight:600;font-family:var(--mono);letter-spacing:.05em;color:var(--text);margin:8px 0;line-height:1}
+.ft-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}
+.ft-mode{display:flex;gap:6px;justify-content:center;margin-bottom:12px}
+.ft-mode-btn{font-size:11px;padding:4px 12px;border-radius:100px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-family:var(--font);transition:all .15s}
+.ft-mode-btn.on{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600}
+.ft-task{font-size:12px;color:var(--text2);margin-bottom:12px;min-height:16px}
+.ft-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.ft-ring{position:relative;width:90px;height:90px;margin:0 auto 10px}
+.ft-ring svg{transform:rotate(-90deg)}
+.ft-ring-bg{fill:none;stroke:var(--border2);stroke-width:5}
+.ft-ring-fill{fill:none;stroke-width:5;stroke-linecap:round;transition:stroke-dashoffset .5s ease}
+.ft-ring-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ft-ring-time{font-size:16px;font-weight:600;font-family:var(--mono);color:var(--text)}
+.ft-ring-sub{font-size:9px;color:var(--text3)}
+.rev-card{background:linear-gradient(135deg,rgba(0,209,122,.06),rgba(45,212,191,.06));border:1px solid rgba(0,209,122,.2);border-radius:var(--rl);padding:14px;margin-bottom:12px}
+.rev-grade{font-size:48px;font-weight:600;line-height:1;text-align:center;margin-bottom:4px}
+.rev-breakdown{display:flex;gap:12px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+.rev-item{text-align:center}
+.rev-n{font-size:16px;font-weight:600}
+.rev-l{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-top:1px}
+.countdown-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:12px}
+.cd-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--rl);padding:12px;text-align:center;position:relative;overflow:hidden}
+.cd-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.cd-days{font-size:32px;font-weight:600;line-height:1;margin-bottom:3px}
+.cd-label{font-size:10px;color:var(--text3);margin-bottom:2px}
+.cd-goal{font-size:10px;font-weight:500}
+.rev-card2{background:var(--glass);border:1px solid var(--border);border-radius:var(--rl);padding:16px;margin-bottom:12px}
+.rev-num{font-size:42px;font-weight:600;line-height:1;text-align:center;margin-bottom:6px}
+.notes-area{width:100%;background:var(--glass);border:1px solid var(--border2);border-radius:var(--r);padding:10px 12px;font-size:13px;color:var(--text);font-family:var(--font);resize:none;height:140px;transition:border-color .15s;line-height:1.6}
+.notes-area:focus{outline:none;border-color:var(--blue)}
+.notes-saved{font-size:10px;color:var(--text3);text-align:right;margin-top:4px;transition:opacity .3s}
+.revenue-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid var(--border)}
+.revenue-row:first-child{border-top:none;padding-top:0}
+.rev-src{display:flex;align-items:center;gap:8px}
+.rev-ico{font-size:16px}
+.rev-name{font-size:12px;font-weight:500}
+.rev-sub{font-size:10px;color:var(--text3);margin-top:1px}
+.rev-amount{font-size:16px;font-weight:600;font-family:var(--mono)}
+.rev-total-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0 0;margin-top:6px;border-top:2px solid var(--border2)}
+.rev-total-lbl{font-size:12px;font-weight:600;color:var(--text)}
+.rev-total-n{font-size:22px;font-weight:600;color:var(--green);font-family:var(--mono)}
+</style>
+</head>
+<body>
+<div class="xp-notif" id="xp-notif">+0 XP</div>
+<aside class="sidebar">
+  <div class="logo-wrap">
+    <div class="logo-main">Makisha's Life OS 2.0</div>
+    <div class="logo-sub">✦ Consistency Over Perfection</div>
+    <div class="logo-date" id="sb-date"></div>
+  </div>
+  <div class="sb-xp">
+    <div class="sb-xp-head"><span class="sb-level" id="sb-lvl">Level 7 — Entrepreneur</span><span class="sb-total" id="sb-xp-t">0 XP</span></div>
+    <div class="xp-bar"><div class="xp-fill" id="sb-xp-b" style="width:0%"></div></div>
+    <div class="xp-meta"><span id="sb-xp-c">0</span><span>/ 1,000 XP</span></div>
+    <div class="streak-row">
+      <div class="spill" style="color:var(--amber)" id="sb-str">🔥 0 days</div>
+      <div class="spill" style="color:var(--blue)" id="sb-wstr">📅 0 wks</div>
+    </div>
+  </div>
+  <div class="nav-sec">Mission</div>
+  <button class="ni on" onclick="sv('mission')"><span class="ni-ico">🎯</span>Mission Control</button>
+  <button class="ni" onclick="sv('dashboard')"><span class="ni-ico">📊</span>Dashboard</button>
+  <button class="ni" onclick="sv('planner')"><span class="ni-ico">📅</span>Daily Planner</button>
+  <div class="nav-sec">Business</div>
+  <button class="ni" onclick="sv('re')"><span class="ni-ico">🏠</span>Realtor Business<span class="ni-xp">+20 XP</span></button>
+  <button class="ni" onclick="sv('whl')"><span class="ni-ico">🤝</span>Wholesaling<span class="ni-xp">+15 XP</span></button>
+  <button class="ni" onclick="sv('forex')"><span class="ni-ico">📈</span>Forex Trading<span class="ni-xp">+15 XP</span></button>
+  <button class="ni" onclick="sv('inv')"><span class="ni-ico">💰</span>Investments<span class="ni-xp">+10 XP</span></button>
+  <div class="nav-sec">Skills</div>
+  <button class="ni" onclick="sv('cyber')"><span class="ni-ico">🔐</span>Cybersecurity<span class="ni-xp">+15 XP</span></button>
+  <button class="ni" onclick="sv('lang')"><span class="ni-ico">🌎</span>Languages<span class="ni-xp">+15 XP</span></button>
+  <button class="ni" onclick="sv('morse')"><span class="ni-ico">📡</span>Morse Code<span class="ni-xp">+10 XP</span></button>
+  <button class="ni" onclick="sv('chess')"><span class="ni-ico">♟️</span>Chess<span class="ni-xp">+10 XP</span></button>
+  <div class="nav-sec">Growth</div>
+  <button class="ni" onclick="sv('fitness')"><span class="ni-ico">💪</span>Fitness & Health</button>
+  <button class="ni" onclick="sv('credit')"><span class="ni-ico">💳</span>Credit & Finance</button>
+  <button class="ni" onclick="sv('art')"><span class="ni-ico">🖼️</span>Diamond Art</button>
+  <div class="nav-sec">Analytics</div>
+  <button class="ni" onclick="sv('goals')"><span class="ni-ico">📈</span>Goal Completion</button>
+  <button class="ni" onclick="sv('monthly')"><span class="ni-ico">📆</span>Monthly Growth</button>
+  <button class="ni" onclick="sv('annual')"><span class="ni-ico">🗓️</span>Annual Progress</button>
+  <div class="nav-sec">Rewards</div>
+  <button class="ni" onclick="sv('ach')"><span class="ni-ico">🏆</span>Achievements</button>
+  <button class="ni" onclick="sv('chal')"><span class="ni-ico">⚡</span>Challenges</button>
+  <div class="nav-sec">Review</div>
+  <button class="ni" onclick="sv('evening')"><span class="ni-ico">🌙</span>Evening Review</button>
+  <button class="ni" onclick="sv('weekly')"><span class="ni-ico">📋</span>Weekly CEO Review</button>
+</aside>
+<main class="main">
+  <div class="topbar">
+    <div><div class="tb-title" id="tb-title">Mission Control</div><div class="tb-sub" id="tb-sub">What is the highest-value thing I should be doing right now?</div></div>
+    <div class="tb-right">
+      <div style="text-align:right"><div class="ls-num" id="tb-score">0%</div><div class="ls-lbl">Life Score</div></div>
+      <div class="str-badge" id="tb-str">🔥 0</div>
+    </div>
+  </div>
+  <div class="content">
+<!-- MISSION CONTROL -->
+<div class="view on" id="v-mission">
+  <div class="mot"><div class="mot-q" id="daily-q">"The secret of getting ahead is getting started."</div><div class="mot-a" id="daily-a">— Mark Twain</div></div>
+  <div class="mc-quad">
+    <div class="mc-panel must">
+      <div class="mc-head"><div class="mc-ico" style="background:rgba(255,77,77,.1);border:1px solid rgba(255,77,77,.2)">🔴</div><div><div class="mc-lbl" style="color:var(--red)">Must Do Today</div><div class="mc-desc">Deadlines & non-negotiables</div></div></div>
+      <div id="must-l">
+        <div class="tr"><div class="chk" onclick="ck(this,20)"></div><div style="flex:1"><div class="tt">RE Exam study — 1 hr minimum</div><div style="font-size:9px;color:var(--text3);margin-top:1px">📚 19 days · PSI outline</div></div><span class="txp">+20</span></div>
+        <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div style="flex:1"><div class="tt">Pre-market review + trade journal</div><div style="font-size:9px;color:var(--text3);margin-top:1px">📈 4/4 confluence · Max 2 trades</div></div><span class="txp">+15</span></div>
+        <div class="tr"><div class="chk" onclick="ck(this,20)"></div><div style="flex:1"><div class="tt">Daily workout — non-negotiable</div><div style="font-size:9px;color:var(--text3);margin-top:1px">💪 Log in weight tracker after</div></div><span class="txp">+20</span></div>
+        <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div style="flex:1"><div class="tt">IBM SkillsBuild lesson</div><div style="font-size:9px;color:var(--text3);margin-top:1px">🤖 Applied AI · Agents · RAG</div></div><span class="txp">+15</span></div>
+      </div>
+      <button class="btn" style="width:100%;margin-top:9px;font-size:10px" onclick="addT('must-l')">+ Add task</button>
+    </div>
+    <div class="mc-panel impact">
+      <div class="mc-head"><div class="mc-ico" style="background:rgba(0,209,122,.1);border:1px solid rgba(0,209,122,.2)">🚀</div><div><div class="mc-lbl" style="color:var(--green)">Moves Me Forward</div><div class="mc-desc">High-impact toward long-term goals</div></div></div>
+      <div id="impact-l">
+        <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div style="flex:1"><div class="tt">Follow up on 2 overdue wholesale leads</div><div style="font-size:9px;color:var(--text3);margin-top:1px">🤝 7+ days overdue · Revenue</div></div><span class="txp">+15</span></div>
+        <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div style="flex:1"><div class="tt">Post Zenith Drip Co. content today</div><div style="font-size:9px;color:var(--text3);margin-top:1px">🖼️ Day 15 of 90 · Film or schedule</div></div><span class="txp">+10</span></div>
+        <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div style="flex:1"><div class="tt">Spanish + Polish — 15 min each</div><div style="font-size:9px;color:var(--text3);margin-top:1px">🌎 6-month fluency goal active</div></div><span class="txp">+15</span></div>
+        <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div style="flex:1"><div class="tt">Credit utilization check</div><div style="font-size:9px;color:var(--text3);margin-top:1px">💳 Goal: 620 · Keep under 30%</div></div><span class="txp">+10</span></div>
+      </div>
+      <button class="btn" style="width:100%;margin-top:9px;font-size:10px" onclick="addT('impact-l')">+ Add task</button>
+    </div>
+    <div class="mc-panel behind">
+      <div class="mc-head"><div class="mc-ico" style="background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.2)">⚠️</div><div><div class="mc-lbl" style="color:var(--amber)">Falling Behind</div><div class="mc-desc">Slipping — needs attention</div></div></div>
+      <div class="alert amb-a"><span class="a-ico">♟️</span><span class="a-body">Chess — <strong>3 days</strong> since last session</span><span class="a-act" onclick="window.open('https://www.duolingo.com/chess-matches','_blank')">Play →</span></div>
+      <div class="alert amb-a"><span class="a-ico">📡</span><span class="a-body">Morse Code — <strong>2 days</strong> behind schedule</span><span class="a-act" onclick="window.open('https://trustcircleenterprise.github.io/morse-code/','_blank')">Study →</span></div>
+      <div class="alert red-a"><span class="a-ico">🤝</span><span class="a-body">2 wholesale leads <strong>7+ days</strong> no contact</span><span class="a-act" onclick="sv('whl')">Fix →</span></div>
+      <div class="alert amb-a"><span class="a-ico">🔐</span><span class="a-body">Cybersecurity — <strong>4 days</strong> missed</span><span class="a-act" onclick="sv('cyber')">Go →</span></div>
+    </div>
+    <div class="mc-panel cw">
+      <div class="mc-head"><div class="mc-ico" style="background:var(--glass2);border:1px solid var(--border2)">⏳</div><div><div class="mc-lbl" style="color:var(--text2)">Can Wait</div><div class="mc-desc">Batch for later this week</div></div></div>
+      <div class="tr" style="border-top:none;padding-top:0"><div style="width:5px;height:5px;border-radius:50%;background:var(--text3);flex-shrink:0;margin-top:4px"></div><div class="tt" style="color:var(--text2)">Research Burn Bootcamp franchise FDD</div></div>
+      <div class="tr"><div style="width:5px;height:5px;border-radius:50%;background:var(--text3);flex-shrink:0;margin-top:4px"></div><div class="tt" style="color:var(--text2)">Update Etsy listings for diamond art</div></div>
+      <div class="tr"><div style="width:5px;height:5px;border-radius:50%;background:var(--text3);flex-shrink:0;margin-top:4px"></div><div class="tt" style="color:var(--text2)">SCHD dividend stock analysis</div></div>
+      <div class="tr"><div style="width:5px;height:5px;border-radius:50%;background:var(--text3);flex-shrink:0;margin-top:4px"></div><div class="tt" style="color:var(--text2)">Polish Week 2 vocab catchup</div></div>
+      <div class="tr"><div style="width:5px;height:5px;border-radius:50%;background:var(--text3);flex-shrink:0;margin-top:4px"></div><div class="tt" style="color:var(--text2)">Morse Code — catch up 2 missed days</div></div>
+    </div>
+  </div>
+  <!-- COUNTDOWN CLOCKS -->
+  <div class="countdown-grid" id="countdown-grid">
+    <div class="cd-card" style="--cd-c:var(--red)">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--red)"></div>
+      <div class="cd-days" id="cd-re" style="color:var(--red)">19</div>
+      <div class="cd-label">days to</div>
+      <div class="cd-goal">🏠 RE Exam</div>
+    </div>
+    <div class="cd-card">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--blue)"></div>
+      <div class="cd-days" id="cd-trade" style="color:var(--blue)">3</div>
+      <div class="cd-label">days to</div>
+      <div class="cd-goal">📈 Trade Goal</div>
+    </div>
+    <div class="cd-card">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--amber)"></div>
+      <div class="cd-days" id="cd-credit" style="color:var(--amber)">48</div>
+      <div class="cd-label">pts to</div>
+      <div class="cd-goal">💳 Credit 620</div>
+    </div>
+    <div class="cd-card">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:var(--purple)"></div>
+      <div class="cd-days" id="cd-spanish" style="color:var(--purple)">25</div>
+      <div class="cd-label">weeks to</div>
+      <div class="cd-goal">🇪🇸 Fluency</div>
+    </div>
+  </div>
+
+  <!-- FOCUS TIMER + DAILY SCORECARD -->
+  <div class="g2" style="margin-bottom:12px">
+    <div class="card" style="--ac:var(--blue)"><div class="ca"></div><div class="ct">⏱️ Focus Timer</div>
+      <div class="ft-mode">
+        <button class="ft-mode-btn on" onclick="setMode('work',25)" id="fm-work">Work 25</button>
+        <button class="ft-mode-btn" onclick="setMode('short',5)" id="fm-short">Break 5</button>
+        <button class="ft-mode-btn" onclick="setMode('long',15)" id="fm-long">Long 15</button>
+        <button class="ft-mode-btn" onclick="setMode('deep',90)" id="fm-deep">Deep 90</button>
+      </div>
+      <div class="ft-ring">
+        <svg viewBox="0 0 90 90" width="90" height="90">
+          <circle class="ft-ring-bg" cx="45" cy="45" r="40"/>
+          <circle class="ft-ring-fill" id="ft-ring" cx="45" cy="45" r="40" stroke="var(--blue)" stroke-dasharray="251.2" stroke-dashoffset="0"/>
+        </svg>
+        <div class="ft-ring-text">
+          <div class="ft-ring-time" id="ft-display">25:00</div>
+          <div class="ft-ring-sub" id="ft-sub">ready</div>
+        </div>
+      </div>
+      <div class="ft-task" id="ft-task">Select a task to focus on</div>
+      <div class="ft-btns">
+        <button class="btn go" id="ft-start" onclick="toggleTimer()">▶ Start</button>
+        <button class="btn" onclick="resetTimer()">↺ Reset</button>
+        <button class="btn" onclick="skipTimer()">⏭ Skip</button>
+      </div>
+      <div style="margin-top:10px;font-size:10px;color:var(--text3);text-align:center" id="ft-sessions">Sessions today: 0 · <span style="color:var(--amber)">+25 XP per session</span></div>
+    </div>
+
+    <div class="card" style="--ac:var(--green)"><div class="ca"></div><div class="ct">📋 Daily Scorecard</div>
+      <div id="scorecard-display">
+        <div style="text-align:center;padding:10px 0">
+          <div style="font-size:48px;font-weight:600;line-height:1;margin-bottom:4px" id="sc-grade">—</div>
+          <div style="font-size:11px;color:var(--text3)" id="sc-msg">Complete habits to see your grade</div>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0">
+          <div style="text-align:center"><div style="font-size:18px;font-weight:600;color:var(--green)" id="sc-hab">0/12</div><div style="font-size:9px;color:var(--text3)">Habits</div></div>
+          <div style="text-align:center"><div style="font-size:18px;font-weight:600;color:var(--blue)" id="sc-tasks">0</div><div style="font-size:9px;color:var(--text3)">Tasks</div></div>
+          <div style="text-align:center"><div style="font-size:18px;font-weight:600;color:var(--amber)" id="sc-xp-d">0</div><div style="font-size:9px;color:var(--text3)">XP today</div></div>
+          <div style="text-align:center"><div style="font-size:18px;font-weight:600;color:var(--purple)" id="sc-streak">0</div><div style="font-size:9px;color:var(--text3)">Streak</div></div>
+        </div>
+        <div id="sc-bar-wrap">
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-bottom:4px"><span>Day score</span><span id="sc-pct">0%</span></div>
+          <div style="height:6px;background:var(--border2);border-radius:3px;overflow:hidden"><div id="sc-bar" style="height:6px;border-radius:3px;background:linear-gradient(90deg,var(--green),var(--teal));transition:width .6s;width:0%"></div></div>
+        </div>
+        <div style="margin-top:10px;padding:8px;background:var(--glass);border-radius:var(--r);font-size:11px;color:var(--text2);text-align:center" id="sc-tip">Keep going — every habit counts.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVENUE SNAPSHOT + NOTES -->
+  <div class="g2" style="margin-bottom:12px">
+    <div class="card" style="--ac:var(--green)"><div class="ca"></div><div class="ct">💵 Revenue Snapshot</div>
+      <div class="revenue-row">
+        <div class="rev-src"><span class="rev-ico">🤝</span><div><div class="rev-name">Wholesaling</div><div class="rev-sub">3 deals closed · Trust Circle</div></div></div>
+        <div><div class="rev-amount" style="color:var(--green)">$28,000</div></div>
+      </div>
+      <div class="revenue-row">
+        <div class="rev-src"><span class="rev-ico">📈</span><div><div class="rev-name">Forex Trading</div><div class="rev-sub">+$284 P&L · 4-day streak</div></div></div>
+        <div><div class="rev-amount" style="color:var(--green)">+$284</div></div>
+      </div>
+      <div class="revenue-row">
+        <div class="rev-src"><span class="rev-ico">🖼️</span><div><div class="rev-name">Zenith Drip Co.</div><div class="rev-sub">Diamond art · Day 15 of 90</div></div></div>
+        <div><div class="rev-amount" style="color:var(--text3)">$0</div></div>
+      </div>
+      <div class="revenue-row">
+        <div class="rev-src"><span class="rev-ico">💰</span><div><div class="rev-name">Dividends</div><div class="rev-sub">DRIP enabled · DCA weekly</div></div></div>
+        <div><div class="rev-amount" style="color:var(--text3)">$0</div></div>
+      </div>
+      <div class="rev-total-row">
+        <span class="rev-total-lbl">Total Revenue</span>
+        <span class="rev-total-n">$28,284</span>
+      </div>
+      <div style="margin-top:10px">
+        <div style="font-size:10px;color:var(--text3);margin-bottom:6px">Update revenue</div>
+        <div style="display:flex;gap:6px">
+          <input class="finput" id="rev-input" type="number" placeholder="$ amount" style="flex:1;font-size:12px;padding:6px 10px">
+          <select class="finput" id="rev-source" style="flex:1;font-size:11px;padding:6px 8px">
+            <option>Wholesaling</option><option>Forex</option><option>Art Sales</option><option>Dividends</option><option>Other</option>
+          </select>
+          <button class="btn go" onclick="logRevenue()" style="font-size:11px;padding:6px 10px;white-space:nowrap">+ Log</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="--ac:var(--cyan)"><div class="ca"></div><div class="ct">📝 Brain Dump / Notes</div>
+      <textarea class="notes-area" id="notes-area" placeholder="Capture ideas, thoughts, tasks before they disappear...&#10;&#10;💡 Ideas&#10;📋 To-do&#10;🔗 Links&#10;💬 Thoughts" oninput="autoSaveNotes()"></textarea>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px">
+        <span class="notes-saved" id="notes-saved">Auto-saves as you type</span>
+        <button class="btn" onclick="clearNotes()" style="font-size:10px;padding:4px 10px">Clear</button>
+      </div>
+    </div>
+  </div>
+
+<!-- WEIGHT + AFFIRMATIONS -->
+  <div class="g2" style="margin-bottom:12px">
+    <div class="card" style="--ac:var(--pink)"><div class="ca"></div><div class="ct">⚖️ Fitness Progress</div>
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px">
+        <div style="text-align:center;flex-shrink:0">
+          <div style="font-size:36px;font-weight:600;color:var(--pink);line-height:1" id="wt-current">—</div>
+          <div style="font-size:9px;color:var(--text3);margin-top:2px">current lbs</div>
+        </div>
+        <div style="flex:1">
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-bottom:5px">
+            <span>Start</span><span style="color:var(--pink)">Goal <span id="wt-goal-lbl">—</span> lbs</span>
+          </div>
+          <div style="height:8px;background:var(--border2);border-radius:4px;overflow:hidden;margin-bottom:5px">
+            <div id="wt-bar" style="height:8px;border-radius:4px;background:linear-gradient(90deg,var(--pink),var(--purple));transition:width .6s;width:0%"></div>
+          </div>
+          <div style="font-size:10px;color:var(--text2)" id="wt-status">Log your weight to track progress</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;margin-bottom:8px">
+        <input class="finput" id="wt-input" type="number" placeholder="Weight (lbs)" style="flex:1;font-size:12px;padding:6px 10px">
+        <input class="finput" id="wt-goal-input" type="number" placeholder="Goal lbs" style="width:80px;font-size:12px;padding:6px 10px">
+        <button class="btn go" onclick="logWeight()" style="font-size:11px;padding:6px 10px">Log</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px">
+        <div style="text-align:center;background:var(--glass);border-radius:var(--r);padding:7px"><div style="font-size:14px;font-weight:600;color:var(--pink)" id="wt-lost">—</div><div style="font-size:9px;color:var(--text3)">lbs lost</div></div>
+        <div style="text-align:center;background:var(--glass);border-radius:var(--r);padding:7px"><div style="font-size:14px;font-weight:600;color:var(--amber)" id="wt-days">0</div><div style="font-size:9px;color:var(--text3)">days logged</div></div>
+        <div style="text-align:center;background:var(--glass);border-radius:var(--r);padding:7px"><div style="font-size:14px;font-weight:600;color:var(--green)" id="wt-pct">0%</div><div style="font-size:9px;color:var(--text3)">to goal</div></div>
+      </div>
+      <div style="text-align:center"><a href="https://trustcircleenterprise.github.io/goal-weight-tracker/" target="_blank" class="btn" style="font-size:10px;text-decoration:none">Full Weight Tracker ↗</a></div>
+    </div>
+    <div class="card" style="--ac:var(--gold)"><div class="ca"></div><div class="ct">✨ Power Affirmations</div>
+      <div style="background:linear-gradient(135deg,rgba(251,191,36,.08),rgba(167,139,250,.08));border:1px solid rgba(251,191,36,.2);border-radius:var(--r);padding:14px;margin-bottom:8px;text-align:center">
+        <div style="font-size:22px;margin-bottom:6px" id="aff-emoji">💎</div>
+        <div style="font-size:13px;font-weight:500;line-height:1.5;color:var(--text)" id="aff-text">I am a licensed entrepreneur building generational wealth every single day.</div>
+      </div>
+      <div style="display:flex;gap:5px;justify-content:center;margin-bottom:10px" id="aff-dots"></div>
+      <div style="display:flex;gap:6px;justify-content:center;margin-bottom:10px">
+        <button class="btn" onclick="prevAff()" style="font-size:12px;padding:6px 14px">← Prev</button>
+        <button class="btn go" onclick="nextAff()" style="font-size:12px;padding:6px 14px">Next →</button>
+      </div>
+      <div style="border-top:1px solid var(--border);padding-top:10px">
+        <div style="font-size:10px;color:var(--text3);margin-bottom:6px">Add your own affirmation</div>
+        <div style="display:flex;gap:6px">
+          <input class="finput" id="aff-input" type="text" placeholder="I am..." style="flex:1;font-size:12px;padding:6px 10px">
+          <button class="btn go" onclick="addAff()" style="font-size:11px;padding:6px 10px;white-space:nowrap">+ Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MORNING CHECKLIST + WEEKLY MOMENTUM -->
+  <div class="g2" style="margin-bottom:12px">
+    <div class="card" style="--ac:var(--amber)"><div class="ca"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div class="ct" style="margin-bottom:0">🌅 Morning Checklist</div>
+        <button class="btn" onclick="resetMorning()" style="font-size:10px;padding:3px 9px">Reset</button>
+      </div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:10px">Complete all 5 before you start working</div>
+      <div class="tr" style="border-top:none;padding-top:0"><div class="chk" id="mc1" onclick="checkMorning(1)"></div><div class="tt">Review Mission Control — check your 4 quadrants</div></div>
+      <div class="tr"><div class="chk" id="mc2" onclick="checkMorning(2)"></div><div class="tt">Set today's Top 3 priorities</div></div>
+      <div class="tr"><div class="chk" id="mc3" onclick="checkMorning(3)"></div><div class="tt">Check forex calendar — identify key news</div></div>
+      <div class="tr"><div class="chk" id="mc4" onclick="checkMorning(4)"></div><div class="tt">Drink water + take supplements</div></div>
+      <div class="tr"><div class="chk" id="mc5" onclick="checkMorning(5)"></div><div class="tt">Read your affirmations aloud</div></div>
+      <div style="margin-top:12px">
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-bottom:4px"><span>Morning completion</span><span id="mc-pct">0 / 5</span></div>
+        <div style="height:6px;background:var(--border2);border-radius:3px;overflow:hidden"><div id="mc-bar" style="height:6px;border-radius:3px;background:linear-gradient(90deg,var(--amber),var(--green));transition:width .4s;width:0%"></div></div>
+        <div style="font-size:11px;color:var(--text2);text-align:center;margin-top:8px;min-height:16px" id="mc-msg"></div>
+      </div>
+    </div>
+    <div class="card" style="--ac:var(--purple)"><div class="ca"></div><div class="ct">📊 Weekly Momentum Score</div>
+      <div style="text-align:center;margin-bottom:12px">
+        <div style="font-size:52px;font-weight:600;line-height:1;margin-bottom:4px" id="wms-score">—</div>
+        <div style="font-size:11px;color:var(--text2)" id="wms-label">out of 100</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:3px" id="wms-grade">Complete habits to build your score</div>
+      </div>
+      <div style="height:8px;background:var(--border2);border-radius:4px;overflow:hidden;margin-bottom:12px">
+        <div id="wms-bar" style="height:8px;border-radius:4px;background:linear-gradient(90deg,var(--purple),var(--pink));transition:width .6s;width:0%"></div>
+      </div>
+      <div class="prog-row" style="border-top:none;padding-top:0"><span class="prog-lbl">Habit consistency</span><div class="prog-bar"><div class="prog-fill" id="wms-hab-b" style="width:0%;background:var(--green)"></div></div><span class="prog-pct" id="wms-hab">0%</span></div>
+      <div class="prog-row"><span class="prog-lbl">Task completion</span><div class="prog-bar"><div class="prog-fill" id="wms-task-b" style="width:0%;background:var(--blue)"></div></div><span class="prog-pct" id="wms-task">0%</span></div>
+      <div class="prog-row"><span class="prog-lbl">Streak bonus</span><div class="prog-bar"><div class="prog-fill" id="wms-str-b" style="width:0%;background:var(--amber)"></div></div><span class="prog-pct" id="wms-str">0%</span></div>
+      <div class="prog-row"><span class="prog-lbl">Review bonus</span><div class="prog-bar"><div class="prog-fill" id="wms-rev-b" style="width:0%;background:var(--purple)"></div></div><span class="prog-pct" id="wms-rev">0%</span></div>
+    </div>
+  </div>
+
+<div class="card" style="--ac:var(--blue)"><div class="ca"></div><div class="ct">⚡ Quick Launch</div>
+    <div class="ql-wrap">
+      <a href="https://trustcircleenterprise.github.io/ga-real-estate/?v=5" target="_blank" class="ql">📚 RE Exam</a>
+      <a href="https://trustcircleenterprise.github.io/forex-dashboard/" target="_blank" class="ql">📈 Forex</a>
+      <a href="https://trustcircleenterprise.github.io/trade-journal/" target="_blank" class="ql">📓 Trade Journal</a>
+      <a href="https://trustcircleenterprise.github.io/wholesale-tracker/" target="_blank" class="ql">🤝 Deals</a>
+      <a href="https://trustcircleenterprise.github.io/credit-tracker/" target="_blank" class="ql">💳 Credit</a>
+      <a href="https://trustcircleenterprise.github.io/spanish-studio/" target="_blank" class="ql">🇪🇸 Spanish</a>
+      <a href="https://trustcircleenterprise.github.io/polish-studio/" target="_blank" class="ql">🇵🇱 Polish</a>
+      <a href="https://trustcircleenterprise.github.io/morse-code/" target="_blank" class="ql">📡 Morse</a>
+      <a href="https://trustcircleenterprise.github.io/art-sales/" target="_blank" class="ql">🖼️ Art Plan</a>
+      <a href="https://trustcircleenterprise.github.io/goal-weight-tracker/" target="_blank" class="ql">⚖️ Weight</a>
+      <a href="https://trustcircleenterprise.github.io/credit-repair/" target="_blank" class="ql">💯 ScoreBoss</a>
+      <a href="https://www.duolingo.com" target="_blank" class="ql">🦉 Duolingo</a>
+      <a href="https://www.duolingo.com/chess-matches" target="_blank" class="ql">♟️ Chess</a>
+      <a href="https://zcvts-zgph.maillist-manage.in/click/11feeefb14a40923/11feeefb149da878" target="_blank" class="ql">🤖 IBM</a>
+      <a href="https://ninja.xleads.com/?logout=true" target="_blank" class="ql">🏠 xLeads Ninja</a>
+      <a href="https://app.xleads.com/Account/Account/LogOn?ReturnUrl=%2fMarketing%2fLeads%2fIndex%2fProperty#/" target="_blank" class="ql">📋 xLeads App</a>
+      <a href="https://www.coursera.org/professional-certificates/google-cybersecurity" target="_blank" class="ql">🔐 Cyber Cert</a>
+    </div>
+  </div>
+</div>
+<!-- DASHBOARD -->
+<div class="view" id="v-dashboard">
+  <div class="stat-grid">
+    <div class="stat"><div class="stat-n" id="ds-str" style="color:var(--amber)">0</div><div class="stat-l">Streak 🔥</div></div>
+    <div class="stat"><div class="stat-n" id="ds-sc" style="color:var(--green)">0%</div><div class="stat-l">Life Score</div></div>
+    <div class="stat"><div class="stat-n" id="ds-xp" style="color:var(--purple)">0</div><div class="stat-l">Total XP</div></div>
+    <div class="stat"><div class="stat-n" id="ds-lv" style="color:var(--blue)">7</div><div class="stat-l">Level</div></div>
+    <div class="stat"><div class="stat-n" id="ds-hab" style="color:var(--teal)">0</div><div class="stat-l">Habits Done</div></div>
+    <div class="stat"><div class="stat-n" id="ds-tasks" style="color:var(--pink)">0</div><div class="stat-l">Tasks Done</div></div>
+  </div>
+  <div class="card" style="--ac:var(--green);margin-bottom:12px"><div class="ca"></div><div class="ct">🌟 Daily Habits — Tap to Earn XP</div><div class="habit-grid" id="habit-grid"></div></div>
+  <div class="card" style="--ac:var(--purple);margin-bottom:12px"><div class="ca"></div><div class="ct">🗂️ Life Areas — Click to Manage</div><div class="area-grid" id="area-grid"></div></div>
+  <div class="g2">
+    <div class="card" style="--ac:var(--blue)"><div class="ca"></div><div class="ct">📊 7-Day Activity</div>
+      <div class="chart-bars" id="wk-chart"></div>
+      <div style="display:flex;gap:4px" id="wk-labels"></div>
+    </div>
+    <div class="card" style="--ac:var(--amber)"><div class="ca"></div><div class="ct">🏆 Top 3 This Week</div>
+      <div class="tr" style="border-top:none;padding-top:0"><div style="width:24px;height:24px;border-radius:50%;background:rgba(255,77,77,.1);border:1px solid rgba(255,77,77,.25);color:var(--red);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">1</div><div class="tt">Pass GA Real Estate Exam — daily study</div></div>
+      <div class="tr"><div style="width:24px;height:24px;border-radius:50%;background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.25);color:var(--amber);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">2</div><div class="tt">7 profitable trading days in a row</div></div>
+      <div class="tr"><div style="width:24px;height:24px;border-radius:50%;background:rgba(0,209,122,.1);border:1px solid rgba(0,209,122,.25);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">3</div><div class="tt">Close 1 wholesale deal this week</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PLANNER -->
+<div class="view" id="v-planner">
+  <div class="mot"><div class="mot-q">Your schedule is a statement of priorities. Build it on purpose.</div><div class="mot-a">— Life OS Principle</div></div>
+  <div class="card" style="--ac:var(--blue)"><div class="ca"></div><div class="ct">⏰ Time-Blocked Schedule — <span id="plan-date"></span></div>
+    <div class="tl-row" style="border-top:none;padding-top:0"><span class="tl-time">5:30 AM</span><div class="tl-dot" style="background:var(--amber);color:var(--amber)"></div><div><div class="tl-title">Wake + Mission Control review</div><div class="tl-sub">Set intention · Check 4 quadrants</div></div></div>
+    <div class="tl-row"><span class="tl-time">6:00 AM</span><div class="tl-dot" style="background:var(--red);color:var(--red)"></div><div><div class="tl-title">🔴 RE Exam Study — 90 min DEEP WORK</div><div class="tl-sub">Kaplan · PSI outline · No interruptions</div></div></div>
+    <div class="tl-row"><span class="tl-time">7:30 AM</span><div class="tl-dot" style="background:var(--blue);color:var(--blue)"></div><div><div class="tl-title">Pre-market Forex review</div><div class="tl-sub">News calendar · S/R levels · Confirm bias</div></div></div>
+    <div class="tl-row"><span class="tl-time">8:00 AM</span><div class="tl-dot" style="background:var(--blue);color:var(--blue)"></div><div><div class="tl-title">Trading session — Max 2 trades</div><div class="tl-sub">GBP/JPY & XAU/USD · 4/4 only · Journal after</div></div></div>
+    <div class="tl-row"><span class="tl-time">10:00 AM</span><div class="tl-dot" style="background:var(--pink);color:var(--pink)"></div><div><div class="tl-title">💪 Workout</div><div class="tl-sub">Log in weight tracker · Nutrition after</div></div></div>
+    <div class="tl-row"><span class="tl-time">11:30 AM</span><div class="tl-dot" style="background:var(--teal);color:var(--teal)"></div><div><div class="tl-title">Wholesale pipeline — GHL + follow-ups</div><div class="tl-sub">Overdue leads first · Log in deal tracker</div></div></div>
+    <div class="tl-row"><span class="tl-time">1:00 PM</span><div class="tl-dot" style="background:var(--purple);color:var(--purple)"></div><div><div class="tl-title">🌎 Spanish + Polish — 15 min each</div><div class="tl-sub">Studio sites + Duolingo</div></div></div>
+    <div class="tl-row"><span class="tl-time">2:00 PM</span><div class="tl-dot" style="background:var(--cyan);color:var(--cyan)"></div><div><div class="tl-title">🤖 IBM SkillsBuild + 🔐 Cybersecurity</div><div class="tl-sub">AI course + Google cert module</div></div></div>
+    <div class="tl-row"><span class="tl-time">4:00 PM</span><div class="tl-dot" style="background:var(--teal);color:var(--teal)"></div><div><div class="tl-title">Wholesale calls — sellers & buyers</div><div class="tl-sub">Best time to reach motivated sellers</div></div></div>
+    <div class="tl-row"><span class="tl-time">6:00 PM</span><div class="tl-dot" style="background:var(--purple);color:var(--purple)"></div><div><div class="tl-title">🖼️ Zenith Drip Co. — film + create</div><div class="tl-sub">Diamond art session · Post or schedule</div></div></div>
+    <div class="tl-row"><span class="tl-time">8:00 PM</span><div class="tl-dot" style="background:var(--text2);color:var(--text2)"></div><div><div class="tl-title">♟️ Chess + 📡 Morse Code</div><div class="tl-sub">Daily puzzle + lesson · 20 min total</div></div></div>
+    <div class="tl-row"><span class="tl-time">9:00 PM</span><div class="tl-dot" style="background:var(--green);color:var(--green)"></div><div><div class="tl-title">🌙 Evening Review</div><div class="tl-sub">Log wins · Score day · Set tomorrow</div></div></div>
+  </div>
+</div>
+
+<!-- GOAL COMPLETION -->
+<div class="view" id="v-goals">
+  <div class="stat-grid"><div class="stat"><div class="stat-n" id="gc-ov" style="color:var(--green)">0%</div><div class="stat-l">Overall</div></div><div class="stat"><div class="stat-n" style="color:var(--blue)">11</div><div class="stat-l">Areas Active</div></div><div class="stat"><div class="stat-n" id="gc-str" style="color:var(--amber)">0</div><div class="stat-l">Streak</div></div><div class="stat"><div class="stat-n" id="gc-xp" style="color:var(--purple)">0</div><div class="stat-l">Total XP</div></div></div>
+  <div class="card" style="--ac:var(--green)"><div class="ca"></div><div class="ct">📊 Progress — All Areas</div><div id="prog-bars"></div></div>
+  <div class="card" style="margin-top:12px;--ac:var(--blue)"><div class="ca"></div><div class="ct">📈 Lifetime Statistics</div><div class="stat-grid" id="lifetime-stats" style="margin-bottom:0"></div></div>
+</div>
+
+<!-- MONTHLY -->
+<div class="view" id="v-monthly">
+  <div class="card" style="--ac:var(--blue)"><div class="ca"></div><div class="ct">📆 Monthly Challenge — <span id="m-name"></span></div><div id="m-chal"></div></div>
+  <div class="card" style="margin-top:12px"><div class="ct">📈 Month-over-Month Growth</div><div style="font-size:13px;color:var(--text2);line-height:1.8">Every habit you complete, task you check off, and evening review you submit builds your permanent record. Your baseline is being established right now.<br><br>Return at the end of <span id="m-name2"></span> to see your full monthly scorecard, revenue summary, study hours, and progress across all 11 life areas.</div></div>
+</div>
+
+<!-- ANNUAL -->
+<div class="view" id="v-annual">
+  <div class="card" style="--ac:var(--gold)"><div class="ca"></div><div class="ct">🗓️ Annual Goals — <span id="a-year"></span></div>
+    <div class="prog-row" style="border-top:none;padding-top:0"><span class="prog-lbl">🏠 RE License + CAM</span><div class="prog-bar"><div class="prog-fill" style="width:15%;background:var(--green)"></div></div><span class="prog-pct">15%</span></div>
+    <div class="prog-row"><span class="prog-lbl">📈 Weekly Withdrawals</span><div class="prog-bar"><div class="prog-fill" style="width:20%;background:var(--blue)"></div></div><span class="prog-pct">20%</span></div>
+    <div class="prog-row"><span class="prog-lbl">💳 Credit Score 620+</span><div class="prog-bar"><div class="prog-fill" style="width:65%;background:var(--amber)"></div></div><span class="prog-pct">65%</span></div>
+    <div class="prog-row"><span class="prog-lbl">🌎 Spanish Fluency</span><div class="prog-bar"><div class="prog-fill" style="width:5%;background:var(--purple)"></div></div><span class="prog-pct">5%</span></div>
+    <div class="prog-row"><span class="prog-lbl">🇵🇱 Polish Fluency</span><div class="prog-bar"><div class="prog-fill" style="width:2%;background:var(--red)"></div></div><span class="prog-pct">2%</span></div>
+    <div class="prog-row"><span class="prog-lbl">🖼️ Zenith Drip Co.</span><div class="prog-bar"><div class="prog-fill" style="width:17%;background:var(--pink)"></div></div><span class="prog-pct">17%</span></div>
+    <div class="prog-row"><span class="prog-lbl">💰 Dividend Portfolio</span><div class="prog-bar"><div class="prog-fill" style="width:10%;background:var(--teal)"></div></div><span class="prog-pct">10%</span></div>
+    <div class="prog-row"><span class="prog-lbl">🔐 Cybersecurity Cert</span><div class="prog-bar"><div class="prog-fill" style="width:8%;background:var(--green)"></div></div><span class="prog-pct">8%</span></div>
+    <div class="prog-row"><span class="prog-lbl">🤖 IBM AI Skills</span><div class="prog-bar"><div class="prog-fill" style="width:12%;background:var(--cyan)"></div></div><span class="prog-pct">12%</span></div>
+    <div class="prog-row"><span class="prog-lbl">📡 Morse Code</span><div class="prog-bar"><div class="prog-fill" style="width:10%;background:var(--cyan)"></div></div><span class="prog-pct">10%</span></div>
+    <div class="prog-row"><span class="prog-lbl">♟️ Chess Rating</span><div class="prog-bar"><div class="prog-fill" style="width:25%;background:var(--text2)"></div></div><span class="prog-pct">25%</span></div>
+  </div>
+  <div class="card" style="margin-top:12px;--ac:var(--purple)"><div class="ca"></div><div class="ct">🔮 Quarterly Missions — Q<span id="q-num"></span></div><div id="q-list"></div></div>
+</div>
+<!-- ACHIEVEMENTS -->
+<div class="view" id="v-ach">
+  <div class="stat-grid"><div class="stat"><div class="stat-n" id="ac-xp" style="color:var(--gold)">0</div><div class="stat-l">Total XP</div></div><div class="stat"><div class="stat-n" id="ac-lv" style="color:var(--purple)">7</div><div class="stat-l">Level</div></div><div class="stat"><div class="stat-n" id="ac-str" style="color:var(--amber)">0</div><div class="stat-l">Best Streak</div></div><div class="stat"><div class="stat-n" id="ac-ul" style="color:var(--green)">0</div><div class="stat-l">Unlocked</div></div></div>
+  <div class="card" style="--ac:var(--gold);margin-bottom:12px"><div class="ca"></div><div class="ct">🎖️ Earned Badges</div><div class="badge-row" id="badge-row"></div></div>
+  <div class="card" style="--ac:var(--amber)"><div class="ca"></div><div class="ct">🏆 Achievements</div><div class="ach-grid" id="ach-grid"></div></div>
+  <div class="card" style="margin-top:12px;--ac:var(--blue)"><div class="ca"></div><div class="ct">📈 Personal Records</div>
+    <div class="prog-row" style="border-top:none;padding-top:0"><span class="prog-lbl">Best day streak</span><div class="prog-bar"><div class="prog-fill" id="pr-s-b" style="width:0%;background:var(--amber)"></div></div><span class="prog-pct" id="pr-s">0 days</span></div>
+    <div class="prog-row"><span class="prog-lbl">Most XP in a day</span><div class="prog-bar"><div class="prog-fill" id="pr-x-b" style="width:0%;background:var(--purple)"></div></div><span class="prog-pct" id="pr-x">0 XP</span></div>
+    <div class="prog-row"><span class="prog-lbl">Habits in one day</span><div class="prog-bar"><div class="prog-fill" id="pr-h-b" style="width:0%;background:var(--green)"></div></div><span class="prog-pct" id="pr-h">0</span></div>
+  </div>
+</div>
+
+<!-- CHALLENGES -->
+<div class="view" id="v-chal">
+  <div class="card" style="--ac:var(--amber);margin-bottom:12px"><div class="ca"></div><div class="ct">⚡ Weekly Challenges</div><div id="wk-chal"></div></div>
+  <div class="card" style="--ac:var(--purple)"><div class="ca"></div><div class="ct">🎯 Quarterly Missions</div><div id="q-chal"></div></div>
+</div>
+
+<!-- BUSINESS VIEWS -->
+<div class="view" id="v-re">
+  <div class="card" style="background:rgba(0,209,122,.04);border-color:rgba(0,209,122,.2);margin-bottom:12px;--ac:var(--green)"><div class="ca"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+      <div><div style="font-size:13px;font-weight:500;margin-bottom:3px">🏠 Realtor Business</div><div style="font-size:11px;color:var(--text2)">GA License → Property Manager → CAM Certified · 19 days to exam</div></div>
+      <a href="https://trustcircleenterprise.github.io/ga-real-estate/?v=5" target="_blank" class="btn suc" style="text-decoration:none">Exam Tracker ↗</a>
+    </div>
+  </div>
+  <div class="g2">
+    <div class="card" style="--ac:var(--green)"><div class="ca"></div><div class="ct">Today's Tasks</div>
+      <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,20)"></div><div class="tt">Study 1 hr for RE exam</div><span class="txp">+20</span></div>
+      <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Review 1 listing or deal</div><span class="txp">+10</span></div>
+      <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Network with 1 agent or investor</div><span class="txp">+15</span></div>
+    </div>
+    <div class="card" style="--ac:var(--blue)"><div class="ca"></div><div class="ct">Roadmap</div>
+      <div class="tr" style="border-top:none;padding-top:0"><div class="chk on"></div><div class="tt done">75-hr pre-license course</div></div>
+      <div class="tr"><div class="chk" onclick="ck(this,0)"></div><div class="tt">Pass GA PSI Exam (19 days)</div></div>
+      <div class="tr"><div class="chk" onclick="ck(this,0)"></div><div class="tt">Join a brokerage</div></div>
+      <div class="tr"><div class="chk" onclick="ck(this,0)"></div><div class="tt">First property managed</div></div>
+      <div class="tr"><div class="chk" onclick="ck(this,0)"></div><div class="tt">CAM Certification</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="view" id="v-whl">
+  <div class="card" style="background:rgba(45,212,191,.04);border-color:rgba(45,212,191,.2);margin-bottom:12px">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+      <div><div style="font-size:13px;font-weight:500;margin-bottom:3px">🤝 Trust Circle Enterprise — Wholesaling</div><div style="font-size:11px;color:var(--text2)">90% automated in GHL · Land + House · 7 active deals</div></div>
+      <div class="btn-row">
+        <a href="https://trustcircleenterprise.github.io/wholesale-tracker/" target="_blank" class="btn suc" style="text-decoration:none">Deal Tracker ↗</a>
+        <a href="https://ninja.xleads.com" target="_blank" class="btn" style="text-decoration:none">xLeads ↗</a>
+      </div>
+    </div>
+  </div>
+  <div class="g4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:12px">
+    <div class="stat"><div class="stat-n" style="color:var(--teal)">7</div><div class="stat-l">Active</div></div>
+    <div class="stat"><div class="stat-n" style="color:var(--amber)">3</div><div class="stat-l">Closed</div></div>
+    <div class="stat"><div class="stat-n" style="color:var(--red)">2</div><div class="stat-l">Overdue</div></div>
+    <div class="stat"><div class="stat-n" style="color:var(--green)">$28k</div><div class="stat-l">Revenue</div></div>
+  </div>
+  <div class="card"><div class="ct">Today's Tasks</div>
+    <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,20)"></div><div class="tt">Follow up on 2 overdue leads (7+ days)</div><span style="font-size:9px;padding:2px 6px;border-radius:100px;background:rgba(255,77,77,.1);border:1px solid rgba(255,77,77,.2);color:var(--red);white-space:nowrap">URGENT</span><span class="txp">+20</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Log GHL activity for all active deals</div><span class="txp">+10</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Check xLeads for new sellers</div><span class="txp">+10</span></div>
+  </div>
+</div>
+
+<div class="view" id="v-forex">
+  <div class="card" style="background:rgba(77,158,255,.04);border-color:rgba(77,158,255,.2);margin-bottom:12px">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
+      <div><div style="font-size:13px;font-weight:500;margin-bottom:3px">📈 Funded Forex Trading</div><div style="font-size:11px;color:var(--text2)">GBP/JPY · XAU/USD · 4-day streak · Goal: 7 days → withdrawals</div></div>
+      <div class="btn-row">
+        <a href="https://trustcircleenterprise.github.io/forex-dashboard/" target="_blank" class="btn go" style="text-decoration:none">Dashboard ↗</a>
+        <a href="https://trustcircleenterprise.github.io/trade-journal/" target="_blank" class="btn" style="text-decoration:none">Journal ↗</a>
+      </div>
+    </div>
+  </div>
+  <div class="g4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:12px">
+    <div class="stat"><div class="stat-n" style="color:var(--green)">4</div><div class="stat-l">Streak 🔥</div></div>
+    <div class="stat"><div class="stat-n" style="color:var(--blue)">75%</div><div class="stat-l">Win Rate</div></div>
+    <div class="stat"><div class="stat-n" style="color:var(--green)">+$284</div><div class="stat-l">P&L</div></div>
+    <div class="stat"><div class="stat-n" style="color:var(--amber)">3</div><div class="stat-l">Days to Goal</div></div>
+  </div>
+  <div class="card"><div class="ct">Daily Non-Negotiable Rules</div>
+    <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Pre-market review + news calendar</div><span class="txp">+15</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,25)"></div><div class="tt">4/4 confluence only — zero exceptions</div><span class="txp">+25</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Journal every trade (win or lose)</div><span class="txp">+15</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Max 2 trades · Stop after 2 losses</div><span class="txp">+10</span></div>
+  </div>
+</div>
+
+<div class="view" id="v-inv"><div class="card" style="background:rgba(45,212,191,.04);border-color:rgba(45,212,191,.2);margin-bottom:12px"><div style="font-size:13px;font-weight:500;margin-bottom:3px">💰 Investments — Dividends + Crypto</div><div style="font-size:11px;color:var(--text2)">Build positions that pay you. DCA weekly. DRIP on.</div></div>
+  <div class="card"><div class="ct">Daily Tasks</div>
+    <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Review portfolio positions</div><span class="txp">+10</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Research 1 dividend stock (SCHD, VYM, JEPI)</div><span class="txp">+15</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Read 1 market or crypto update</div><span class="txp">+10</span></div>
+  </div>
+</div>
+
+<div class="view" id="v-cyber"><div class="card" style="background:rgba(0,209,122,.04);border-color:rgba(0,209,122,.2);margin-bottom:12px"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"><div><div style="font-size:13px;font-weight:500;margin-bottom:3px">🔐 Cybersecurity</div><div style="font-size:11px;color:var(--text2)">Google Cybersecurity Cert → CompTIA Security+</div></div><a href="https://www.coursera.org/professional-certificates/google-cybersecurity" target="_blank" class="btn suc" style="text-decoration:none">Open Course ↗</a></div></div>
+  <div class="card"><div class="ct">Daily Tasks</div>
+    <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,20)"></div><div class="tt">Complete 1 lesson or module</div><span class="txp">+20</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Take notes on key concepts</div><span class="txp">+10</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Hands-on lab practice</div><span class="txp">+15</span></div>
+  </div>
+</div>
+
+<div class="view" id="v-lang">
+  <div class="g2" style="margin-bottom:12px">
+    <div class="card" style="background:rgba(0,209,122,.04);border-color:rgba(0,209,122,.2)"><div style="font-size:13px;font-weight:500;margin-bottom:3px">🇪🇸 Spanish — 6-month goal</div><div style="font-size:11px;color:var(--text2);margin-bottom:9px">Week 1 of 26 · 20 words · 100% accuracy</div><a href="https://trustcircleenterprise.github.io/spanish-studio/" target="_blank" class="btn suc" style="text-decoration:none;font-size:11px">Spanish Studio ↗</a></div>
+    <div class="card" style="background:rgba(220,38,38,.04);border-color:rgba(220,38,38,.2)"><div style="font-size:13px;font-weight:500;margin-bottom:3px">🇵🇱 Polish — 6-month goal</div><div style="font-size:11px;color:var(--text2);margin-bottom:9px">Week 1 of 26 · Just launched!</div><a href="https://trustcircleenterprise.github.io/polish-studio/" target="_blank" class="btn" style="text-decoration:none;background:#dc2626;border-color:#dc2626;color:#fff;font-weight:600;font-size:11px">Polish Studio ↗</a></div>
+  </div>
+  <div class="card"><div class="ct">Daily Tasks</div>
+    <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,15)"></div><div class="tt">🦉 Duolingo lesson</div><span class="txp">+15</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">🇪🇸 Spanish Studio — 15 min</div><span class="txp">+15</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">🇵🇱 Polish Studio — 15 min</div><span class="txp">+15</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Speak 10 sentences aloud (each language)</div><span class="txp">+10</span></div>
+  </div>
+</div>
+
+<div class="view" id="v-morse"><div class="card" style="background:rgba(34,211,238,.04);border-color:rgba(34,211,238,.2);margin-bottom:12px"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"><div><div style="font-size:13px;font-weight:500;margin-bottom:3px">📡 Morse Code — 8-Week Mastery</div><div style="font-size:11px;color:var(--text2)">Daily lessons · Audio beeps · Live keyer · Quizzes</div></div><a href="https://trustcircleenterprise.github.io/morse-code/" target="_blank" class="btn" style="text-decoration:none;background:var(--cyan);border-color:var(--cyan);color:#000;font-weight:600">Morse Studio ↗</a></div></div>
+  <div class="card"><div class="ct">Daily Tasks</div>
+    <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,20)"></div><div class="tt">Complete today's lesson</div><span class="txp">+20</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Practice keyer — 5 letters</div><span class="txp">+10</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Score 80%+ on quiz</div><span class="txp">+15</span></div>
+  </div>
+</div>
+
+<div class="view" id="v-chess"><div class="card" style="margin-bottom:12px"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"><div><div style="font-size:13px;font-weight:500;margin-bottom:3px">♟️ Chess — Strategic Thinking</div><div style="font-size:11px;color:var(--text2)">Daily puzzles · 10 min · Sharpen the mind</div></div><a href="https://www.duolingo.com/chess-matches" target="_blank" class="btn go" style="text-decoration:none">Play Now ↗</a></div></div>
+  <div class="card"><div class="ct">Daily Tasks</div>
+    <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Complete daily match</div><span class="txp">+15</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Solve 1 tactical puzzle</div><span class="txp">+10</span></div>
+  </div>
+</div>
+
+<div class="view" id="v-fitness"><div class="card" style="background:rgba(244,114,182,.04);border-color:rgba(244,114,182,.2);margin-bottom:12px"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"><div><div style="font-size:13px;font-weight:500;margin-bottom:3px">💪 Fitness & Health</div><div style="font-size:11px;color:var(--text2)">Daily training · Goal weight · Burn Bootcamp</div></div><a href="https://trustcircleenterprise.github.io/goal-weight-tracker/" target="_blank" class="btn" style="text-decoration:none;background:var(--pink);border-color:var(--pink);color:#fff;font-weight:600">Weight Tracker ↗</a></div></div>
+  <div class="card"><div class="ct">Daily Tasks</div>
+    <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,20)"></div><div class="tt">Complete daily workout</div><span class="txp">+20</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Log nutrition / macros</div><span class="txp">+10</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Log weight & progress</div><span class="txp">+15</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">8 hours sleep</div><span class="txp">+10</span></div>
+  </div>
+</div>
+
+<div class="view" id="v-credit"><div class="card" style="background:rgba(245,166,35,.04);border-color:rgba(245,166,35,.2);margin-bottom:12px"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"><div><div style="font-size:13px;font-weight:500;margin-bottom:3px">💳 Credit & Finance — Road to 620</div><div style="font-size:11px;color:var(--text2)">572 → 620 → home equity → Tesla + clear $19k</div></div><a href="https://trustcircleenterprise.github.io/credit-tracker/" target="_blank" class="btn gld" style="text-decoration:none">Credit Tracker ↗</a></div></div>
+  <div class="g3" style="margin-bottom:12px"><div class="stat"><div class="stat-n" style="color:var(--amber)">572</div><div class="stat-l">Current</div></div><div class="stat"><div class="stat-n" style="color:var(--green)">620</div><div class="stat-l">Goal</div></div><div class="stat"><div class="stat-n" style="color:var(--blue)">48</div><div class="stat-l">Points Away</div></div></div>
+  <div class="card"><div class="ct">Daily Tasks</div>
+    <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,15)"></div><div class="tt">All minimums on autopay confirmed</div><span class="txp">+15</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Keep utilization under 30%</div><span class="txp">+15</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Research home equity lenders</div><span class="txp">+10</span></div>
+  </div>
+</div>
+
+<div class="view" id="v-art"><div class="card" style="background:rgba(167,139,250,.04);border-color:rgba(167,139,250,.2);margin-bottom:12px"><div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px"><div><div style="font-size:13px;font-weight:500;margin-bottom:3px">🖼️ Zenith Drip Co.</div><div style="font-size:11px;color:var(--text2)">Find Your Calm, One Gem at a Time 💜 · 90-Day Plan</div></div><a href="https://trustcircleenterprise.github.io/art-sales/" target="_blank" class="btn" style="text-decoration:none;background:var(--purple);border-color:var(--purple);color:#fff;font-weight:600">90-Day Plan ↗</a></div></div>
+  <div class="card"><div class="ct">Daily Tasks</div>
+    <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,20)"></div><div class="tt">Post today's content</div><span class="txp">+20</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Engage on 5-10 creators</div><span class="txp">+15</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Work on current painting</div><span class="txp">+10</span></div>
+  </div>
+</div>
+<!-- EVENING REVIEW -->
+<div class="view" id="v-evening">
+  <div class="card" style="--ac:var(--purple)"><div class="ca"></div><div class="ct">🌙 Evening Review — <span id="ev-date"></span></div>
+    <div class="rev-q"><label>✅ What did you complete today?</label><textarea class="rev-ta" id="ev-done" placeholder="Your wins..."></textarea></div>
+    <div class="rev-q"><label>🧱 What blocked you?</label><textarea class="rev-ta" id="ev-block" placeholder="Obstacles..."></textarea></div>
+    <div class="rev-q"><label>💡 What did you learn?</label><textarea class="rev-ta" id="ev-learn" placeholder="Key insights..."></textarea></div>
+    <div class="fgrid" style="margin-bottom:12px">
+      <div><label class="flabel">Day Rating (1–10)</label><input class="finput" type="number" id="ev-score" min="1" max="10" placeholder="8"></div>
+      <div><label class="flabel">Energy Level</label><select class="finput" id="ev-energy"><option>High Energy</option><option>Medium Energy</option><option>Low Energy</option></select></div>
+    </div>
+    <button class="btn suc" style="width:100%" onclick="saveRev()">Save Evening Review + Earn 50 XP ✓</button>
+  </div>
+  <div class="card" style="margin-top:12px;--ac:var(--blue)"><div class="ca"></div><div class="ct">Past Reviews</div><div id="ev-hist"><div style="font-size:12px;color:var(--text3);text-align:center;padding:14px">No reviews yet. Complete your first above.</div></div></div>
+</div>
+
+<!-- WEEKLY CEO REVIEW -->
+<div class="view" id="v-weekly">
+  <div class="mot"><div class="mot-q">Review your week like a CEO. What worked? What didn't? What changes next week?</div><div class="mot-a">— Life OS Principle</div></div>
+  <div class="g2">
+    <div class="card" style="--ac:var(--gold)"><div class="ca"></div><div class="ct">🏆 This Week's Wins</div>
+      <div class="tr" style="border-top:none;padding-top:0"><span style="color:var(--gold)">⭐</span><div class="tt">RE Exam — consistent study, Day 12</div></div>
+      <div class="tr"><span style="color:var(--gold)">⭐</span><div class="tt">Trading — 4-day profitable streak</div></div>
+      <div class="tr"><span style="color:var(--gold)">⭐</span><div class="tt">Life OS 2.0 launched</div></div>
+      <div class="tr"><span style="color:var(--gold)">⭐</span><div class="tt">Spanish — 100% quiz accuracy</div></div>
+      <div class="tr"><span style="color:var(--gold)">⭐</span><div class="tt">Polish Studio launched</div></div>
+    </div>
+    <div class="card" style="--ac:var(--amber)"><div class="ca"></div><div class="ct">⚠️ Needs More Attention</div>
+      <div class="alert amb-a"><span class="a-ico">♟️</span><span class="a-body">Chess — needs daily habit lock-in</span></div>
+      <div class="alert amb-a"><span class="a-ico">🔐</span><span class="a-body">Cybersecurity — sporadic sessions</span></div>
+      <div class="alert amb-a"><span class="a-ico">📡</span><span class="a-body">Morse Code — 2 days behind</span></div>
+      <div class="alert red-a"><span class="a-ico">🤝</span><span class="a-body">2 wholesale leads need follow-up</span></div>
+    </div>
+  </div>
+  <div class="card" style="--ac:var(--red)"><div class="ca"></div><div class="ct">🎯 Next Week Non-Negotiables</div>
+    <div class="tr" style="border-top:none;padding-top:0"><div style="width:22px;height:22px;border-radius:50%;background:rgba(255,77,77,.1);border:1px solid rgba(255,77,77,.25);color:var(--red);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">1</div><div class="tt">Pass GA RE Exam — 19 days. Study every single day.</div></div>
+    <div class="tr"><div style="width:22px;height:22px;border-radius:50%;background:rgba(245,166,35,.1);border:1px solid rgba(245,166,35,.25);color:var(--amber);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">2</div><div class="tt">Hit 7 profitable trading days — 3 more needed</div></div>
+    <div class="tr"><div style="width:22px;height:22px;border-radius:50%;background:rgba(0,209,122,.1);border:1px solid rgba(0,209,122,.25);color:var(--green);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">3</div><div class="tt">Close 1 wholesale deal. Follow up today.</div></div>
+    <div class="tr"><div style="width:22px;height:22px;border-radius:50%;background:rgba(77,158,255,.1);border:1px solid rgba(77,158,255,.25);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">4</div><div class="tt">Chess + Cybersecurity + Morse Code — back to daily</div></div>
+  </div>
+</div>
+
+  </div><!-- end .content -->
+</main>
+
+<!-- FLOATING AI -->
+<button class="ai-fab" id="ai-fab" onclick="toggleAI()">
+  <span id="ai-ico">🤖</span>
+  <div class="ai-panel" id="ai-panel">
+    <div class="ai-hd">
+      <div>
+        <span class="ai-title">🤖 AI Life Coach</span>
+        <div style="font-size:9px;color:rgba(255,255,255,.5);margin-top:2px">Powered by Claude · Opens in new tab</div>
+      </div>
+      <button class="ai-close" onclick="event.stopPropagation();toggleAI()">✕</button>
+    </div>
+    <div class="ai-body" id="ai-body">
+      <div class="ai-msg-ai">Hi Makisha! I know all your goals — RE exam, trading streak, wholesale pipeline, credit score, languages, everything. Ask me anything and I'll open Claude with your full context pre-loaded. Just paste and send.</div>
+      <div style="display:flex;flex-direction:column;gap:5px;margin-top:4px" id="quick-btns">
+        <button onclick="event.stopPropagation();spQuick('What should I focus on right now based on all my goals?')" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:7px;padding:6px 10px;color:rgba(255,255,255,.85);font-size:10px;cursor:pointer;text-align:left;font-family:inherit;transition:background .15s">🎯 What should I focus on right now?</button>
+        <button onclick="event.stopPropagation();spQuick('How am I doing this week across all my goals? Give me an honest assessment.')" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:7px;padding:6px 10px;color:rgba(255,255,255,.85);font-size:10px;cursor:pointer;text-align:left;font-family:inherit;transition:background .15s">📊 How am I doing this week?</button>
+        <button onclick="event.stopPropagation();spQuick('I only have 1 hour free right now. What is the single highest-impact thing I should do?')" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:7px;padding:6px 10px;color:rgba(255,255,255,.85);font-size:10px;cursor:pointer;text-align:left;font-family:inherit;transition:background .15s">⚡ Best use of 1 hour right now?</button>
+        <button onclick="event.stopPropagation();spQuick('What habits am I slipping on and what is the simplest way to get back on track?')" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:7px;padding:6px 10px;color:rgba(255,255,255,.85);font-size:10px;cursor:pointer;text-align:left;font-family:inherit;transition:background .15s">🔄 What am I slipping on?</button>
+        <button onclick="event.stopPropagation();spQuick('Give me my morning briefing — what does today look like across all my goals and businesses?')" style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:7px;padding:6px 10px;color:rgba(255,255,255,.85);font-size:10px;cursor:pointer;text-align:left;font-family:inherit;transition:background .15s">🌅 Morning briefing</button>
+      </div>
+    </div>
+    <div style="padding:8px 14px;font-size:9px;color:rgba(255,255,255,.35);border-top:1px solid rgba(255,255,255,.08);text-align:center">
+      Type below or tap a quick prompt above → copies context → opens Claude
+    </div>
+    <div class="ai-iw">
+      <input class="ai-inp" id="ai-inp" placeholder="Type your question..." onkeydown="if(event.key==='Enter'){event.stopPropagation();sendAI()}">
+      <button class="ai-send" onclick="event.stopPropagation();sendAI()">↗</button>
+    </div>
+  </div>
+</button>
+<script>
+const LS='lifeos2_v1';
+const QUOTES=[
+  {q:"The secret of getting ahead is getting started.",a:"Mark Twain"},
+  {q:"Consistency is the true foundation of trust.",a:"Roy T. Bennett"},
+  {q:"Success is the sum of small efforts, repeated day in and day out.",a:"Robert Collier"},
+  {q:"Discipline is choosing between what you want now and what you want most.",a:"Abraham Lincoln"},
+  {q:"Champions keep playing until they get it right.",a:"Billie Jean King"},
+  {q:"You don't have to be great to start, but you have to start to be great.",a:"Zig Ziglar"},
+  {q:"Dream big. Start small. Act now.",a:"Robin Sharma"},
+];
+const HABITS=[
+  {id:'workout',ico:'💪',name:'Daily Workout',xp:20},
+  {id:'study',ico:'📚',name:'RE Exam Study',xp:20},
+  {id:'trade',ico:'📈',name:'Forex + Journal',xp:15},
+  {id:'spanish',ico:'🇪🇸',name:'Spanish',xp:15},
+  {id:'polish',ico:'🇵🇱',name:'Polish',xp:15},
+  {id:'ibm',ico:'🤖',name:'IBM SkillsBuild',xp:15},
+  {id:'wholesale',ico:'🤝',name:'Wholesale F/U',xp:15},
+  {id:'duolingo',ico:'🦉',name:'Duolingo',xp:10},
+  {id:'chess',ico:'♟️',name:'Chess',xp:10},
+  {id:'morse',ico:'📡',name:'Morse Code',xp:10},
+  {id:'notes',ico:'📝',name:'Check Notes',xp:10},
+  {id:'cyber',ico:'🔐',name:'Cybersecurity',xp:15},
+];
+const AREAS=[
+  {ico:'🏠',name:'Realtor',desc:'Exam · PM · CAM',color:'var(--green)',view:'re',prog:15},
+  {ico:'🤝',name:'Wholesaling',desc:'7 active deals',color:'var(--teal)',view:'whl',prog:35},
+  {ico:'📈',name:'Forex',desc:'4-day streak',color:'var(--blue)',view:'forex',prog:28},
+  {ico:'💰',name:'Investments',desc:'Dividends+crypto',color:'var(--teal)',view:'inv',prog:12},
+  {ico:'🔐',name:'Cybersecurity',desc:'Google cert',color:'var(--green)',view:'cyber',prog:8},
+  {ico:'🌎',name:'Languages',desc:'Spanish + Polish',color:'var(--purple)',view:'lang',prog:5},
+  {ico:'📡',name:'Morse Code',desc:'Week 1 of 8',color:'var(--cyan)',view:'morse',prog:10},
+  {ico:'♟️',name:'Chess',desc:'Daily puzzles',color:'var(--text2)',view:'chess',prog:20},
+  {ico:'💪',name:'Fitness',desc:'Daily training',color:'var(--pink)',view:'fitness',prog:60},
+  {ico:'💳',name:'Credit',desc:'572→620',color:'var(--amber)',view:'credit',prog:48},
+  {ico:'🖼️',name:'Zenith Drip',desc:'90-day plan',color:'var(--purple)',view:'art',prog:17},
+];
+const ACHS=[
+  {ico:'🌅',name:'Day One',ul:true,xp:100},
+  {ico:'🔥',name:'On Fire',ul:true,xp:150},
+  {ico:'🏆',name:'Week Warrior',ul:false,xp:300},
+  {ico:'💎',name:'Diamond Habit',ul:false,xp:1000},
+  {ico:'💰',name:'Withdrawal Ready',ul:false,xp:500},
+  {ico:'📚',name:'Licensed Agent',ul:false,xp:2000},
+  {ico:'🇪🇸',name:'Spanish Starter',ul:true,xp:200},
+  {ico:'🏗️',name:'Life Builder',ul:true,xp:300},
+  {ico:'🤝',name:'Deal Closer',ul:false,xp:500},
+  {ico:'⭐',name:'Perfect Day',ul:false,xp:200},
+  {ico:'🎓',name:'Level 10',ul:false,xp:1000},
+  {ico:'🔐',name:'Cyber Shield',ul:false,xp:600},
+  {ico:'💳',name:'Credit 620',ul:false,xp:800},
+  {ico:'📡',name:'Morse Master',ul:false,xp:400},
+  {ico:'⚡',name:'Centurion',ul:false,xp:5000},
+  {ico:'👑',name:'Empire',ul:false,xp:10000},
+];
+const WK_CHALS=[
+  {name:'Study streak',desc:'RE exam study 7 days',target:7,cur:5,xp:300,color:'var(--green)'},
+  {name:'Trade discipline',desc:'All 4 trading rules',target:7,cur:4,xp:250,color:'var(--blue)'},
+  {name:'Language duo',desc:'Spanish + Polish daily',target:7,cur:3,xp:200,color:'var(--purple)'},
+  {name:'Full habits',desc:'All 12 habits done',target:12,cur:8,xp:350,color:'var(--amber)'},
+];
+const Q_MISSIONS=[
+  {ico:'🏠',name:'Pass the GA RE Exam',desc:'Score 75%+ on both portions',dl:'Q3 2026'},
+  {ico:'📈',name:'7-Day Trading Streak',desc:'7 consecutive profitable days → first withdrawal',dl:'Q3 2026'},
+  {ico:'💳',name:'Credit Score 620+',desc:'Log 620+ on all 3 bureaus',dl:'Q4 2026'},
+  {ico:'🇪🇸',name:'Spanish Conversational',desc:'Complete Phase 2 (Week 12)',dl:'Q4 2026'},
+];
+const LVL_NAMES={1:'Starter',2:'Hustler',3:'Builder',4:'Grinder',5:'Achiever',6:'Warrior',7:'Entrepreneur',8:'Executive',9:'Champion',10:'Legend',11:'Icon',12:'Empire'};
+const VIEW_TITLES={mission:'Mission Control',dashboard:'Dashboard',planner:'Daily Planner',re:'Realtor Business',whl:'Wholesaling',forex:'Forex Trading',inv:'Investments',cyber:'Cybersecurity',lang:'Languages',morse:'Morse Code',chess:'Chess',fitness:'Fitness & Health',credit:'Credit & Finance',art:'Diamond Art',goals:'Goal Completion',monthly:'Monthly Growth',annual:'Annual Progress',ach:'Achievements & XP',chal:'Challenges',evening:'Evening Review',weekly:'Weekly CEO Review'};
+const VIEW_SUBS={mission:'What is the highest-value thing I should be doing right now?',dashboard:'All habits · Life areas · Progress at a glance',planner:'Time-blocked schedule · Morning briefing',re:'GA License → Property Manager → CAM Certified',whl:'Trust Circle Enterprise · 90% GHL automated',forex:'GBP/JPY · XAU/USD · 4/4 confluence · 7-day goal',inv:'Dividends + crypto · Build positions that pay you',cyber:'Google Cybersecurity Cert → CompTIA Security+',lang:'Spanish + Polish → fluent in 6 months each',morse:'8-Week Mastery Plan · Audio beeps · Live keyer',chess:'Daily puzzles · 10 min · Sharpen the mind',fitness:'Daily training · Goal weight · Burn Bootcamp',credit:'572 → 620 → home equity → Tesla + clear $19k',art:'Find Your Calm, One Gem at a Time 💜',goals:'All goals · Completion percentages · Lifetime stats',monthly:'Monthly challenges · Growth tracking',annual:'Annual goals · Quarterly missions',ach:'XP · Levels · Badges · Personal records',chal:'Weekly challenges · Monthly goals · Quarterly missions',evening:'Reflect · Log wins · Score the day',weekly:'CEO-level review · Weekly scorecard'};
+
+let S={habits:{},tasks:0,streak:0,weekStreak:0,lastDate:null,streakCounted:false,xp:0,level:7,bestStreak:0,totalDays:0,reviews:[]};
+
+const today=()=>new Date().toLocaleDateString('en-CA');
+const save=()=>{try{localStorage.setItem(LS,JSON.stringify(S));}catch(e){}};
+function load(){
+  try{
+    const r=localStorage.getItem(LS);
+    if(r){const s=JSON.parse(r);if(s.lastDate!==today()){s.habits={};s.tasks=0;s.lastDate=today();s.streakCounted=false;s.totalDays=(s.totalDays||0)+1;}S={...S,...s};}
+    else{S.lastDate=today();S.totalDays=1;}
+  }catch(e){S.lastDate=today();}
+}
+
+function sv(v){
+  document.querySelectorAll('.view').forEach(el=>el.classList.remove('on'));
+  document.querySelectorAll('.ni').forEach(el=>el.classList.remove('on'));
+  const el=document.getElementById('v-'+v);if(el)el.classList.add('on');
+  const btn=[...document.querySelectorAll('.ni')].find(b=>b.getAttribute('onclick')?.includes("'"+v+"'"));
+  if(btn)btn.classList.add('on');
+  const title=document.getElementById('tb-title');if(title)title.textContent=VIEW_TITLES[v]||v;
+  const sub=document.getElementById('tb-sub');if(sub)sub.textContent=VIEW_SUBS[v]||'';
+  document.querySelector('.content')?.scrollTo(0,0);
+}
+
+function ck(el,xp){
+  el.classList.toggle('on');
+  const next=el.nextElementSibling?.classList?.contains('tt')?el.nextElementSibling:el.nextElementSibling?.querySelector?.('.tt');
+  if(next)next.classList.toggle('done');
+  if(el.classList.contains('on')){S.tasks=(S.tasks||0)+1;awardXP(xp);}
+  else S.tasks=Math.max(0,(S.tasks||0)-1);
+  updateStats();save();
+}
+
+function addT(listId){
+  const text=prompt('Add task:');if(!text)return;
+  const list=document.getElementById(listId);if(!list)return;
+  const div=document.createElement('div');div.className='tr';
+  div.innerHTML=`<div class="chk" onclick="ck(this,10)"></div><div class="tt">${text}</div><span class="txp">+10</span>`;
+  list.appendChild(div);
+}
+
+function awardXP(amount){
+  if(!amount)return;
+  S.xp=(S.xp||0)+amount;
+  const newLv=7+Math.floor(S.xp/1000);if(newLv>S.level)S.level=newLv;
+  showXPNotif(amount);updateSBXP();updateStats();save();
+}
+
+function showXPNotif(amount){
+  const n=document.getElementById('xp-notif');if(!n)return;
+  n.textContent='+'+amount+' XP';n.classList.add('show');
+  setTimeout(()=>n.classList.remove('show'),2200);
+}
+
+function updateSBXP(){
+  const xpInLv=S.xp%1000,pct=Math.round(xpInLv/10),lv=S.level||7;
+  const name=LVL_NAMES[Math.min(lv,12)]||'Legend';
+  const el=id=>document.getElementById(id);
+  if(el('sb-lvl'))el('sb-lvl').textContent=`Level ${lv} — ${name}`;
+  if(el('sb-xp-t'))el('sb-xp-t').textContent=(S.xp||0).toLocaleString()+' XP';
+  if(el('sb-xp-b'))el('sb-xp-b').style.width=pct+'%';
+  if(el('sb-xp-c'))el('sb-xp-c').textContent=xpInLv.toLocaleString();
+  if(el('sb-str'))el('sb-str').textContent=`🔥 ${S.streak||0} days`;
+  if(el('sb-wstr'))el('sb-wstr').textContent=`📅 ${S.weekStreak||0} wks`;
+}
+
+function updateStats(){
+  const done=Object.values(S.habits).filter(Boolean).length;
+  const score=Math.min(Math.round((done/HABITS.length)*100),100);
+  const streak=S.streak||0,xp=S.xp||0,lv=S.level||7;
+  const el=id=>document.getElementById(id);
+  if(el('tb-score'))el('tb-score').textContent=score+'%';
+  if(el('tb-str'))el('tb-str').textContent=`🔥 ${streak}`;
+  if(el('ds-str'))el('ds-str').textContent=streak;
+  if(el('ds-sc'))el('ds-sc').textContent=score+'%';
+  if(el('ds-xp'))el('ds-xp').textContent=xp.toLocaleString();
+  if(el('ds-lv'))el('ds-lv').textContent=lv;
+  if(el('ds-hab'))el('ds-hab').textContent=done;
+  if(el('ds-tasks'))el('ds-tasks').textContent=S.tasks||0;
+  if(el('gc-ov'))el('gc-ov').textContent=score+'%';
+  if(el('gc-str'))el('gc-str').textContent=streak;
+  if(el('gc-xp'))el('gc-xp').textContent=xp.toLocaleString();
+  if(el('ac-xp'))el('ac-xp').textContent=xp.toLocaleString();
+  if(el('ac-lv'))el('ac-lv').textContent=lv;
+  if(el('ac-str'))el('ac-str').textContent=S.bestStreak||0;
+  if(el('ac-ul'))el('ac-ul').textContent=ACHS.filter(a=>a.ul).length;
+  if(el('pr-s'))el('pr-s').textContent=(S.bestStreak||0)+' days';
+  if(el('pr-s-b'))el('pr-s-b').style.width=Math.min((S.bestStreak||0)/30*100,100)+'%';
+}
+
+function toggleHabit(id,xp){
+  S.habits[id]=!S.habits[id];
+  if(S.habits[id])awardXP(xp);
+  const done=Object.values(S.habits).filter(Boolean).length;
+  if(done>=8&&!S.streakCounted){S.streak=(S.streak||0)+1;S.streakCounted=true;if(S.streak>S.bestStreak)S.bestStreak=S.streak;}
+  renderHabits();updateStats();save();
+}
+
+function renderHabits(){
+  const el=document.getElementById('habit-grid');if(!el)return;
+  el.innerHTML=HABITS.map(h=>`<div class="hab${S.habits[h.id]?' done':''}" onclick="toggleHabit('${h.id}',${h.xp})"><span class="hab-ico">${h.ico}</span><div style="flex:1"><div class="hab-name">${h.name}</div><div class="hab-xp">+${h.xp} XP</div></div><div class="hab-chk">${S.habits[h.id]?'✓':''}</div></div>`).join('');
+}
+
+function renderAreas(){
+  const el=document.getElementById('area-grid');if(!el)return;
+  el.innerHTML=AREAS.map(a=>`<div class="area" onclick="sv('${a.view}')"><div class="area-bar" style="background:${a.color}"></div><span class="area-ico">${a.ico}</span><div class="area-name">${a.name}</div><div class="area-desc">${a.desc}</div><div class="area-prog"><div class="area-pf" style="width:${a.prog}%;background:${a.color}"></div></div><div class="area-ft"><span>${a.prog}%</span><span style="color:${a.color}">→</span></div></div>`).join('');
+}
+
+function renderAchs(){
+  const el=document.getElementById('ach-grid');if(!el)return;
+  el.innerHTML=ACHS.map(a=>`<div class="ach ${a.ul?'ul':'lk'}"><span class="ach-ico">${a.ico}</span><div class="ach-name">${a.name}</div><div class="ach-pts">${a.ul?'+'+a.xp+' XP':'Locked'}</div></div>`).join('');
+  const br=document.getElementById('badge-row');
+  if(br)br.innerHTML=ACHS.filter(a=>a.ul).map(a=>`<span class="badge">${a.ico} ${a.name}</span>`).join('');
+}
+
+function renderProgBars(){
+  const el=document.getElementById('prog-bars');if(!el)return;
+  el.innerHTML=AREAS.map((a,i)=>`<div class="prog-row${i===0?' style="border-top:none;padding-top:0"':''}"><span class="prog-lbl">${a.ico} ${a.name}</span><div class="prog-bar"><div class="prog-fill" style="width:${a.prog}%;background:${a.color}"></div></div><span class="prog-pct">${a.prog}%</span></div>`).join('');
+  const ls=document.getElementById('lifetime-stats');
+  if(ls)ls.innerHTML=[{n:S.totalDays||1,l:'Days Logged',c:'var(--amber)'},{n:(S.xp||0).toLocaleString(),l:'Total XP',c:'var(--purple)'},{n:S.bestStreak||0,l:'Best Streak',c:'var(--green)'},{n:ACHS.filter(a=>a.ul).length,l:'Achievements',c:'var(--gold)'},{n:S.level||7,l:'Level',c:'var(--blue)'},{n:S.reviews?.length||0,l:'Reviews Done',c:'var(--teal)'}].map(s=>`<div class="stat"><div class="stat-n" style="color:${s.c}">${s.n}</div><div class="stat-l">${s.l}</div></div>`).join('');
+}
+
+function renderChals(){
+  const wc=document.getElementById('wk-chal');
+  if(wc)wc.innerHTML=WK_CHALS.map(c=>`<div style="padding:10px 0;border-top:1px solid var(--border)"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><div><div style="font-size:12px;font-weight:500">${c.name}</div><div style="font-size:10px;color:var(--text3)">${c.desc}</div></div><span style="font-size:10px;color:var(--amber);font-weight:600">+${c.xp} XP</span></div><div class="prog-bar"><div class="prog-fill" style="width:${Math.round(c.cur/c.target*100)}%;background:${c.color}"></div></div><div style="font-size:9px;color:var(--text3);margin-top:2px">${c.cur} / ${c.target}</div></div>`).join('');
+  const qc=document.getElementById('q-chal');
+  if(qc)qc.innerHTML=Q_MISSIONS.map(m=>`<div class="alert blu-a" style="margin-bottom:5px"><span class="a-ico">${m.ico}</span><span class="a-body"><strong>${m.name}</strong> — ${m.desc}<div style="font-size:9px;color:var(--text3);margin-top:1px">Target: ${m.dl}</div></span></div>`).join('');
+  const ql=document.getElementById('q-list');
+  if(ql)ql.innerHTML=Q_MISSIONS.map(m=>`<div class="tr${Q_MISSIONS.indexOf(m)===0?' style="border-top:none;padding-top:0"':''}"><span style="font-size:16px;flex-shrink:0">${m.ico}</span><div style="flex:1"><div class="tt">${m.name}</div><div style="font-size:10px;color:var(--text3);margin-top:1px">${m.desc} · ${m.dl}</div></div></div>`).join('');
+  const mcm=document.getElementById('m-chal');
+  if(mcm)mcm.innerHTML=WK_CHALS.map(c=>`<div style="padding:10px 0;border-top:1px solid var(--border)"><div style="font-size:12px;font-weight:500">${c.name}</div><div style="font-size:10px;color:var(--text3);margin-bottom:6px">${c.desc}</div><div class="prog-bar"><div class="prog-fill" style="width:${Math.round(c.cur/c.target*100)}%;background:${c.color}"></div></div><div style="font-size:9px;color:var(--text3);margin-top:2px">${c.cur} / ${c.target}</div></div>`).join('');
+}
+
+function renderWkChart(){
+  const el=document.getElementById('wk-chart'),ll=document.getElementById('wk-labels');if(!el||!ll)return;
+  const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],td=new Date().getDay();
+  const vals=[45,80,65,90,55,70,Object.values(S.habits).filter(Boolean).length*8||20];
+  const max=Math.max(...vals);
+  el.innerHTML=vals.map((v,i)=>`<div class="cbar" style="height:${Math.round((v/max)*70)+5}px;background:${i===td?'var(--blue)':'var(--border2)'}" title="${v} pts"><div class="cbar-tip">${v} pts</div></div>`).join('');
+  ll.innerHTML=days.map((d,i)=>`<div class="chart-lbl" style="color:${i===td?'var(--blue)':'var(--text3)'};flex:1">${d}</div>`).join('');
+}
+
+function setDates(){
+  const now=new Date(),mn=now.toLocaleDateString('en-US',{month:'long'}),yr=now.getFullYear();
+  const q=Math.ceil((now.getMonth()+1)/3);
+  const ds=now.toLocaleDateString('en-US',{weekday:'long',month:'short',day:'numeric'});
+  const el=id=>document.getElementById(id);
+  if(el('sb-date'))el('sb-date').textContent=ds;
+  if(el('plan-date'))el('plan-date').textContent=now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  if(el('ev-date'))el('ev-date').textContent=now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  if(el('a-year'))el('a-year').textContent=yr;
+  if(el('q-num'))el('q-num').textContent=q;
+  if(el('m-name'))el('m-name').textContent=mn;
+  if(el('m-name2'))el('m-name2').textContent=mn;
+}
+
+function setQuote(){
+  const q=QUOTES[new Date().getDay()%QUOTES.length];
+  const qEl=document.getElementById('daily-q'),aEl=document.getElementById('daily-a');
+  if(qEl)qEl.textContent=`"${q.q}"`;if(aEl)aEl.textContent=`— ${q.a}`;
+}
+
+function saveRev(){
+  const r={date:today(),done:document.getElementById('ev-done')?.value||'',block:document.getElementById('ev-block')?.value||'',learn:document.getElementById('ev-learn')?.value||'',score:document.getElementById('ev-score')?.value||'',energy:document.getElementById('ev-energy')?.value||''};
+  S.reviews=S.reviews||[];S.reviews.unshift(r);awardXP(50);save();renderRevs();
+  alert('Evening review saved! +50 XP 💚');
+}
+
+function renderRevs(){
+  const el=document.getElementById('ev-hist');if(!el)return;
+  if(!S.reviews?.length){el.innerHTML='<div style="font-size:12px;color:var(--text3);text-align:center;padding:14px">No reviews yet.</div>';return;}
+  el.innerHTML=S.reviews.slice(0,5).map(r=>`<div style="padding:10px 0;border-top:1px solid var(--border)"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:10px;color:var(--text3)">${r.date}</span><span style="font-size:10px;color:var(--amber)">${r.score}/10 · ${r.energy}</span></div>${r.done?`<div style="font-size:11px;color:var(--text2);margin-bottom:2px"><strong style="color:var(--text)">Won:</strong> ${r.done.slice(0,80)}</div>`:''}</div>`).join('');
+}
+
+let aiOpen=false,aiId=0;
+function buildContext(q){
+  const done=Object.keys(S.habits).filter(k=>S.habits[k]);
+  const habDone=done.length;
+  const score=Math.min(Math.round((habDone/12)*100),100);
+  return `You are Makisha's personal Life OS AI coach. You know EVERYTHING about her life. Be direct, warm, specific, and energizing. Max 150 words. No fluff.
+
+WHO SHE IS: Makisha, Black entrepreneur in Atlanta GA. Mantra: "Consistency Over Perfection." She runs Trust Circle Enterprise.
+
+CURRENT STATS (as of right now):
+- Day streak: ${S.streak||0} days | Life score: ${score}% | Level: ${S.level||7} (${S.xp||0} XP total)
+- Habits done today: ${habDone}/12
+
+ACTIVE GOALS:
+1. GA Real Estate License exam — 19 DAYS LEFT. Must study daily.
+2. Funded forex account — 4-day profitable streak. Need 7 → weekly withdrawals. GBP/JPY + XAU/USD, 4/4 confluence only.
+3. Wholesaling (Trust Circle Enterprise) — 7 active deals, 2 overdue 7+ days.
+4. Credit score: 572 → 620 (home equity → Tesla + clear $19k debt)
+5. Spanish fluency — 26-week plan, Week 1. 20 words learned.
+6. Polish fluency — just launched, Week 1.
+7. Zenith Drip Co. diamond art — 90-day content plan, Day 15.
+8. IBM SkillsBuild AI course — Applied AI, Agents, Chatbots & RAG.
+9. Google Cybersecurity Certificate → CompTIA Security+
+10. Chess — daily puzzles (3 days behind)
+11. Morse Code — 8-week plan (2 days behind)
+12. Fitness — daily workout + weight tracking
+
+FALLING BEHIND: Chess (3 days), Morse Code (2 days), Cybersecurity (4 days), 2 wholesale leads overdue.
+
+Her question: ${q}`;
+}
+
+function toggleAI(){
+  aiOpen=!aiOpen;
+  const fab=document.getElementById('ai-fab'),panel=document.getElementById('ai-panel'),ico=document.getElementById('ai-ico');
+  if(aiOpen){fab.classList.add('open');panel.classList.add('open');if(ico)ico.style.display='none';setTimeout(()=>document.getElementById('ai-inp')?.focus(),100);}
+  else{fab.classList.remove('open');panel.classList.remove('open');if(ico)ico.style.display='';}
+}
+
+function spQuick(q){
+  document.getElementById('ai-inp').value=q;
+  sendAI();
+}
+
+function sendAI(){
+  const inp=document.getElementById('ai-inp');
+  const q=inp?.value?.trim();if(!q)return;
+  inp.value='';
+  const qb=document.getElementById('quick-btns');if(qb)qb.style.display='none';
+  addAI(q,'user');
+  const lid=addAI('⏳ Building your context and opening Claude...','ai');
+  const fullPrompt=buildContext(q);
+  navigator.clipboard?.writeText(fullPrompt).then(()=>{
+    updAI(lid,'✅ Context copied! Claude is opening now — just paste with Ctrl+V (or ⌘V on Mac) and send. Your full goal context is already in the clipboard.');
+    setTimeout(()=>window.open('https://claude.ai/new','_blank'),400);
+  }).catch(()=>{
+    updAI(lid,'🔗 Opening Claude now. Paste this question: "'+q+'" — your coach is ready.');
+    setTimeout(()=>window.open('https://claude.ai/new','_blank'),400);
+  });
+}
+
+function addAI(text,role){
+  const id='ai'+(++aiId);
+  const el=document.createElement('div');
+  el.className='ai-msg-'+role;el.id=id;el.textContent=text;
+  const body=document.getElementById('ai-body');
+  if(body){body.appendChild(el);body.scrollTop=body.scrollHeight;}
+  return id;
+}
+function updAI(id,text){const el=document.getElementById(id);if(el)el.textContent=text;}
+
+// INIT
+load();setDates();setQuote();renderHabits();renderAreas();renderAchs();renderProgBars();renderChals();renderWkChart();renderRevs();updateStats();updateSBXP();
+loadNotes();loadRevenues();updateScorecard();updateCountdowns();updateTimerDisplay();
+// Update scorecard whenever habits change
+const origToggleHabit=toggleHabit;
+window.toggleHabit=function(id,xp){origToggleHabit(id,xp);updateScorecard();};
+const origCk=ck;
+window.ck=function(el,xp){origCk(el,xp);updateScorecard();};
+loadAffs();loadWeight();loadMorning();updateMomentum();
+
+// ── FOCUS TIMER ────────────────────────────────────────
+let ftRunning=false,ftInterval=null,ftTotal=25*60,ftRemain=25*60,ftMode='work',ftSessions=0,ftDayXP=0;
+
+function setMode(mode,mins){
+  if(ftRunning)return;
+  ftMode=mode;ftTotal=mins*60;ftRemain=mins*60;
+  document.querySelectorAll('.ft-mode-btn').forEach(b=>b.classList.remove('on'));
+  document.getElementById('fm-'+mode)?.classList.add('on');
+  updateTimerDisplay();
+}
+
+function toggleTimer(){
+  if(ftRunning){
+    clearInterval(ftInterval);ftRunning=false;
+    document.getElementById('ft-start').textContent='▶ Start';
+    document.getElementById('ft-sub').textContent='paused';
+  } else {
+    ftRunning=true;
+    document.getElementById('ft-start').textContent='⏸ Pause';
+    document.getElementById('ft-sub').textContent=ftMode==='work'?'focus':ftMode==='deep'?'deep work':'break';
+    ftInterval=setInterval(()=>{
+      ftRemain--;
+      updateTimerDisplay();
+      if(ftRemain<=0){
+        clearInterval(ftInterval);ftRunning=false;
+        ftSessions++;
+        document.getElementById('ft-start').textContent='▶ Start';
+        document.getElementById('ft-sub').textContent='done!';
+        awardXP(25);
+        document.getElementById('ft-sessions').innerHTML=`Sessions today: ${ftSessions} · <span style="color:var(--amber)">+25 XP per session</span>`;
+        if(Notification.permission==='granted'){new Notification('⏱️ Session complete! +25 XP',{body:'Time for a ' +(ftMode==='work'?'5 min break':'work session')});}
+        else{alert('⏱️ Session complete! +25 XP earned 🔥');}
+        // Auto-switch mode
+        if(ftMode==='work'){setMode('short',5);}
+        else{setMode('work',25);}
+      }
+    },1000);
+    if(Notification.permission==='default')Notification.requestPermission();
+  }
+}
+
+function resetTimer(){
+  clearInterval(ftInterval);ftRunning=false;
+  ftRemain=ftTotal;
+  document.getElementById('ft-start').textContent='▶ Start';
+  document.getElementById('ft-sub').textContent='ready';
+  updateTimerDisplay();
+}
+
+function skipTimer(){
+  clearInterval(ftInterval);ftRunning=false;
+  if(ftMode==='work'){setMode('short',5);}else{setMode('work',25);}
+}
+
+function updateTimerDisplay(){
+  const m=Math.floor(ftRemain/60),s=ftRemain%60;
+  const dispEl=document.getElementById('ft-display');
+  if(dispEl)dispEl.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  // Ring
+  const ring=document.getElementById('ft-ring');
+  if(ring){
+    const circ=251.2,pct=ftRemain/ftTotal,offset=circ*(1-pct);
+    ring.style.strokeDashoffset=offset;
+    ring.style.stroke=ftMode==='work'?'var(--blue)':ftMode==='deep'?'var(--purple)':'var(--green)';
+  }
+}
+
+// ── DAILY SCORECARD ───────────────────────────────────
+function updateScorecard(){
+  const habDone=Object.values(S.habits).filter(Boolean).length;
+  const tasks=S.tasks||0;
+  const xp=S.xp||0;
+  const streak=S.streak||0;
+  // Score: habits 60%, tasks 20%, streak bonus 20%
+  const habScore=Math.round((habDone/12)*60);
+  const taskScore=Math.min(tasks*4,20);
+  const strBonus=Math.min(streak*2,20);
+  const total=habScore+taskScore+strBonus;
+  const grade=total>=90?'A+':total>=80?'A':total>=70?'B+':total>=60?'B':total>=50?'C+':total>=40?'C':'D';
+  const gradeColor=total>=80?'var(--green)':total>=60?'var(--blue)':total>=40?'var(--amber)':'var(--red)';
+  const msgs={
+    'A+':'🔥 Perfect day! You are unstoppable!',
+    'A':'💪 Outstanding! This is what consistency looks like.',
+    'B+':'✨ Great day. One more push to make it an A.',
+    'B':'👍 Solid day. Keep the habits coming.',
+    'C+':'📈 Decent start. Lock in 2 more habits.',
+    'C':'⚡ Average day — you're capable of more.',
+    'D':'💡 Day not lost yet — complete 3 habits now.'
+  };
+  const grEl=document.getElementById('sc-grade');if(grEl){grEl.textContent=grade;grEl.style.color=gradeColor;}
+  const msgEl=document.getElementById('sc-msg');if(msgEl)msgEl.textContent=msgs[grade]||'Keep going.';
+  const habEl=document.getElementById('sc-hab');if(habEl)habEl.textContent=habDone+'/12';
+  const taskEl=document.getElementById('sc-tasks');if(taskEl)taskEl.textContent=tasks;
+  const xpEl=document.getElementById('sc-xp-d');if(xpEl)xpEl.textContent=xp;
+  const strEl=document.getElementById('sc-streak');if(strEl)strEl.textContent=streak;
+  const pctEl=document.getElementById('sc-pct');if(pctEl)pctEl.textContent=total+'%';
+  const barEl=document.getElementById('sc-bar');if(barEl)barEl.style.width=total+'%';
+  const tipEl=document.getElementById('sc-tip');
+  if(tipEl){
+    const tips=['Every habit builds the life you want.','Discipline today = freedom tomorrow.','Small wins compound into big results.','You're building momentum every day.','Consistency is your superpower.'];
+    if(!tipEl.dataset.set){tipEl.textContent=tips[Math.floor(Math.random()*tips.length)];tipEl.dataset.set='1';}
+  }
+}
+
+// ── NOTES ─────────────────────────────────────────────
+let noteTimer=null;
+function autoSaveNotes(){
+  const el=document.getElementById('notes-area');
+  const savedEl=document.getElementById('notes-saved');
+  if(savedEl)savedEl.textContent='Saving...';
+  clearTimeout(noteTimer);
+  noteTimer=setTimeout(()=>{
+    try{localStorage.setItem('lifeos2_notes',el?.value||'');}catch(e){}
+    if(savedEl)savedEl.textContent='✓ Saved '+new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  },800);
+}
+
+function clearNotes(){
+  if(!confirm('Clear all notes?'))return;
+  const el=document.getElementById('notes-area');if(el)el.value='';
+  try{localStorage.removeItem('lifeos2_notes');}catch(e){}
+  const savedEl=document.getElementById('notes-saved');if(savedEl)savedEl.textContent='Cleared';
+}
+
+function loadNotes(){
+  try{
+    const saved=localStorage.getItem('lifeos2_notes');
+    const el=document.getElementById('notes-area');
+    if(saved&&el)el.value=saved;
+  }catch(e){}
+}
+
+// ── REVENUE LOG ────────────────────────────────────────
+let revenues=[];
+function logRevenue(){
+  const amtEl=document.getElementById('rev-input');
+  const srcEl=document.getElementById('rev-source');
+  const amt=parseFloat(amtEl?.value);
+  if(!amt||isNaN(amt)){alert('Enter a valid amount');return;}
+  const src=srcEl?.value||'Other';
+  revenues.push({amt,src,date:new Date().toLocaleDateString()});
+  try{localStorage.setItem('lifeos2_rev',JSON.stringify(revenues));}catch(e){}
+  if(amtEl)amtEl.value='';
+  awardXP(10);
+  updateRevenueDisplay();
+}
+
+function loadRevenues(){
+  try{const r=localStorage.getItem('lifeos2_rev');if(r)revenues=JSON.parse(r);}catch(e){}
+  updateRevenueDisplay();
+}
+
+function updateRevenueDisplay(){
+  // Update total
+  const total=revenues.reduce((s,r)=>s+r.amt,0)+28284;
+  const totEl=document.querySelector('.rev-total-n');
+  if(totEl)totEl.textContent='$'+total.toLocaleString();
+}
+
+// ── COUNTDOWNS ─────────────────────────────────────────
+function updateCountdowns(){
+  // RE exam — static countdown (19 days from now as baseline)
+  const cdRe=document.getElementById('cd-re');
+  if(cdRe){
+    try{
+      const examDate=new Date();examDate.setDate(examDate.getDate()+19);
+      const now=new Date();const diff=Math.max(0,Math.ceil((examDate-now)/864e5));
+      cdRe.textContent=diff;
+      cdRe.style.color=diff<=7?'var(--red)':diff<=14?'var(--amber)':'var(--blue)';
+    }catch(e){}
+  }
+  // Trading goal (7 - current streak)
+  const cdTrade=document.getElementById('cd-trade');
+  if(cdTrade){const left=Math.max(0,7-(S.streak||0));cdTrade.textContent=left;cdTrade.style.color=left<=2?'var(--green)':'var(--blue)';}
+}
+
+
+// ── AFFIRMATIONS ───────────────────────────────────────
+const DEFAULT_AFFS = [
+  {emoji:'💎',text:'I am a licensed entrepreneur building generational wealth every single day.'},
+  {emoji:'🏠',text:'I am a licensed real estate agent and property manager. My license is mine.'},
+  {emoji:'📈',text:'I am a disciplined trader. I follow my rules. I am consistently profitable.'},
+  {emoji:'💰',text:'Money flows to me through multiple streams. I am financially free.'},
+  {emoji:'💪',text:'I am strong, healthy, and committed to my body every single day.'},
+  {emoji:'🌎',text:'I am multilingual. I speak Spanish and Polish fluently and confidently.'},
+  {emoji:'👑',text:'I am the CEO of my life. Every decision I make builds my empire.'},
+];
+let affs = [...DEFAULT_AFFS];
+let affIdx = 0;
+
+function loadAffs(){
+  try{const a=localStorage.getItem('lifeos2_affs');if(a)affs=[...DEFAULT_AFFS,...JSON.parse(a)];}catch(e){}
+  renderAff();
+}
+
+function renderAff(){
+  const a=affs[affIdx%affs.length];
+  const eEl=document.getElementById('aff-emoji');if(eEl)eEl.textContent=a.emoji;
+  const tEl=document.getElementById('aff-text');if(tEl)tEl.textContent=a.text;
+  const dots=document.getElementById('aff-dots');
+  if(dots)dots.innerHTML=affs.map((_,i)=>`<div style="width:6px;height:6px;border-radius:50%;background:${i===affIdx%affs.length?'var(--gold)':'var(--border2)'};transition:background .2s"></div>`).join('');
+}
+
+function nextAff(){affIdx=(affIdx+1)%affs.length;renderAff();}
+function prevAff(){affIdx=(affIdx-1+affs.length)%affs.length;renderAff();}
+
+function addAff(){
+  const inp=document.getElementById('aff-input');
+  const text=inp?.value?.trim();if(!text)return;
+  const emojis=['✨','🔥','💎','👑','🚀','💪','🌟','⚡','🎯','💰'];
+  const newAff={emoji:emojis[Math.floor(Math.random()*emojis.length)],text};
+  affs.push(newAff);
+  affIdx=affs.length-1;
+  try{
+    const custom=affs.slice(DEFAULT_AFFS.length);
+    localStorage.setItem('lifeos2_affs',JSON.stringify(custom));
+  }catch(e){}
+  if(inp)inp.value='';
+  renderAff();
+  awardXP(5);
+}
+
+// Auto-rotate affirmations every 30 seconds
+setInterval(()=>{affIdx=(affIdx+1)%affs.length;renderAff();},30000);
+
+// ── WEIGHT TRACKER MINI ─────────────────────────────────
+let wtData={logs:[],goal:null,start:null};
+
+function loadWeight(){
+  try{const w=localStorage.getItem('lifeos2_wt');if(w)wtData=JSON.parse(w);}catch(e){}
+  updateWeightDisplay();
+}
+
+function logWeight(){
+  const wtInp=document.getElementById('wt-input');
+  const goalInp=document.getElementById('wt-goal-input');
+  const wt=parseFloat(wtInp?.value);
+  const goal=parseFloat(goalInp?.value);
+  if(!wt||isNaN(wt)){alert('Enter your weight');return;}
+  if(goal&&!isNaN(goal))wtData.goal=goal;
+  if(!wtData.start)wtData.start=wt;
+  wtData.logs.push({wt,date:new Date().toLocaleDateString('en-CA')});
+  try{localStorage.setItem('lifeos2_wt',JSON.stringify(wtData));}catch(e){}
+  if(wtInp)wtInp.value='';
+  if(goalInp)goalInp.value='';
+  awardXP(10);
+  updateWeightDisplay();
+}
+
+function updateWeightDisplay(){
+  if(!wtData.logs.length)return;
+  const latest=wtData.logs[wtData.logs.length-1].wt;
+  const start=wtData.start||latest;
+  const goal=wtData.goal;
+
+  const curEl=document.getElementById('wt-current');if(curEl)curEl.textContent=latest;
+  const goalEl=document.getElementById('wt-goal-lbl');if(goalEl)goalEl.textContent=goal||'?';
+  const daysEl=document.getElementById('wt-days');if(daysEl)daysEl.textContent=wtData.logs.length;
+
+  const lost=Math.max(0,start-latest);
+  const lostEl=document.getElementById('wt-lost');if(lostEl)lostEl.textContent=lost>0?'-'+lost.toFixed(1):'0';
+
+  if(goal&&start){
+    const totalNeeded=start-goal;
+    const done=start-latest;
+    const pct=totalNeeded>0?Math.min(100,Math.round((done/totalNeeded)*100)):0;
+    const barEl=document.getElementById('wt-bar');if(barEl)barEl.style.width=pct+'%';
+    const pctEl=document.getElementById('wt-pct');if(pctEl)pctEl.textContent=pct+'%';
+    const statusEl=document.getElementById('wt-status');
+    if(statusEl){
+      if(pct>=100)statusEl.textContent='🎉 Goal reached!';
+      else if(pct>50)statusEl.textContent=`Over halfway there! ${(latest-goal).toFixed(1)} lbs to go`;
+      else statusEl.textContent=`${(latest-goal).toFixed(1)} lbs to reach your goal`;
+    }
+  }
+}
+
+// ── MORNING CHECKLIST ──────────────────────────────────
+let mcChecks={};
+
+function loadMorning(){
+  try{
+    const m=localStorage.getItem('lifeos2_morning');
+    if(m){const d=JSON.parse(m);if(d.date===new Date().toLocaleDateString('en-CA'))mcChecks=d.checks||{};}
+  }catch(e){}
+  renderMorning();
+}
+
+function checkMorning(n){
+  mcChecks[n]=!mcChecks[n];
+  try{localStorage.setItem('lifeos2_morning',JSON.stringify({date:new Date().toLocaleDateString('en-CA'),checks:mcChecks}));}catch(e){}
+  if(mcChecks[n])awardXP(10);
+  renderMorning();
+}
+
+function renderMorning(){
+  [1,2,3,4,5].forEach(n=>{
+    const el=document.getElementById('mc'+n);
+    if(el){
+      if(mcChecks[n])el.classList.add('on');else el.classList.remove('on');
+      const tt=el.nextElementSibling;
+      if(tt){if(mcChecks[n])tt.classList.add('done');else tt.classList.remove('done');}
+    }
+  });
+  const done=Object.values(mcChecks).filter(Boolean).length;
+  const pctEl=document.getElementById('mc-pct');if(pctEl)pctEl.textContent=done+' / 5';
+  const barEl=document.getElementById('mc-bar');if(barEl)barEl.style.width=(done/5*100)+'%';
+  const msgEl=document.getElementById('mc-msg');
+  if(msgEl){
+    const msgs=['','Good start — 4 more to go!','Building momentum!','Over halfway there!','Almost ready to conquer the day!','🔥 Morning complete! You're locked in!'];
+    msgEl.textContent=msgs[done]||'';
+    msgEl.style.color=done===5?'var(--green)':'var(--text2)';
+  }
+}
+
+function resetMorning(){
+  mcChecks={};
+  try{localStorage.removeItem('lifeos2_morning');}catch(e){}
+  renderMorning();
+}
+
+// ── WEEKLY MOMENTUM SCORE ──────────────────────────────
+function updateMomentum(){
+  const habDone=Object.values(S.habits).filter(Boolean).length;
+  const habScore=Math.round((habDone/12)*40);
+  const taskScore=Math.min((S.tasks||0)*5,20);
+  const strScore=Math.min((S.streak||0)*3,25);
+  const revScore=Math.min((S.reviews?.length||0)*5,15);
+  const total=habScore+taskScore+strScore+revScore;
+
+  const scoreEl=document.getElementById('wms-score');
+  if(scoreEl){
+    scoreEl.textContent=total;
+    scoreEl.style.color=total>=80?'var(--green)':total>=60?'var(--blue)':total>=40?'var(--amber)':'var(--red)';
+  }
+  const gradeEl=document.getElementById('wms-grade');
+  if(gradeEl){
+    const grades={90:'Elite performer 🔥',80:'Strong momentum 💪',70:'Good week, push harder',60:'Average — step it up',50:'Below average — refocus',0:'Just getting started'};
+    const grade=Object.keys(grades).reverse().find(g=>total>=parseInt(g))||'0';
+    gradeEl.textContent=grades[grade];
+  }
+  const barEl=document.getElementById('wms-bar');if(barEl)barEl.style.width=total+'%';
+
+  const setBar=(id,bId,val,max)=>{
+    const p=Math.round((val/max)*100);
+    const el=document.getElementById(id);if(el)el.textContent=p+'%';
+    const bEl=document.getElementById(bId);if(bEl)bEl.style.width=p+'%';
+  };
+  setBar('wms-hab','wms-hab-b',habScore,40);
+  setBar('wms-task','wms-task-b',taskScore,20);
+  setBar('wms-str','wms-str-b',strScore,25);
+  setBar('wms-rev','wms-rev-b',revScore,15);
+}
+
+</script>
+</body>
+</html>
