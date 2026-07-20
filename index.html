@@ -417,15 +417,43 @@ a{color:inherit;text-decoration:none}
   <!-- REVENUE + NOTES -->
   <div class="g2">
     <div class="card"><div class="card-line" style="background:var(--green)"></div><div class="ct">💵 Revenue Snapshot</div>
+      <!-- TALLIES -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+        <div style="background:rgba(0,209,122,.06);border:1px solid rgba(0,209,122,.15);border-radius:var(--r);padding:9px;text-align:center">
+          <div style="font-size:18px;font-weight:600;color:var(--green);font-family:var(--mono)" id="rev-day">$0</div>
+          <div style="font-size:9px;color:var(--text3);margin-top:2px">TODAY</div>
+        </div>
+        <div style="background:rgba(77,158,255,.06);border:1px solid rgba(77,158,255,.15);border-radius:var(--r);padding:9px;text-align:center">
+          <div style="font-size:18px;font-weight:600;color:var(--blue);font-family:var(--mono)" id="rev-week">$0</div>
+          <div style="font-size:9px;color:var(--text3);margin-top:2px">THIS WEEK</div>
+        </div>
+        <div style="background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.15);border-radius:var(--r);padding:9px;text-align:center">
+          <div style="font-size:18px;font-weight:600;color:var(--purple);font-family:var(--mono)" id="rev-month">$0</div>
+          <div style="font-size:9px;color:var(--text3);margin-top:2px">THIS MONTH</div>
+        </div>
+      </div>
+      <!-- CHART -->
+      <div style="margin-bottom:10px">
+        <canvas id="rev-chart" height="80" style="width:100%"></canvas>
+      </div>
+      <!-- LOG FORM -->
+      <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+        <input class="finput" id="rev-amt" type="number" placeholder="$ amount" style="flex:1;min-width:90px;font-size:11px;padding:6px 8px">
+        <select class="finput" id="rev-src" style="flex:1;min-width:100px;font-size:11px;padding:6px 8px">
+          <option>Wholesaling</option>
+          <option>Forex P&L</option>
+          <option>Art Sales</option>
+          <option>Dividends</option>
+          <option>Other</option>
+        </select>
+        <input class="finput" id="rev-note" type="text" placeholder="Note (optional)" style="flex:1;min-width:90px;font-size:11px;padding:6px 8px">
+        <button class="btn go" onclick="logRev()" style="font-size:10px;padding:6px 10px;white-space:nowrap">+ Log</button>
+      </div>
+      <!-- ENTRIES -->
       <div id="rev-list">
-        <div style="font-size:12px;color:var(--text3);text-align:center;padding:10px 0">No revenue logged yet. Add your first entry below.</div>
+        <div style="font-size:12px;color:var(--text3);text-align:center;padding:10px 0">No revenue logged yet.</div>
       </div>
-      <div class="rev-total"><span style="font-size:12px;font-weight:500">Total Revenue</span><span class="rev-total-n" id="rev-total">$0</span></div>
-      <div style="display:flex;gap:6px;margin-top:10px">
-        <input class="finput" id="rev-amt" type="number" placeholder="$ amount" style="flex:1;font-size:11px;padding:6px 8px">
-        <select class="finput" id="rev-src" style="flex:1;font-size:11px;padding:6px 8px"><option>Wholesaling</option><option>Forex</option><option>Art Sales</option><option>Dividends</option></select>
-        <button class="btn go" onclick="logRev()" style="font-size:10px;padding:6px 8px;white-space:nowrap">+ Log</button>
-      </div>
+      <div class="rev-total"><span style="font-size:12px;font-weight:500">Total All-Time</span><span class="rev-total-n" id="rev-total">$0</span></div>
     </div>
     <div class="card"><div class="card-line" style="background:var(--cyan)"></div><div class="ct">📝 Brain Dump / Notes</div>
       <textarea class="notes-ta" id="notes-ta" placeholder="Capture ideas before they disappear...&#10;&#10;💡 Ideas&#10;📋 To-do&#10;🔗 Links" oninput="saveNotes()"></textarea>
@@ -1059,36 +1087,113 @@ function clearNotes(){if(!confirm('Clear all notes?'))return;const el=document.g
 
 // REVENUE
 function logRev(){
-  const aEl=document.getElementById('rev-amt'),sEl=document.getElementById('rev-src');
+  const aEl=document.getElementById('rev-amt'),sEl=document.getElementById('rev-src'),nEl=document.getElementById('rev-note');
   const amt=parseFloat(aEl?.value);if(!amt||isNaN(amt)){alert('Enter an amount');return;}
   const src=sEl?.value||'Other';
+  const note=nEl?.value||'';
   S.revenues=S.revenues||[];
-  S.revenues.push({amt,src,date:today(),id:Date.now()});
-  if(aEl)aEl.value='';
+  S.revenues.push({amt,src,note,date:today(),id:Date.now()});
+  if(aEl)aEl.value='';if(nEl)nEl.value='';
   awardXP(10);renderRevenues();save();
 }
+
+function getWeekStart(){
+  const now=new Date();const day=now.getDay();
+  const diff=now.getDate()-day+(day===0?-6:1);
+  const mon=new Date(now.setDate(diff));
+  return mon.toLocaleDateString('en-CA');
+}
+
+function getMonthStart(){
+  const now=new Date();
+  return new Date(now.getFullYear(),now.getMonth(),1).toLocaleDateString('en-CA');
+}
+
 function renderRevenues(){
   const list=document.getElementById('rev-list');
-  const total=document.getElementById('rev-total');
+  const totalEl=document.getElementById('rev-total');
+  const dayEl=document.getElementById('rev-day');
+  const weekEl=document.getElementById('rev-week');
+  const monthEl=document.getElementById('rev-month');
+
   if(!S.revenues?.length){
     if(list)list.innerHTML='<div style="font-size:12px;color:var(--text3);text-align:center;padding:10px 0">No revenue logged yet.</div>';
-    if(total)total.textContent='$0';
+    if(totalEl)totalEl.textContent='$0';
+    if(dayEl)dayEl.textContent='$0';
+    if(weekEl)weekEl.textContent='$0';
+    if(monthEl)monthEl.textContent='$0';
+    drawRevChart([]);
     return;
   }
-  const ICONS={Wholesaling:'🤝',Forex:'📈','Art Sales':'🖼️',Dividends:'💰',Other:'💵'};
-  if(list)list.innerHTML=[...S.revenues].reverse().map(r=>`
+
+  const todayStr=today();
+  const weekStr=getWeekStart();
+  const monthStr=getMonthStart();
+
+  let daySum=0,weekSum=0,monthSum=0,allSum=0;
+  S.revenues.forEach(r=>{
+    allSum+=r.amt;
+    if(r.date===todayStr)daySum+=r.amt;
+    if(r.date>=weekStr)weekSum+=r.amt;
+    if(r.date>=monthStr)monthSum+=r.amt;
+  });
+
+  if(dayEl)dayEl.textContent='$'+daySum.toLocaleString();
+  if(weekEl)weekEl.textContent='$'+weekSum.toLocaleString();
+  if(monthEl)monthEl.textContent='$'+monthSum.toLocaleString();
+  if(totalEl)totalEl.textContent='$'+allSum.toLocaleString();
+
+  const ICONS={'Wholesaling':'🤝','Forex P&L':'📈','Art Sales':'🖼️','Dividends':'💰','Other':'💵'};
+  if(list)list.innerHTML=[...S.revenues].reverse().slice(0,8).map(r=>`
     <div class="rev-row">
       <div class="rev-src"><span class="rev-ico">${ICONS[r.src]||'💵'}</span>
-        <div><div class="rev-name">${r.src}</div><div class="rev-sub">${r.date}</div></div>
+        <div><div class="rev-name">${r.src}${r.note?' · <span style="color:var(--text3)">'+r.note+'</span>':''}</div><div class="rev-sub">${r.date}</div></div>
       </div>
       <div style="display:flex;align-items:center;gap:8px">
         <span class="rev-amt" style="color:var(--green)">+$${r.amt.toLocaleString()}</span>
-        <button onclick="delRev(${r.id})" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:12px;padding:2px 5px;border-radius:4px" title="Delete">✕</button>
+        <button onclick="delRev(${r.id})" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:13px;padding:1px 4px" title="Delete">✕</button>
       </div>
     </div>`).join('');
-  const sum=S.revenues.reduce((s,r)=>s+r.amt,0);
-  if(total)total.textContent='$'+sum.toLocaleString();
+
+  // Draw chart
+  drawRevChart(S.revenues);
 }
+
+function drawRevChart(revenues){
+  const canvas=document.getElementById('rev-chart');if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  canvas.width=canvas.offsetWidth||400;canvas.height=80;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  // Get last 7 days
+  const days=[];
+  for(let i=6;i>=0;i--){
+    const d=new Date();d.setDate(d.getDate()-i);
+    days.push(d.toLocaleDateString('en-CA'));
+  }
+  const vals=days.map(d=>revenues.filter(r=>r.date===d).reduce((s,r)=>s+r.amt,0));
+  const max=Math.max(...vals,1);
+  const w=canvas.width,h=canvas.height,pad=6;
+  const bw=Math.floor((w-pad*2)/7)-4;
+
+  vals.forEach((v,i)=>{
+    const bh=Math.max(2,Math.floor((v/max)*(h-20)));
+    const x=pad+i*((w-pad*2)/7);
+    const y=h-bh-16;
+    const grad=ctx.createLinearGradient(0,y,0,y+bh);
+    grad.addColorStop(0,'rgba(0,209,122,0.9)');
+    grad.addColorStop(1,'rgba(0,209,122,0.2)');
+    ctx.fillStyle=grad;
+    ctx.beginPath();ctx.roundRect(x,y,bw,bh,3);ctx.fill();
+    // Day label
+    ctx.fillStyle='rgba(255,255,255,0.3)';ctx.font='8px sans-serif';ctx.textAlign='center';
+    const dayName=['Su','Mo','Tu','We','Th','Fr','Sa'][new Date(days[i]).getDay()];
+    ctx.fillText(dayName,x+bw/2,h-4);
+    // Value label
+    if(v>0){ctx.fillStyle='rgba(0,209,122,0.9)';ctx.font='9px sans-serif';ctx.fillText('$'+v.toLocaleString(),x+bw/2,y-3);}
+  });
+}
+
 function delRev(id){
   S.revenues=S.revenues.filter(r=>r.id!==id);
   renderRevenues();save();
