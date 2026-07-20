@@ -783,10 +783,27 @@ function load(){
     const r=localStorage.getItem(LS);
     if(r){
       const s=JSON.parse(r);
-      if(s.lastDate!==today()){s.habits={};s.tasks=0;s.lastDate=today();s.streakCounted=false;s.totalDays=(s.totalDays||0)+1;}
-      S={...S,...s};
-    } else {S.lastDate=today();S.totalDays=1;}
-  }catch(e){S.lastDate=today();}
+      // Only reset habits if it's a NEW day
+      if(s.lastDate&&s.lastDate!==today()){
+        s.habits={};s.tasks=0;s.streakCounted=false;s.totalDays=(s.totalDays||0)+1;
+        s.lastDate=today();
+      }
+      // Merge saved state into S, preserving defaults for missing keys
+      S=Object.assign({},S,s);
+      // Restore nested objects properly
+      if(s.wt)S.wt=Object.assign({logs:[],goal:null,start:null},s.wt);
+      if(s.mc)S.mc=s.mc;
+      if(s.revenues)S.revenues=s.revenues;
+    } else {
+      // First time - set today's date
+      S.lastDate=today();S.totalDays=1;
+      save();
+    }
+  }catch(e){
+    // Parse error - don't wipe data, just keep defaults
+    console.warn('Load error:',e);
+    S.lastDate=today();
+  }
 }
 
 // NAV
@@ -1151,6 +1168,8 @@ setDates();setQuote();
 renderHabits();renderAreas();renderAchs();renderRevs();
 updateStats();updateSB();updateScorecard();updateMomentum();updateFT();updateWt();
 renderAff();restoreMC();restoreNotes();renderRevenues();restoreExamDate();
+// Auto-save every 30 seconds as backup
+setInterval(save, 30000);
 </script>
 </body>
 </html>
