@@ -752,7 +752,7 @@ const LVL_NAMES={7:'Entrepreneur',8:'Executive',9:'Champion',10:'Legend',11:'Ico
 const TITLES={mission:'Mission Control',dashboard:'Dashboard',planner:'Daily Planner',re:'Realtor Business',whl:'Wholesaling',forex:'Forex Trading',inv:'Investments',cyber:'Cybersecurity',lang:'Languages',morse:'Morse Code',chess:'Chess',fitness:'Fitness',credit:'Credit & Finance',art:'Diamond Art',goals:'Goal Progress',annual:'Annual View',ach:'Achievements',evening:'Evening Review',weekly:'Weekly CEO Review'};
 const SUBS={mission:'What is the highest-value thing I should be doing right now?',dashboard:'Habits · Areas · Progress at a glance',planner:'Time-blocked schedule',re:'GA License → Property Manager → CAM',whl:'Trust Circle Enterprise · GHL automated',forex:'GBP/JPY · XAU/USD · 7-day goal',inv:'Dividends + crypto · Build wealth',cyber:'Google Cert → CompTIA Security+',lang:'Spanish + Polish → fluent in 6 months',morse:'8-Week Mastery Plan',chess:'Daily puzzles · Sharpen the mind',fitness:'Daily training · Goal weight',credit:'572 → 620 → home equity',art:'Find Your Calm, One Gem at a Time 💜',goals:'All goals · Progress tracking',annual:'Annual goals · Quarterly missions',ach:'XP · Levels · Badges',evening:'Reflect · Log wins · Score the day',weekly:'CEO-level review'};
 
-let S={habits:{},tasks:0,streak:0,lastDate:null,streakCounted:false,xp:0,level:7,bestStreak:0,totalDays:0,reviews:[],wt:{logs:[],goal:null,start:null},mc:{},affIdx:0,notes:'',revenues:[]};
+let S={habits:{},tasks:0,checkedTasks:{},streak:0,lastDate:null,streakCounted:false,xp:0,level:7,bestStreak:0,totalDays:0,reviews:[],wt:{logs:[],goal:null,start:null},mc:{},affIdx:0,notes:'',revenues:[]};
 const today=()=>new Date().toLocaleDateString('en-CA');
 
 function save(){try{localStorage.setItem(LS,JSON.stringify(S));}catch(e){}}
@@ -785,7 +785,7 @@ function load(){
       const s=JSON.parse(r);
       // Only reset habits if it's a NEW day
       if(s.lastDate&&s.lastDate!==today()){
-        s.habits={};s.tasks=0;s.streakCounted=false;s.totalDays=(s.totalDays||0)+1;
+        s.habits={};s.tasks=0;s.checkedTasks={};s.streakCounted=false;s.totalDays=(s.totalDays||0)+1;
         s.lastDate=today();
       }
       // Merge saved state into S, preserving defaults for missing keys
@@ -843,13 +843,40 @@ function updateSB(){
 
 // TASKS
 function ck(el,xp){
-  el.classList.toggle('on');
+  // Generate a unique key for this task based on its text content
   const nxt=el.nextElementSibling;
   const tt=nxt?.classList?.contains('tt')?nxt:nxt?.querySelector?.('.tt');
+  const key='task_'+(tt?.textContent||'').trim().slice(0,30).replace(/\s+/g,'_');
+  
+  const wasOn=el.classList.contains('on');
+  el.classList.toggle('on');
   if(tt)tt.classList.toggle('done');
-  if(el.classList.contains('on')){S.tasks=(S.tasks||0)+1;awardXP(xp);}
-  else S.tasks=Math.max(0,(S.tasks||0)-1);
+  
+  if(!wasOn){
+    // Checking ON
+    S.tasks=(S.tasks||0)+1;
+    S.checkedTasks=S.checkedTasks||{};
+    S.checkedTasks[key]=true;
+    awardXP(xp);
+  } else {
+    // Unchecking
+    S.tasks=Math.max(0,(S.tasks||0)-1);
+    if(S.checkedTasks)delete S.checkedTasks[key];
+  }
   updateStats();updateScorecard();updateMomentum();save();
+}
+
+function restoreTasks(){
+  if(!S.checkedTasks)return;
+  document.querySelectorAll('.chk').forEach(el=>{
+    const nxt=el.nextElementSibling;
+    const tt=nxt?.classList?.contains('tt')?nxt:nxt?.querySelector?.('.tt');
+    const key='task_'+(tt?.textContent||'').trim().slice(0,30).replace(/\s+/g,'_');
+    if(S.checkedTasks[key]){
+      el.classList.add('on');
+      if(tt)tt.classList.add('done');
+    }
+  });
 }
 function addT(id){
   const txt=prompt('New task:');if(!txt)return;
@@ -1167,7 +1194,7 @@ load();
 setDates();setQuote();
 renderHabits();renderAreas();renderAchs();renderRevs();
 updateStats();updateSB();updateScorecard();updateMomentum();updateFT();updateWt();
-renderAff();restoreMC();restoreNotes();renderRevenues();restoreExamDate();
+renderAff();restoreMC();restoreNotes();renderRevenues();restoreExamDate();restoreTasks();
 // Auto-save every 30 seconds as backup
 setInterval(save, 30000);
 </script>
