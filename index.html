@@ -255,12 +255,36 @@ html,body{height:100%;overflow:hidden;font-family:var(--font);background:var(--b
 /* LINKS */
 a{color:inherit;text-decoration:none}
 
+/* HAMBURGER */
+.hamburger{display:none;background:none;border:none;color:var(--text);font-size:22px;cursor:pointer;padding:4px 8px;line-height:1;flex-shrink:0}
+/* MOBILE OVERLAY */
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:99}
+.sb-overlay.show{display:block}
+
 @media(max-width:768px){
-  .sb{display:none}
+  .hamburger{display:block}
+  .sb{
+    display:flex;
+    position:fixed;
+    top:0;left:0;bottom:0;
+    z-index:100;
+    transform:translateX(-110%);
+    transition:transform .25s ease;
+    width:280px;
+    box-shadow:4px 0 20px rgba(0,0,0,.5);
+  }
+  .sb.open{transform:translateX(0)}
+  .topbar{padding:10px 14px;gap:10px}
+  .tb-left h2{font-size:13px}
+  .tb-left p{display:none}
   .quad{grid-template-columns:1fr}
   .g2{grid-template-columns:1fr}
   .g4{grid-template-columns:1fr 1fr}
-  .content{padding:12px}
+  .content{padding:10px 12px}
+  .ls-n{font-size:18px}
+  .str-badge{font-size:10px;padding:2px 7px}
+  .ai-panel{width:calc(100vw - 24px);right:12px;bottom:12px}
+  .ai-fab{bottom:14px;right:14px}
 }
 </style>
 </head>
@@ -323,14 +347,16 @@ a{color:inherit;text-decoration:none}
     <div style="font-size:9px;color:var(--text3);text-align:center;margin-top:4px" id="backup-msg"></div>
   </div>
 </aside>
+<div class="sb-overlay" id="sb-overlay" onclick="closeMobileSB()"></div>
 
 <!-- MAIN -->
 <main class="main">
   <div class="topbar">
+    <button class="hamburger" onclick="toggleMobileSB()" id="hamburger" aria-label="Menu">&#9776;</button>
     <div class="tb-left"><h2 id="tb-title">Mission Control</h2><p id="tb-sub">What is the highest-value thing I should be doing right now?</p></div>
     <div class="tb-right">
       <div><div class="ls-n" id="tb-score">0%</div><div class="ls-l">Life Score</div></div>
-      <div class="str-badge" id="tb-str">🔥 0</div>
+      <div class="str-badge" id="tb-str">0</div>
     </div>
   </div>
   <div class="content">
@@ -1918,6 +1944,29 @@ function updateFitDisplay(){
   const fxEl=document.getElementById('cd-fx-streak');
   if(fxEl)fxEl.textContent=S.streak||0;
 }
+
+
+// ── MOBILE SIDEBAR ─────────────────────────────────────
+function toggleMobileSB(){
+  const sb=document.querySelector('.sb');
+  const overlay=document.getElementById('sb-overlay');
+  if(sb){sb.classList.toggle('open');}
+  if(overlay){overlay.classList.toggle('show');}
+}
+function closeMobileSB(){
+  const sb=document.querySelector('.sb');
+  const overlay=document.getElementById('sb-overlay');
+  if(sb)sb.classList.remove('open');
+  if(overlay)overlay.classList.remove('show');
+}
+// Close sidebar when nav item clicked on mobile
+document.addEventListener('DOMContentLoaded',function(){
+  document.querySelectorAll('.ni').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      if(window.innerWidth<=768)closeMobileSB();
+    });
+  });
+});
 
 </script>
 </body>
