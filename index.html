@@ -1111,7 +1111,7 @@ function renderRevs(){
   el.innerHTML=S.reviews.slice(0,5).map(r=>`<div style="padding:10px 0;border-top:1px solid var(--border)"><div style="display:flex;justify-content:space-between;margin-bottom:4px"><span style="font-size:10px;color:var(--text3)">${r.date}</span><span style="font-size:10px;color:var(--amber)">${r.score}/10 · ${r.energy}</span></div>${r.done?`<div style="font-size:11px;color:var(--text2);margin-bottom:2px"><strong style="color:var(--text)">Won:</strong> ${r.done.slice(0,80)}</div>`:''}</div>`).join('');
 }
 
-let aiOpen=false,aiId=0;
+let aiOpen=false,aiId=0;document.addEventListener('DOMContentLoaded',function(){const fab=document.getElementById('ai-fab');const panel=document.getElementById('ai-panel');const ico=document.getElementById('ai-ico');if(fab)fab.classList.remove('open');if(panel){panel.classList.remove('open');panel.style.display='none';}if(ico)ico.style.display='';});
 function buildContext(q){
   const done=Object.keys(S.habits).filter(k=>S.habits[k]);
   const habDone=done.length;
@@ -1145,9 +1145,21 @@ Her question: ${q}`;
 
 function toggleAI(){
   aiOpen=!aiOpen;
-  const fab=document.getElementById('ai-fab'),panel=document.getElementById('ai-panel'),ico=document.getElementById('ai-ico');
-  if(aiOpen){fab.classList.add('open');panel.classList.add('open');if(ico)ico.style.display='none';setTimeout(()=>document.getElementById('ai-inp')?.focus(),100);}
-  else{fab.classList.remove('open');panel.classList.remove('open');if(ico)ico.style.display='';}
+  const fab=document.getElementById('ai-fab');
+  const panel=document.getElementById('ai-panel');
+  const ico=document.getElementById('ai-ico');
+  if(aiOpen){
+    fab.classList.add('open');
+    panel.style.display='flex';
+    panel.classList.add('open');
+    if(ico)ico.style.display='none';
+    setTimeout(()=>document.getElementById('ai-inp')?.focus(),100);
+  } else {
+    fab.classList.remove('open');
+    panel.classList.remove('open');
+    panel.style.display='none';
+    if(ico)ico.style.display='';
+  }
 }
 
 function spQuick(q){
