@@ -644,7 +644,8 @@ a{color:inherit;text-decoration:none}
       <div class="tr"><div class="chk" id="mc3" onclick="checkMC(3)"></div><div class="tt">Check forex calendar — key news</div></div>
       <div class="tr"><div class="chk" id="mc4" onclick="checkMC(4)"></div><div class="tt">Drink water + take supplements</div></div>
       <div class="tr"><div class="chk" id="mc5" onclick="checkMC(5)"></div><div class="tt">Read your affirmations aloud</div></div>
-      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-top:10px;margin-bottom:4px"><span>Morning completion</span><span id="mc-pct">0 / 5</span></div>
+      <div class="tr"><div class="chk" id="mc6" onclick="checkMC(6)"></div><div class="tt">10 pushups + 10 ab exercises</div></div>
+      <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);margin-top:10px;margin-bottom:4px"><span>Morning completion</span><span id="mc-pct">0 / 6</span></div>
       <div class="mc-bar"><div class="mc-fill" id="mc-fill" style="width:0%"></div></div>
       <div style="font-size:11px;color:var(--text2);text-align:center;margin-top:7px;min-height:14px" id="mc-msg"></div>
     </div>
@@ -1037,6 +1038,34 @@ const QUOTES=[
   {q:"Champions keep playing until they get it right.",a:"Billie Jean King"},
   {q:"You don't have to be great to start, but you have to start to be great.",a:"Zig Ziglar"},
   {q:"Dream big. Start small. Act now.",a:"Robin Sharma"},
+  {q:"The only way to do great work is to love what you do.",a:"Steve Jobs"},
+  {q:"It does not matter how slowly you go as long as you do not stop.",a:"Confucius"},
+  {q:"You miss 100% of the shots you don't take.",a:"Wayne Gretzky"},
+  {q:"Whether you think you can or think you can't, you're right.",a:"Henry Ford"},
+  {q:"The harder you work for something, the greater you'll feel when you achieve it.",a:"Unknown"},
+  {q:"Push yourself, because no one else is going to do it for you.",a:"Unknown"},
+  {q:"Great things never come from comfort zones.",a:"Unknown"},
+  {q:"Success doesn't just find you. You have to go out and get it.",a:"Unknown"},
+  {q:"The key to success is to focus on goals, not obstacles.",a:"Unknown"},
+  {q:"Don't watch the clock; do what it does. Keep going.",a:"Sam Levenson"},
+  {q:"The future belongs to those who believe in the beauty of their dreams.",a:"Eleanor Roosevelt"},
+  {q:"It always seems impossible until it's done.",a:"Nelson Mandela"},
+  {q:"Believe you can and you're halfway there.",a:"Theodore Roosevelt"},
+  {q:"Act as if what you do makes a difference. It does.",a:"William James"},
+  {q:"Success is not final, failure is not fatal: it is the courage to continue that counts.",a:"Winston Churchill"},
+  {q:"What you get by achieving your goals is not as important as what you become.",a:"Zig Ziglar"},
+  {q:"The only limit to our realization of tomorrow will be our doubts of today.",a:"Franklin D. Roosevelt"},
+  {q:"Do something today that your future self will thank you for.",a:"Sean Patrick Flanery"},
+  {q:"Little things make big days.",a:"Unknown"},
+  {q:"It's going to be hard, but hard does not mean impossible.",a:"Unknown"},
+  {q:"Don't stop when you're tired. Stop when you're done.",a:"Unknown"},
+  {q:"Wake up with determination. Go to bed with satisfaction.",a:"Unknown"},
+  {q:"Do what you have to do until you can do what you want to do.",a:"Oprah Winfrey"},
+  {q:"The difference between ordinary and extraordinary is that little extra.",a:"Jimmy Johnson"},
+  {q:"You didn't come this far to only come this far.",a:"Unknown"},
+  {q:"Small daily improvements over time lead to stunning results.",a:"Robin Sharma"},
+  {q:"Be the hardest working person you know.",a:"Unknown"},
+  {q:"Your future is created by what you do today, not tomorrow.",a:"Robert Kiyosaki"},
 ];
 const HABITS=[
   {id:'workout',ico:'💪',name:'Daily Workout',xp:20},
@@ -1051,6 +1080,7 @@ const HABITS=[
   {id:'morse',ico:'📡',name:'Morse Code',xp:10},
   {id:'notes',ico:'📝',name:'Check Notes',xp:10},
   {id:'cyber',ico:'🔐',name:'Cybersecurity',xp:15},
+  {id:'pushups',ico:'💥',name:'10 Pushups + 10 Abs',xp:15},
 ];
 const AREAS=[
   {ico:'🏠',name:'Realtor',desc:'Exam → PM → CAM',color:'var(--green)',view:'re',prog:15},
@@ -1339,13 +1369,13 @@ function checkMC(n){
   const tt=el?.nextElementSibling;if(tt){if(S.mc[n])tt.classList.add('done');else tt.classList.remove('done');}
   if(S.mc[n])awardXP(10);
   const done=Object.values(S.mc).filter(Boolean).length;
-  const pEl=document.getElementById('mc-pct');if(pEl)pEl.textContent=done+' / 5';
-  const bEl=document.getElementById('mc-fill');if(bEl)bEl.style.width=(done/5*100)+'%';
-  const msgs=['','Start strong — 4 more!','Building momentum!','Over halfway!','Almost ready!','🔥 Morning complete!'];
+  const pEl=document.getElementById('mc-pct');if(pEl)pEl.textContent=done+' / 6';
+  const bEl=document.getElementById('mc-fill');if(bEl)bEl.style.width=(done/6*100)+'%';
+  const msgs=['','Keep going — 5 more!','Building momentum!','Halfway there!','Almost done!','One more!','Morning complete! Lets go!'];
   const mEl=document.getElementById('mc-msg');if(mEl){mEl.textContent=msgs[done]||'';mEl.style.color=done===5?'var(--green)':'var(--text2)';}
   save();
 }
-function resetMC(){S.mc={};[1,2,3,4,5].forEach(n=>{const el=document.getElementById('mc'+n);if(el)el.classList.remove('on');const tt=el?.nextElementSibling;if(tt)tt.classList.remove('done');});const p=document.getElementById('mc-pct');if(p)p.textContent='0 / 5';const b=document.getElementById('mc-fill');if(b)b.style.width='0%';const m=document.getElementById('mc-msg');if(m)m.textContent='';save();}
+function resetMC(){S.mc={};[1,2,3,4,5,6].forEach(n=>{const el=document.getElementById('mc'+n);if(el)el.classList.remove('on');const tt=el?.nextElementSibling;if(tt)tt.classList.remove('done');});const p=document.getElementById('mc-pct');if(p)p.textContent='0 / 5';const b=document.getElementById('mc-fill');if(b)b.style.width='0%';const m=document.getElementById('mc-msg');if(m)m.textContent='';save();}
 
 // WEIGHT
 function logWt(){
@@ -1591,7 +1621,17 @@ function updateCreditCountdown(){
 }
 
 // QUOTE
-function setQuote(){const q=QUOTES[new Date().getDay()%QUOTES.length];const qEl=document.getElementById('daily-q');const aEl=document.getElementById('daily-a');if(qEl)qEl.textContent=`"${q.q}"`;if(aEl)aEl.textContent=`— ${q.a}`;}
+function setQuote(){
+  // Use day of year so quote changes daily and cycles through all 35
+  const now=new Date();
+  const start=new Date(now.getFullYear(),0,0);
+  const dayOfYear=Math.floor((now-start)/864e5);
+  const q=QUOTES[dayOfYear%QUOTES.length];
+  const qEl=document.getElementById('daily-q');
+  const aEl=document.getElementById('daily-a');
+  if(qEl)qEl.textContent='"'+q.q+'"';
+  if(aEl)aEl.textContent='— '+q.a;
+}
 
 // RESTORE MORNING CHECKLIST
 function restoreMC(){
