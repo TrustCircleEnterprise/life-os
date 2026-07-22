@@ -325,7 +325,7 @@ a{color:inherit;text-decoration:none}
   <div class="nav-sec">Growth</div>
   <button class="ni" onclick="sv('fitness')"><span class="ni-ico">💪</span>Fitness</button>
   <button class="ni" onclick="sv('credit')"><span class="ni-ico">💳</span>Credit</button>
-  <button class="ni" onclick="sv('art')"><span class="ni-ico">🖼️</span>Diamond Art</button>
+  
   <div class="nav-sec">Analytics</div>
   <button class="ni" onclick="sv('goals')"><span class="ni-ico">📈</span>Goal Progress</button>
   <button class="ni" onclick="sv('annual')"><span class="ni-ico">🗓️</span>Annual View</button>
@@ -456,7 +456,7 @@ a{color:inherit;text-decoration:none}
     <div class="qp canwait">
       <div class="qh"><div class="qico" style="background:rgba(255,255,255,.05);border:1px solid var(--border2)">⏳</div><div><div class="qlbl" style="color:var(--text2)">Can Wait</div><div class="qdesc">Batch for later this week</div></div></div>
       <div class="tr" style="border-top:none;padding-top:0"><div style="width:5px;height:5px;border-radius:50%;background:var(--text3);flex-shrink:0;margin-top:4px"></div><div class="tt" style="color:var(--text2)">Burn Bootcamp franchise research</div></div>
-      <div class="tr"><div style="width:5px;height:5px;border-radius:50%;background:var(--text3);flex-shrink:0;margin-top:4px"></div><div class="tt" style="color:var(--text2)">Update Etsy listings</div></div>
+      
       <div class="tr"><div style="width:5px;height:5px;border-radius:50%;background:var(--text3);flex-shrink:0;margin-top:4px"></div><div class="tt" style="color:var(--text2)">SCHD dividend analysis</div></div>
       <div class="tr"><div style="width:5px;height:5px;border-radius:50%;background:var(--text3);flex-shrink:0;margin-top:4px"></div><div class="tt" style="color:var(--text2)">Polish Week 2 vocab catchup</div></div>
       <div class="tr"><div style="width:5px;height:5px;border-radius:50%;background:var(--text3);flex-shrink:0;margin-top:4px"></div><div class="tt" style="color:var(--text2)">Catch up missed Morse days</div></div>
@@ -569,7 +569,7 @@ a{color:inherit;text-decoration:none}
         <select class="finput" id="rev-src" style="flex:1;min-width:100px;font-size:11px;padding:6px 8px;color:var(--text);background:var(--bg3)">
           <option style="background:#1a2235;color:#eef2ff">Wholesaling</option>
           <option style="background:#1a2235;color:#eef2ff">Forex P&L</option>
-          <option style="background:#1a2235;color:#eef2ff">Art Sales</option>
+          
           <option style="background:#1a2235;color:#eef2ff">Dividends</option>
           <option style="background:#1a2235;color:#eef2ff">Other</option>
         </select>
@@ -715,23 +715,56 @@ a{color:inherit;text-decoration:none}
 
 <!-- BUSINESS VIEWS -->
 <div class="view" id="v-re">
-  <div class="card" style="background:rgba(0,209,122,.04);border-color:rgba(0,209,122,.2)"><div class="card-line" style="background:var(--green)"></div>
-  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px">
-    <div><div style="font-size:13px;font-weight:500;margin-bottom:3px">🏠 Realtor Business</div><div style="font-size:11px;color:var(--text2)">GA License → Property Manager → CAM</div></div>
-    <a href="https://trustcircleenterprise.github.io/ga-real-estate/?v=5" target="_blank" class="btn suc" style="text-decoration:none">Exam Tracker ↗</a>
+  <div class="card" style="background:linear-gradient(135deg,rgba(0,209,122,.08),rgba(45,212,191,.08));border-color:rgba(0,209,122,.3)">
+    <div class="card-line" style="background:var(--green)"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+      <div>
+        <div style="font-size:16px;font-weight:600;color:var(--green);margin-bottom:4px">Licensed Real Estate Agent</div>
+        <div style="font-size:11px;color:var(--text2)">Goal: 1 contract per month → Property Manager → CAM</div>
+      </div>
+      <div style="text-align:center;background:rgba(0,209,122,.1);border:1px solid rgba(0,209,122,.3);border-radius:var(--r);padding:8px 16px">
+        <div style="font-size:22px;font-weight:600;color:var(--green)" id="re-contracts">0</div>
+        <div style="font-size:9px;color:var(--text3)">CONTRACTS THIS MONTH</div>
+      </div>
+    </div>
   </div>
-  <div style="background:rgba(0,0,0,.2);border-radius:var(--r);padding:10px 12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
-    <span style="font-size:12px;color:var(--text2)">📅 Set your exam date:</span>
-    <input type="date" id="exam-date-inp" class="finput" style="width:160px;font-size:12px;padding:5px 8px" onchange="setExamDate(this.value)">
-    <span style="font-size:11px;color:var(--text3)" id="exam-date-lbl">Not set yet</span>
+  <div class="card"><div class="card-line" style="background:var(--green)"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div class="ct" style="margin-bottom:0">Monthly Contract Goal</div>
+      <button class="btn go" onclick="logContract()" style="font-size:10px;padding:4px 10px">+ Log Contract</button>
+    </div>
+    <div style="height:8px;background:var(--border2);border-radius:4px;overflow:hidden;margin-bottom:6px">
+      <div id="re-prog-bar" style="height:8px;border-radius:4px;background:linear-gradient(90deg,var(--green),var(--teal));width:0%;transition:width .6s"></div>
+    </div>
+    <div style="font-size:11px;color:var(--text2);text-align:center;margin-bottom:12px" id="re-prog-lbl">0 of 1 contract this month</div>
+    <div id="re-contract-list"><div style="font-size:12px;color:var(--text3);text-align:center;padding:8px">No contracts logged yet.</div></div>
   </div>
-</div>
-  <div class="card"><div class="ct">Today's Tasks</div>
-    <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,20)"></div><div class="tt">Study 1 hr for RE exam</div><span class="txp">+20</span></div>
-    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Review 1 listing or deal</div><span class="txp">+10</span></div>
-    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Network with 1 agent or investor</div><span class="txp">+15</span></div>
+  <div class="card"><div class="card-line" style="background:var(--teal)"></div><div class="ct">Daily Actions to Close a Contract</div>
+    <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,20)"></div><div style="flex:1"><div class="tt">Call or text 5 leads from your database</div><div class="ts">Warm outreach — past clients, sphere of influence</div></div><span class="txp">+20</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,20)"></div><div style="flex:1"><div class="tt">Follow up with 2 active buyers or sellers</div><div class="ts">Check in — any questions, updates on timeline?</div></div><span class="txp">+20</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div style="flex:1"><div class="tt">Preview or show 1 property</div><div class="ts">Know your inventory — be the expert</div></div><span class="txp">+15</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div style="flex:1"><div class="tt">Post 1 piece of real estate content</div><div class="ts">Market update, listing, tip, or success story</div></div><span class="txp">+15</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div style="flex:1"><div class="tt">Add 3 new contacts to your CRM/GHL</div><div class="ts">Open houses, referrals, social media leads</div></div><span class="txp">+10</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div style="flex:1"><div class="tt">Send 1 handwritten note or personal text</div><div class="ts">Relationship building — people buy from who they trust</div></div><span class="txp">+10</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div style="flex:1"><div class="tt">Study 1 market report or active listing</div><div class="ts">Know pricing, days on market, neighborhood trends</div></div><span class="txp">+15</span></div>
   </div>
-</div>
+  <div class="card"><div class="card-line" style="background:var(--blue)"></div><div class="ct">Weekly Must-Dos</div>
+    <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,25)"></div><div style="flex:1"><div class="tt">Host or attend 1 open house</div><div class="ts">Best way to meet active buyers fast</div></div><span class="txp">+25</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,20)"></div><div style="flex:1"><div class="tt">Ask 5 people for a referral</div><div class="ts">"Do you know anyone buying or selling?"</div></div><span class="txp">+20</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,20)"></div><div style="flex:1"><div class="tt">Review your pipeline — who is closest to closing?</div><div class="ts">Focus energy on hottest leads</div></div><span class="txp">+20</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div style="flex:1"><div class="tt">Write and send 1 market update email or post</div><div class="ts">Position yourself as the local expert</div></div><span class="txp">+15</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div style="flex:1"><div class="tt">Network with 1 investor, lender, or attorney</div><div class="ts">Build your referral network</div></div><span class="txp">+15</span></div>
+  </div>
+  <div class="card"><div class="card-line" style="background:var(--amber)"></div><div class="ct">Contract Checklist</div>
+    <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Pre-qualification confirmed with lender</div></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Buyer/Seller agreement signed</div></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Offer submitted and negotiated</div></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Contract signed by all parties</div></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Earnest money deposited</div></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Inspection scheduled and complete</div></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Title company notified</div></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Closing date confirmed</div></div>
+  </div>
 <div class="view" id="v-whl">
   <div class="card" style="background:rgba(45,212,191,.04);border-color:rgba(45,212,191,.2)">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
@@ -1666,7 +1699,7 @@ if(!S.xp && !S.streak && !S.notes && (!S.revenues || !S.revenues.length)){
 setDates();setQuote();
 renderHabits();renderMCHabits();renderAreas();renderAchs();renderRevs();
 updateStats();updateSB();updateScorecard();updateMomentum();updateFT();updateWt();
-renderAff();restoreMC();restoreNotes();renderRevenues();restoreExamDate();restoreTasks();restoreTop3();renderTrades();renderStreakCal();renderDeals();updateFitDisplay();
+renderAff();restoreMC();restoreNotes();renderRevenues();restoreExamDate();restoreTasks();restoreTop3();renderTrades();renderStreakCal();renderDeals();updateFitDisplay();renderContracts();
 // Auto-save every 30 seconds as backup
 setInterval(save, 30000);
 
@@ -2046,6 +2079,52 @@ document.addEventListener('DOMContentLoaded',function(){
     });
   });
 });
+
+
+// ── REAL ESTATE CONTRACTS ──────────────────────────────
+function logContract(){
+  const client=prompt('Client name or property address:');
+  if(!client)return;
+  S.contracts=S.contracts||[];
+  S.contracts.push({client,date:today(),id:Date.now()});
+  awardXP(100);
+  renderContracts();save();
+  alert('Contract logged! +100 XP. You are building your empire!');
+}
+
+function renderContracts(){
+  const now=new Date();
+  const monthStart=new Date(now.getFullYear(),now.getMonth(),1).toLocaleDateString('en-CA');
+  const monthly=(S.contracts||[]).filter(c=>c.date>=monthStart);
+  const total=monthly.length;
+
+  const cntEl=document.getElementById('re-contracts');
+  if(cntEl)cntEl.textContent=total;
+  const barEl=document.getElementById('re-prog-bar');
+  if(barEl)barEl.style.width=Math.min(100,total*100)+'%';
+  const lblEl=document.getElementById('re-prog-lbl');
+  if(lblEl)lblEl.textContent=total+' of 1 contract this month'+(total>=1?' - GOAL MET!':'');
+
+  const listEl=document.getElementById('re-contract-list');
+  if(!listEl)return;
+  if(!(S.contracts||[]).length){
+    listEl.innerHTML='<div style="font-size:12px;color:var(--text3);text-align:center;padding:8px">No contracts logged yet.</div>';
+    return;
+  }
+  listEl.innerHTML=[...S.contracts].reverse().slice(0,10).map(c=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-top:1px solid var(--border);font-size:12px">
+      <div><div style="font-weight:500;color:var(--text)">${c.client}</div><div style="font-size:10px;color:var(--text3)">${c.date}</div></div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="color:var(--green);font-weight:600">+100 XP</span>
+        <button onclick="delContract(${c.id})" style="background:none;border:none;color:var(--text3);cursor:pointer;font-size:12px">x</button>
+      </div>
+    </div>`).join('');
+}
+
+function delContract(id){
+  S.contracts=(S.contracts||[]).filter(c=>c.id!==id);
+  renderContracts();save();
+}
 
 </script>
 </body>
