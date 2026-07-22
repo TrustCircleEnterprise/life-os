@@ -313,7 +313,7 @@ a{color:inherit;text-decoration:none}
   <button class="ni" onclick="sv('dashboard')"><span class="ni-ico">📊</span>Dashboard</button>
   <button class="ni" onclick="sv('planner')"><span class="ni-ico">📅</span>Daily Planner</button>
   <div class="nav-sec">Business</div>
-  <button class="ni" onclick="sv('re')"><span class="ni-ico">🏠</span>Realtor<span class="ni-xp">+20 XP</span></button>
+  <button class="ni" onclick="sv('re')"><span class="ni-ico">🏠</span>Realtor ✓<span class="ni-xp" style="color:var(--green)">LICENSED</span></button>
   <button class="ni" onclick="sv('whl')"><span class="ni-ico">🤝</span>Wholesaling<span class="ni-xp">+15 XP</span></button>
   <button class="ni" onclick="sv('forex')"><span class="ni-ico">📈</span>Forex<span class="ni-xp">+15 XP</span></button>
   <button class="ni" onclick="sv('inv')"><span class="ni-ico">💰</span>Investments<span class="ni-xp">+10 XP</span></button>
@@ -412,7 +412,7 @@ a{color:inherit;text-decoration:none}
 
   <!-- COUNTDOWNS -->
   <div class="g4">
-    <div class="card" style="text-align:center"><div class="card-line" style="background:var(--red)"></div><div class="cd-lbl">RE Exam</div><div class="cd-big" id="cd-re" style="color:var(--red)">19</div><div class="cd-goal">days left</div></div>
+    <div class="card" style="text-align:center;background:rgba(0,209,122,.06);border-color:rgba(0,209,122,.3)"><div class="card-line" style="background:var(--green)"></div><div class="cd-lbl">RE Exam</div><div class="cd-big" style="color:var(--green);font-size:24px">PASSED</div><div class="cd-goal" style="color:var(--green)">Licensed Agent!</div></div>
     <div class="card" style="text-align:center"><div class="card-line" style="background:var(--blue)"></div><div class="cd-lbl">Trade Goal</div><div class="cd-big" id="cd-trade" style="color:var(--blue)">3</div><div class="cd-goal">days to 7-streak</div></div>
     <div class="card" style="text-align:center"><div class="card-line" style="background:var(--amber)"></div><div class="cd-lbl">Credit 620</div><div class="cd-big" id="cd-credit" style="color:var(--amber)">48</div><div class="cd-goal">points to go</div></div>
     <div class="card" style="text-align:center"><div class="card-line" style="background:var(--purple)"></div><div class="cd-lbl">Spanish</div><div class="cd-big" style="color:var(--purple)">25</div><div class="cd-goal">weeks to fluency</div></div>
@@ -429,7 +429,7 @@ a{color:inherit;text-decoration:none}
     <div class="qp must">
       <div class="qh"><div class="qico" style="background:rgba(255,77,77,.1);border:1px solid rgba(255,77,77,.2)">🔴</div><div><div class="qlbl" style="color:var(--red)">Must Do Today</div><div class="qdesc">Deadlines & non-negotiables</div></div></div>
       <div id="must-l">
-        <div class="tr"><div class="chk" onclick="ck(this,20)"></div><div style="flex:1"><div class="tt">RE Exam study — 1 hr minimum</div><div class="ts">📚 19 days · PSI outline</div></div><span class="txp">+20</span></div>
+        <div class="tr"><div class="chk on" onclick="ck(this,20)"></div><div style="flex:1"><div class="tt done">RE Exam — PASSED! Licensed Agent</div><div class="ts" style="color:var(--green)">Next: Property Manager license</div></div><span class="txp">+20</span></div>
         <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div style="flex:1"><div class="tt">Pre-market review + trade journal</div><div class="ts">📈 4/4 confluence · Max 2 trades</div></div><span class="txp">+15</span></div>
         <div class="tr"><div class="chk" onclick="ck(this,20)"></div><div style="flex:1"><div class="tt">Daily workout</div><div class="ts">💪 Log in weight tracker after</div></div><span class="txp">+20</span></div>
         <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div style="flex:1"><div class="tt">IBM SkillsBuild lesson</div><div class="ts">🤖 Applied AI · Agents · RAG</div></div><span class="txp">+15</span></div>
@@ -1031,6 +1031,7 @@ a{color:inherit;text-decoration:none}
 <script>
 const LS='los2';
 const QUOTES=[
+  {q:"You did it. Now build the empire.",a:"Life OS 2.0"},
   {q:"The secret of getting ahead is getting started.",a:"Mark Twain"},
   {q:"Consistency is the true foundation of trust.",a:"Roy T. Bennett"},
   {q:"Success is the sum of small efforts, repeated day in and day out.",a:"Robert Collier"},
@@ -1069,7 +1070,7 @@ const QUOTES=[
 ];
 const HABITS=[
   {id:'workout',ico:'💪',name:'Daily Workout',xp:20},
-  {id:'study',ico:'📚',name:'RE Exam Study',xp:20},
+  {id:'study',ico:'🏠',name:'PM License Study',xp:20},
   {id:'trade',ico:'📈',name:'Forex + Journal',xp:15},
   {id:'spanish',ico:'🇪🇸',name:'Spanish',xp:15},
   {id:'polish',ico:'🇵🇱',name:'Polish',xp:15},
