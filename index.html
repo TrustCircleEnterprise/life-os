@@ -1230,7 +1230,7 @@ const LVL_NAMES={7:'Entrepreneur',8:'Executive',9:'Champion',10:'Legend',11:'Ico
 const TITLES={mission:'Mission Control',dashboard:'Dashboard',planner:'Daily Planner',re:'Realtor Business',whl:'Wholesaling',forex:'Forex Trading',inv:'Investments',cyber:'Cybersecurity',lang:'Languages',morse:'Morse Code',chess:'Chess',fitness:'Fitness',credit:'Credit & Finance',art:'Diamond Art',goals:'Goal Progress',annual:'Annual View',ach:'Achievements',evening:'Evening Review',weekly:'Weekly CEO Review'};
 const SUBS={mission:'What is the highest-value thing I should be doing right now?',dashboard:'Habits · Areas · Progress at a glance',planner:'Time-blocked schedule',re:'GA License → Property Manager → CAM',whl:'Trust Circle Enterprise · GHL automated',forex:'GBP/JPY · XAU/USD · 7-day goal',inv:'Dividends + crypto · Build wealth',cyber:'ICOHS → CompTIA Security+',lang:'Spanish + Polish → fluent in 6 months',morse:'8-Week Mastery Plan',chess:'Daily puzzles · Sharpen the mind',fitness:'Daily training · Goal weight',credit:'572 → 620 → home equity',art:'Find Your Calm, One Gem at a Time 💜',goals:'All goals · Progress tracking',annual:'Annual goals · Quarterly missions',ach:'XP · Levels · Badges',evening:'Reflect · Log wins · Score the day',weekly:'CEO-level review'};
 
-let S={habits:{},tasks:0,checkedTasks:{},streak:0,lastDate:null,streakCounted:false,xp:0,level:7,bestStreak:0,totalDays:0,reviews:[],wt:{logs:[],goal:null,start:null},mc:{},affIdx:0,notes:'',revenues:[]};
+let S={habits:{},tasks:0,checkedTasks:{},streak:0,lastDate:null,streakCounted:false,xp:0,level:7,bestStreak:0,totalDays:0,reviews:[],wt:{logs:[],goal:null,start:null},mc:{},affIdx:0,notes:'',revenues:[],trades:[],deals:[],contracts:[],top3:{},habitHistory:{}};
 const today=()=>new Date().toLocaleDateString('en-CA');
 
 function save(){try{localStorage.setItem(LS,JSON.stringify(S));}catch(e){}}
@@ -1268,10 +1268,17 @@ function load(){
       }
       // Merge saved state into S, preserving defaults for missing keys
       S=Object.assign({},S,s);
-      // Restore nested objects properly
+      // Restore all arrays and nested objects explicitly
       if(s.wt)S.wt=Object.assign({logs:[],goal:null,start:null},s.wt);
       if(s.mc)S.mc=s.mc;
       if(s.revenues)S.revenues=s.revenues;
+      if(s.trades)S.trades=s.trades;
+      if(s.deals)S.deals=s.deals;
+      if(s.contracts)S.contracts=s.contracts;
+      if(s.top3)S.top3=s.top3;
+      if(s.checkedTasks)S.checkedTasks=s.checkedTasks;
+      if(s.habitHistory)S.habitHistory=s.habitHistory;
+      if(s.notes)S.notes=s.notes;
     } else {
       // First time - set today's date
       S.lastDate=today();S.totalDays=1;
