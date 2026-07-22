@@ -314,6 +314,7 @@ a{color:inherit;text-decoration:none}
   <button class="ni" onclick="sv('planner')"><span class="ni-ico">📅</span>Daily Planner</button>
   <div class="nav-sec">Business</div>
   <button class="ni" onclick="sv('re')"><span class="ni-ico">🏠</span>Realtor ✓<span class="ni-xp" style="color:var(--green)">LICENSED</span></button>
+  <button class="ni" onclick="sv('cam')"><span class="ni-ico">🏢</span>CAM License<span class="ni-xp">Dec 2026</span></button>
   <button class="ni" onclick="sv('whl')"><span class="ni-ico">🤝</span>Wholesaling<span class="ni-xp">+15 XP</span></button>
   <button class="ni" onclick="sv('forex')"><span class="ni-ico">📈</span>Forex<span class="ni-xp">+15 XP</span></button>
   <button class="ni" onclick="sv('inv')"><span class="ni-ico">💰</span>Investments<span class="ni-xp">+10 XP</span></button>
@@ -416,6 +417,7 @@ a{color:inherit;text-decoration:none}
     <div class="card" style="text-align:center"><div class="card-line" style="background:var(--blue)"></div><div class="cd-lbl">Trade Goal</div><div class="cd-big" id="cd-trade" style="color:var(--blue)">3</div><div class="cd-goal">days to 7-streak</div></div>
     <div class="card" style="text-align:center"><div class="card-line" style="background:var(--amber)"></div><div class="cd-lbl">Credit 620</div><div class="cd-big" id="cd-credit" style="color:var(--amber)">48</div><div class="cd-goal">points to go</div></div>
     <div class="card" style="text-align:center"><div class="card-line" style="background:var(--purple)"></div><div class="cd-lbl">Spanish</div><div class="cd-big" style="color:var(--purple)">25</div><div class="cd-goal">weeks to fluency</div></div>
+    <div class="card" style="text-align:center"><div class="card-line" style="background:var(--teal)"></div><div class="cd-lbl">CAM License</div><div class="cd-big" id="cd-cam" style="color:var(--teal)">23</div><div class="cd-goal">weeks to December</div></div>
   </div>
   <div class="g4" style="margin-bottom:12px">
     <div class="card" style="text-align:center"><div class="card-line" style="background:var(--red)"></div><div class="cd-lbl">Polish</div><div class="cd-big" style="color:var(--red)">25</div><div class="cd-goal">weeks to fluency</div></div>
@@ -664,7 +666,7 @@ a{color:inherit;text-decoration:none}
   <!-- QUICK LAUNCH -->
   <div class="card"><div class="card-line" style="background:var(--blue)"></div><div class="ct">⚡ Quick Launch</div>
     <div class="ql-wrap">
-      <a href="https://trustcircleenterprise.github.io/ga-real-estate/?v=5" target="_blank" class="ql">📚 RE Exam</a>
+      
       <a href="https://trustcircleenterprise.github.io/forex-dashboard/" target="_blank" class="ql">📈 Forex</a>
       <a href="https://trustcircleenterprise.github.io/trade-journal/" target="_blank" class="ql">📓 Trade Journal</a>
       <a href="https://trustcircleenterprise.github.io/wholesale-tracker/" target="_blank" class="ql">🤝 Deals</a>
@@ -901,6 +903,79 @@ a{color:inherit;text-decoration:none}
     <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Max 2 trades · Stop after 2 losses</div><span class="txp">+10</span></div>
   </div>
 </div>
+<div class="view" id="v-cam">
+  <!-- HEADER -->
+  <div class="card" style="background:linear-gradient(135deg,rgba(45,212,191,.08),rgba(77,158,255,.08));border-color:rgba(45,212,191,.3)">
+    <div class="card-line" style="background:var(--teal)"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+      <div>
+        <div style="font-size:16px;font-weight:600;color:var(--teal);margin-bottom:4px">CAM License — Georgia</div>
+        <div style="font-size:11px;color:var(--text2)">Community Association Manager · Goal: December 2026</div>
+      </div>
+      <div style="text-align:center;background:rgba(45,212,191,.1);border:1px solid rgba(45,212,191,.3);border-radius:var(--r);padding:8px 16px">
+        <div style="font-size:22px;font-weight:600;color:var(--teal)" id="cam-weeks">23</div>
+        <div style="font-size:9px;color:var(--text3)">WEEKS TO DECEMBER</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROGRESS TRACKER -->
+  <div class="card"><div class="card-line" style="background:var(--teal)"></div>
+    <div class="ct">CAM Certification Roadmap</div>
+    <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,25)"></div><div style="flex:1"><div class="tt">Research Georgia CAM license requirements</div><div class="ts">Georgia Real Estate Commission (GREC) — confirm prerequisites</div></div><span class="txp">+25</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,25)"></div><div style="flex:1"><div class="tt">Enroll in Georgia CAM pre-licensing course</div><div class="ts">40-hour course required — find approved provider</div></div><span class="txp">+25</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,50)"></div><div style="flex:1"><div class="tt">Complete 40-hour CAM pre-licensing course</div><div class="ts">Covers GA law, community management, finance, maintenance</div></div><span class="txp">+50</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,25)"></div><div style="flex:1"><div class="tt">Submit CAM license application to GREC</div><div class="ts">Application + fee + course completion certificate</div></div><span class="txp">+25</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,25)"></div><div style="flex:1"><div class="tt">Pass background check</div><div class="ts">Required by GREC before license issued</div></div><span class="txp">+25</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,100)"></div><div style="flex:1"><div class="tt">Receive GA CAM License</div><div class="ts">You are now a licensed Community Association Manager!</div></div><span class="txp">+100</span></div>
+  </div>
+
+  <!-- STUDY PLAN -->
+  <div class="card"><div class="card-line" style="background:var(--blue)"></div><div class="ct">Weekly Study Plan — 23 Weeks to December</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <div style="background:rgba(77,158,255,.06);border:1px solid rgba(77,158,255,.15);border-radius:var(--r);padding:10px">
+        <div style="font-size:11px;font-weight:500;color:var(--blue);margin-bottom:4px">Weeks 1–6 (Now–Aug)</div>
+        <div style="font-size:11px;color:var(--text2)">Research + enroll in course. GA CAM laws, HOA basics, GREC requirements.</div>
+      </div>
+      <div style="background:rgba(45,212,191,.06);border:1px solid rgba(45,212,191,.15);border-radius:var(--r);padding:10px">
+        <div style="font-size:11px;font-weight:500;color:var(--teal);margin-bottom:4px">Weeks 7–16 (Sep–Oct)</div>
+        <div style="font-size:11px;color:var(--text2)">Complete 40-hour course. Community finance, maintenance, insurance, meetings.</div>
+      </div>
+      <div style="background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.15);border-radius:var(--r);padding:10px">
+        <div style="font-size:11px;font-weight:500;color:var(--purple);margin-bottom:4px">Weeks 17–20 (Nov)</div>
+        <div style="font-size:11px;color:var(--text2)">Submit application to GREC. Background check. Study review.</div>
+      </div>
+      <div style="background:rgba(0,209,122,.06);border:1px solid rgba(0,209,122,.15);border-radius:var(--r);padding:10px">
+        <div style="font-size:11px;font-weight:500;color:var(--green);margin-bottom:4px">Weeks 21–23 (Dec)</div>
+        <div style="font-size:11px;color:var(--text2)">License received. Start job search or property management role.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAILY TASKS -->
+  <div class="card"><div class="card-line" style="background:var(--amber)"></div><div class="ct">Daily CAM Study Tasks</div>
+    <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,20)"></div><div style="flex:1"><div class="tt">Study CAM course material — 30 min minimum</div><div class="ts">Consistency beats cramming every time</div></div><span class="txp">+20</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div style="flex:1"><div class="tt">Review 1 GA HOA law or regulation</div><div class="ts">Georgia Condominium Act · Property Owners Association Act</div></div><span class="txp">+15</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div style="flex:1"><div class="tt">Connect with 1 property manager or CAM professional</div><div class="ts">LinkedIn, local NARPM chapter, your broker</div></div><span class="txp">+10</span></div>
+  </div>
+
+  <!-- KEY TOPICS -->
+  <div class="card"><div class="card-line" style="background:var(--purple)"></div><div class="ct">CAM Exam Key Topics</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+      <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r);padding:8px;font-size:11px;color:var(--text2)">Georgia HOA Laws</div>
+      <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r);padding:8px;font-size:11px;color:var(--text2)">Community Finance</div>
+      <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r);padding:8px;font-size:11px;color:var(--text2)">Reserve Funds</div>
+      <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r);padding:8px;font-size:11px;color:var(--text2)">Board Meetings</div>
+      <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r);padding:8px;font-size:11px;color:var(--text2)">Maintenance Management</div>
+      <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r);padding:8px;font-size:11px;color:var(--text2)">Insurance Requirements</div>
+      <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r);padding:8px;font-size:11px;color:var(--text2)">Vendor Contracts</div>
+      <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r);padding:8px;font-size:11px;color:var(--text2)">Fair Housing Laws</div>
+      <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r);padding:8px;font-size:11px;color:var(--text2)">Collections & Liens</div>
+      <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r);padding:8px;font-size:11px;color:var(--text2)">Ethics & Conduct</div>
+    </div>
+  </div>
+</div>
+
 <div class="view" id="v-inv"><div class="card"><div class="ct">💰 Investments</div><div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Review portfolio positions</div><span class="txp">+10</span></div><div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Research 1 dividend stock (SCHD, VYM, JEPI)</div><span class="txp">+15</span></div></div></div>
 <div class="view" id="v-cyber"><div class="card" style="background:rgba(0,209,122,.04);border-color:rgba(0,209,122,.2)"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><div><div style="font-size:13px;font-weight:500">🔐 Cybersecurity</div><div style="font-size:11px;color:var(--text2)">Google Cert → CompTIA Security+</div></div><a href="https://www.coursera.org/professional-certificates/google-cybersecurity" target="_blank" class="btn suc" style="text-decoration:none">Open Course ↗</a></div></div><div class="card"><div class="ct">Daily Tasks</div><div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,20)"></div><div class="tt">Complete 1 lesson or module</div><span class="txp">+20</span></div><div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Hands-on lab practice</div><span class="txp">+15</span></div></div></div>
 <div class="view" id="v-lang"><div class="g2" style="margin-bottom:12px"><div class="card" style="background:rgba(0,209,122,.04);border-color:rgba(0,209,122,.2)"><div style="font-size:13px;font-weight:500;margin-bottom:3px">🇪🇸 Spanish</div><div style="font-size:11px;color:var(--text2);margin-bottom:8px">Week 1 of 26 · 20 words · 100% accuracy</div><a href="https://trustcircleenterprise.github.io/spanish-studio/" target="_blank" class="btn suc" style="text-decoration:none;display:block;text-align:center">Spanish Studio ↗</a></div><div class="card" style="background:rgba(220,38,38,.04);border-color:rgba(220,38,38,.2)"><div style="font-size:13px;font-weight:500;margin-bottom:3px">🇵🇱 Polish</div><div style="font-size:11px;color:var(--text2);margin-bottom:8px">Week 1 of 26 · Just launched!</div><a href="https://trustcircleenterprise.github.io/-polish-studio/" target="_blank" class="btn" style="text-decoration:none;background:#dc2626;border-color:#dc2626;color:#fff;font-weight:600;display:block;text-align:center">Polish Studio ↗</a></div></div><div class="card"><div class="ct">Daily Tasks</div><div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,15)"></div><div class="tt">🦉 Duolingo lesson</div><span class="txp">+15</span></div><div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">🇪🇸 Spanish Studio 15 min</div><span class="txp">+15</span></div><div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">🇵🇱 Polish Studio 15 min</div><span class="txp">+15</span></div></div></div>
@@ -1103,7 +1178,7 @@ const QUOTES=[
 ];
 const HABITS=[
   {id:'workout',ico:'💪',name:'Daily Workout',xp:20},
-  {id:'study',ico:'🏠',name:'PM License Study',xp:20},
+  {id:'study',ico:'🏠',name:'RE Daily Actions',xp:20},
   {id:'trade',ico:'📈',name:'Forex + Journal',xp:15},
   {id:'spanish',ico:'🇪🇸',name:'Spanish',xp:15},
   {id:'polish',ico:'🇵🇱',name:'Polish',xp:15},
@@ -1115,6 +1190,7 @@ const HABITS=[
   {id:'notes',ico:'📝',name:'Check Notes',xp:10},
   {id:'cyber',ico:'🔐',name:'Cybersecurity',xp:15},
   {id:'pushups',ico:'💥',name:'10 Pushups + 10 Abs',xp:15},
+  {id:'cam',ico:'🏢',name:'CAM Study',xp:20},
 ];
 const AREAS=[
   {ico:'🏠',name:'Realtor',desc:'Exam → PM → CAM',color:'var(--green)',view:'re',prog:15},
@@ -1612,6 +1688,16 @@ function setDates(){
   updateExamCountdown();
   // Credit points remaining
   updateCreditCountdown();
+  // CAM countdown
+  const camEl=document.getElementById('cd-cam');
+  const camWeeksEl=document.getElementById('cam-weeks');
+  if(camEl||camWeeksEl){
+    const dec=new Date('2026-12-01');
+    const now=new Date();
+    const weeks=Math.max(0,Math.ceil((dec-now)/604800000));
+    if(camEl)camEl.textContent=weeks;
+    if(camWeeksEl)camWeeksEl.textContent=weeks;
+  }
 }
 
 function updateExamCountdown(){
