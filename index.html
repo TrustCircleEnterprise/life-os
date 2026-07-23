@@ -1279,6 +1279,9 @@ function load(){
       if(s.checkedTasks)S.checkedTasks=s.checkedTasks;
       if(s.habitHistory)S.habitHistory=s.habitHistory;
       if(s.notes)S.notes=s.notes;
+      if(s.reviews)S.reviews=s.reviews;
+      if(s.affIdx!==undefined)S.affIdx=s.affIdx;
+      if(s.examDate)S.examDate=s.examDate;
     } else {
       // First time - set today's date
       S.lastDate=today();S.totalDays=1;
