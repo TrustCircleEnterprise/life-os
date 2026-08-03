@@ -320,6 +320,7 @@ a{color:inherit;text-decoration:none}
   <button class="ni" onclick="sv('inv')"><span class="ni-ico">💰</span>Investments<span class="ni-xp">+10 XP</span></button>
   <div class="nav-sec">Skills</div>
   <button class="ni" onclick="sv('cyber')"><span class="ni-ico">🔐</span>Cybersecurity<span class="ni-xp">+15 XP</span></button>
+  <button class="ni" onclick="sv('aplus')"><span class="ni-ico">💻</span>CompTIA A+<span class="ni-xp">+20 XP</span></button>
   <button class="ni" onclick="sv('lang')"><span class="ni-ico">🌎</span>Languages<span class="ni-xp">+15 XP</span></button>
   <button class="ni" onclick="sv('morse')"><span class="ni-ico">📡</span>Morse Code<span class="ni-xp">+10 XP</span></button>
   <button class="ni" onclick="sv('chess')"><span class="ni-ico">♟️</span>Chess<span class="ni-xp">+10 XP</span></button>
@@ -680,6 +681,7 @@ a{color:inherit;text-decoration:none}
       <a href="https://www.duolingo.com/chess-matches" target="_blank" class="ql">♟️ Chess</a>
       <a href="https://zcvts-zgph.maillist-manage.in/click/11feeefb14a40923/11feeefb149da878" target="_blank" class="ql">🤖 IBM</a>
       <a href="https://www.coursera.org/professional-certificates/google-cybersecurity" target="_blank" class="ql">🔐 Cyber</a>
+          <a href="https://trustcircleenterprise.github.io/aplus-study/" target="_blank" class="ql">💻 CompTIA A+</a>
       <a href="https://ninja.xleads.com/?logout=true" target="_blank" class="ql">🏠 xLeads</a>
       <a href="https://trustcircleenterprise.github.io/life-hq-site/" target="_blank" class="ql">🏆 Life HQ</a>
     </div>
@@ -980,6 +982,89 @@ a{color:inherit;text-decoration:none}
 
 <div class="view" id="v-inv"><div class="card"><div class="ct">💰 Investments</div><div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Review portfolio positions</div><span class="txp">+10</span></div><div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Research 1 dividend stock (SCHD, VYM, JEPI)</div><span class="txp">+15</span></div></div></div>
 <div class="view" id="v-cyber"><div class="card" style="background:rgba(0,209,122,.04);border-color:rgba(0,209,122,.2)"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><div><div style="font-size:13px;font-weight:500">🔐 Cybersecurity</div><div style="font-size:11px;color:var(--text2)">ICOHS → CompTIA Security+</div></div><a href="https://www.coursera.org/professional-certificates/google-cybersecurity" target="_blank" class="btn suc" style="text-decoration:none">Open Course ↗</a></div></div><div class="card"><div class="ct">Daily Tasks</div><div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,20)"></div><div class="tt">Complete 1 lesson or module</div><span class="txp">+20</span></div><div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Hands-on lab practice</div><span class="txp">+15</span></div></div></div>
+<div class="view" id="v-aplus">
+  <div class="card" style="background:linear-gradient(135deg,rgba(77,158,255,.08),rgba(167,139,250,.08));border-color:rgba(77,158,255,.3)">
+    <div class="card-line" style="background:linear-gradient(90deg,var(--blue),var(--purple))"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+      <div>
+        <div style="font-size:16px;font-weight:600;color:var(--blue);margin-bottom:4px">CompTIA A+ Certification</div>
+        <div style="font-size:11px;color:var(--text2)">220-1101 (Core 1) + 220-1102 (Core 2) · ICOHS Program</div>
+      </div>
+      <a href="https://trustcircleenterprise.github.io/aplus-study/" target="_blank" class="btn go" style="text-decoration:none;background:linear-gradient(135deg,var(--blue),var(--purple));border:none">Open Study Center ↗</a>
+    </div>
+  </div>
+
+  <!-- EXAM PROGRESS -->
+  <div class="g2">
+    <div class="card"><div class="card-line" style="background:var(--blue)"></div><div class="ct">220-1101 Core 1</div>
+      <div style="text-align:center;margin-bottom:12px">
+        <div style="font-size:32px;font-weight:600;color:var(--blue);line-height:1" id="aplus-core1-pct">0%</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:3px">Readiness</div>
+      </div>
+      <div style="height:7px;background:var(--border2);border-radius:4px;overflow:hidden;margin-bottom:10px">
+        <div id="aplus-core1-bar" style="height:7px;border-radius:4px;background:linear-gradient(90deg,var(--blue),var(--teal));width:0%;transition:width .6s"></div>
+      </div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:8px">Key Domains:</div>
+      <div class="pr" style="border-top:none;padding-top:0"><span class="pr-lbl" style="font-size:11px">Mobile Devices</span><div class="pr-bar"><div class="pr-fill" style="width:0%;background:var(--blue)" id="d-mobile"></div></div><span class="pr-pct" id="d-mobile-p">0%</span></div>
+      <div class="pr"><span class="pr-lbl" style="font-size:11px">Networking</span><div class="pr-bar"><div class="pr-fill" style="width:0%;background:var(--blue)" id="d-net"></div></div><span class="pr-pct" id="d-net-p">0%</span></div>
+      <div class="pr"><span class="pr-lbl" style="font-size:11px">Hardware</span><div class="pr-bar"><div class="pr-fill" style="width:0%;background:var(--blue)" id="d-hw"></div></div><span class="pr-pct" id="d-hw-p">0%</span></div>
+      <div class="pr"><span class="pr-lbl" style="font-size:11px">Virtualization</span><div class="pr-bar"><div class="pr-fill" style="width:0%;background:var(--blue)" id="d-virt"></div></div><span class="pr-pct" id="d-virt-p">0%</span></div>
+      <div style="margin-top:10px">
+        <button class="btn go" onclick="updateAPlusCore1()" style="width:100%;font-size:11px">Update Progress</button>
+      </div>
+    </div>
+
+    <div class="card"><div class="card-line" style="background:var(--purple)"></div><div class="ct">220-1102 Core 2</div>
+      <div style="text-align:center;margin-bottom:12px">
+        <div style="font-size:32px;font-weight:600;color:var(--purple);line-height:1" id="aplus-core2-pct">0%</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:3px">Readiness</div>
+      </div>
+      <div style="height:7px;background:var(--border2);border-radius:4px;overflow:hidden;margin-bottom:10px">
+        <div id="aplus-core2-bar" style="height:7px;border-radius:4px;background:linear-gradient(90deg,var(--purple),var(--pink));width:0%;transition:width .6s"></div>
+      </div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:8px">Key Domains:</div>
+      <div class="pr" style="border-top:none;padding-top:0"><span class="pr-lbl" style="font-size:11px">OS</span><div class="pr-bar"><div class="pr-fill" style="width:0%;background:var(--purple)" id="d-os"></div></div><span class="pr-pct" id="d-os-p">0%</span></div>
+      <div class="pr"><span class="pr-lbl" style="font-size:11px">Security</span><div class="pr-bar"><div class="pr-fill" style="width:0%;background:var(--purple)" id="d-sec"></div></div><span class="pr-pct" id="d-sec-p">0%</span></div>
+      <div class="pr"><span class="pr-lbl" style="font-size:11px">Software Troubleshooting</span><div class="pr-bar"><div class="pr-fill" style="width:0%;background:var(--purple)" id="d-soft"></div></div><span class="pr-pct" id="d-soft-p">0%</span></div>
+      <div class="pr"><span class="pr-lbl" style="font-size:11px">Operational Procedures</span><div class="pr-bar"><div class="pr-fill" style="width:0%;background:var(--purple)" id="d-ops"></div></div><span class="pr-pct" id="d-ops-p">0%</span></div>
+      <div style="margin-top:10px">
+        <button class="btn go" onclick="updateAPlusCore2()" style="width:100%;font-size:11px;background:var(--purple);border-color:var(--purple)">Update Progress</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAILY TASKS -->
+  <div class="card"><div class="card-line" style="background:var(--blue)"></div><div class="ct">Daily A+ Study Tasks</div>
+    <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,20)"></div><div style="flex:1"><div class="tt">Open A+ Study Center and complete today's module</div><div class="ts">trustcircleenterprise.github.io/aplus-study/</div></div><span class="txp">+20</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div style="flex:1"><div class="tt">Review flashcards for current topic</div><div class="ts">Focus on weak areas — ports, protocols, hardware</div></div><span class="txp">+15</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,20)"></div><div style="flex:1"><div class="tt">Complete practice quiz</div><div class="ts">Aim for 80%+ before moving on</div></div><span class="txp">+20</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div style="flex:1"><div class="tt">Watch ICOHS lesson or supplemental video</div><div class="ts">Professor Messer, Mike Meyers, or Jason Dion</div></div><span class="txp">+10</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div style="flex:1"><div class="tt">Add notes for anything you didn't know</div><div class="ts">Write it to remember it</div></div><span class="txp">+10</span></div>
+  </div>
+
+  <!-- EXAM INFO -->
+  <div class="card"><div class="card-line" style="background:var(--amber)"></div><div class="ct">Exam Information</div>
+    <div class="g2" style="margin-bottom:10px">
+      <div style="background:rgba(77,158,255,.06);border:1px solid rgba(77,158,255,.15);border-radius:var(--r);padding:12px">
+        <div style="font-size:12px;font-weight:600;color:var(--blue);margin-bottom:6px">220-1101 Core 1</div>
+        <div style="font-size:11px;color:var(--text2);line-height:1.8">Questions: 90 max<br>Time: 90 minutes<br>Passing: 675/900<br>Format: MC + Performance</div>
+      </div>
+      <div style="background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.15);border-radius:var(--r);padding:12px">
+        <div style="font-size:12px;font-weight:600;color:var(--purple);margin-bottom:6px">220-1102 Core 2</div>
+        <div style="font-size:11px;color:var(--text2);line-height:1.8">Questions: 90 max<br>Time: 90 minutes<br>Passing: 700/900<br>Format: MC + Performance</div>
+      </div>
+    </div>
+    <div style="background:rgba(245,166,35,.06);border:1px solid rgba(245,166,35,.2);border-radius:var(--r);padding:12px;font-size:11px;color:var(--text2);line-height:1.8">
+      <strong style="color:var(--amber)">Study Resources:</strong><br>
+      • <a href="https://trustcircleenterprise.github.io/aplus-study/" target="_blank" style="color:var(--blue)">A+ Cyber Command Center ↗</a><br>
+      • Professor Messer (professormesser.com) — free video course<br>
+      • Jason Dion practice tests (Udemy)<br>
+      • Mike Meyers All-in-One book<br>
+      • CompTIA CertMaster Practice
+    </div>
+  </div>
+</div>
+
 <div class="view" id="v-lang"><div class="g2" style="margin-bottom:12px"><div class="card" style="background:rgba(0,209,122,.04);border-color:rgba(0,209,122,.2)"><div style="font-size:13px;font-weight:500;margin-bottom:3px">🇪🇸 Spanish</div><div style="font-size:11px;color:var(--text2);margin-bottom:8px">Week 1 of 26 · 20 words · 100% accuracy</div><a href="https://trustcircleenterprise.github.io/spanish-studio/" target="_blank" class="btn suc" style="text-decoration:none;display:block;text-align:center">Spanish Studio ↗</a></div><div class="card" style="background:rgba(220,38,38,.04);border-color:rgba(220,38,38,.2)"><div style="font-size:13px;font-weight:500;margin-bottom:3px">🇵🇱 Polish</div><div style="font-size:11px;color:var(--text2);margin-bottom:8px">Week 1 of 26 · Just launched!</div><a href="https://trustcircleenterprise.github.io/-polish-studio/" target="_blank" class="btn" style="text-decoration:none;background:#dc2626;border-color:#dc2626;color:#fff;font-weight:600;display:block;text-align:center">Polish Studio ↗</a></div></div><div class="card"><div class="ct">Daily Tasks</div><div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,15)"></div><div class="tt">🦉 Duolingo lesson</div><span class="txp">+15</span></div><div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">🇪🇸 Spanish Studio 15 min</div><span class="txp">+15</span></div><div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">🇵🇱 Polish Studio 15 min</div><span class="txp">+15</span></div></div></div>
 <div class="view" id="v-morse"><div class="card" style="background:rgba(34,211,238,.04);border-color:rgba(34,211,238,.2)"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><div><div style="font-size:13px;font-weight:500">📡 Morse Code</div><div style="font-size:11px;color:var(--text2)">8-week plan · Audio beeps · Live keyer</div></div><a href="https://trustcircleenterprise.github.io/morse-code/" target="_blank" class="btn" style="text-decoration:none;background:var(--cyan);border-color:var(--cyan);color:#000;font-weight:600">Morse Studio ↗</a></div></div><div class="card"><div class="ct">Daily Tasks</div><div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,20)"></div><div class="tt">Complete today's lesson</div><span class="txp">+20</span></div><div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Score 80%+ on quiz</div><span class="txp">+15</span></div></div></div>
 <div class="view" id="v-chess"><div class="card"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><div><div style="font-size:13px;font-weight:500">♟️ Chess</div><div style="font-size:11px;color:var(--text2)">Daily puzzles · 10 min · Sharpen the mind</div></div><a href="https://www.duolingo.com/chess-matches" target="_blank" class="btn go" style="text-decoration:none">Play Now ↗</a></div></div><div class="card"><div class="ct">Daily Tasks</div><div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Daily match</div><span class="txp">+15</span></div><div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Solve 1 tactical puzzle</div><span class="txp">+10</span></div></div></div>
@@ -1230,7 +1315,7 @@ const LVL_NAMES={7:'Entrepreneur',8:'Executive',9:'Champion',10:'Legend',11:'Ico
 const TITLES={mission:'Mission Control',dashboard:'Dashboard',planner:'Daily Planner',re:'Realtor Business',whl:'Wholesaling',forex:'Forex Trading',inv:'Investments',cyber:'Cybersecurity',lang:'Languages',morse:'Morse Code',chess:'Chess',fitness:'Fitness',credit:'Credit & Finance',art:'Diamond Art',goals:'Goal Progress',annual:'Annual View',ach:'Achievements',evening:'Evening Review',weekly:'Weekly CEO Review'};
 const SUBS={mission:'What is the highest-value thing I should be doing right now?',dashboard:'Habits · Areas · Progress at a glance',planner:'Time-blocked schedule',re:'GA License → Property Manager → CAM',whl:'Trust Circle Enterprise · GHL automated',forex:'GBP/JPY · XAU/USD · 7-day goal',inv:'Dividends + crypto · Build wealth',cyber:'ICOHS → CompTIA Security+',lang:'Spanish + Polish → fluent in 6 months',morse:'8-Week Mastery Plan',chess:'Daily puzzles · Sharpen the mind',fitness:'Daily training · Goal weight',credit:'572 → 620 → home equity',art:'Find Your Calm, One Gem at a Time 💜',goals:'All goals · Progress tracking',annual:'Annual goals · Quarterly missions',ach:'XP · Levels · Badges',evening:'Reflect · Log wins · Score the day',weekly:'CEO-level review'};
 
-let S={habits:{},tasks:0,checkedTasks:{},streak:0,lastDate:null,streakCounted:false,xp:0,level:7,bestStreak:0,totalDays:0,reviews:[],wt:{logs:[],goal:null,start:null},mc:{},affIdx:0,notes:'',revenues:[],trades:[],deals:[],contracts:[],top3:{},habitHistory:{}};
+let S={habits:{},tasks:0,checkedTasks:{},streak:0,lastDate:null,streakCounted:false,xp:0,level:7,bestStreak:0,totalDays:0,reviews:[],wt:{logs:[],goal:null,start:null},mc:{},affIdx:0,notes:'',revenues:[],trades:[],deals:[],contracts:[],top3:{},habitHistory:{},aplus:{core1:{},core2:{}}};
 const today=()=>new Date().toLocaleDateString('en-CA');
 
 function save(){try{localStorage.setItem(LS,JSON.stringify(S));}catch(e){}}
@@ -1280,6 +1365,7 @@ function load(){
       if(s.habitHistory)S.habitHistory=s.habitHistory;
       if(s.notes)S.notes=s.notes;
       if(s.reviews)S.reviews=s.reviews;
+      if(s.aplus)S.aplus=s.aplus;
       if(s.affIdx!==undefined)S.affIdx=s.affIdx;
       if(s.examDate)S.examDate=s.examDate;
     } else {
@@ -1799,7 +1885,7 @@ if(!S.xp && !S.streak && !S.notes && (!S.revenues || !S.revenues.length)){
 setDates();setQuote();
 renderHabits();renderMCHabits();renderAreas();renderAchs();renderRevs();
 updateStats();updateSB();updateScorecard();updateMomentum();updateFT();updateWt();
-renderAff();restoreMC();restoreNotes();renderRevenues();restoreExamDate();restoreTasks();restoreTop3();renderTrades();renderStreakCal();renderDeals();updateFitDisplay();renderContracts();
+renderAff();restoreMC();restoreNotes();renderRevenues();restoreExamDate();restoreTasks();restoreTop3();renderTrades();renderStreakCal();renderDeals();updateFitDisplay();renderContracts();restoreAPlus();
 // Auto-save every 30 seconds as backup
 setInterval(save, 30000);
 
@@ -2245,6 +2331,92 @@ function updateTradePnl(id, pnl){
   const trade = S.trades?.find(t=>t.id===id);
   if(trade){trade.pnl=parseFloat(pnl)||0;}
   renderTrades();save();
+}
+
+
+// ── COMPTIA A+ PROGRESS ────────────────────────────────
+function updateAPlusCore1(){
+  const domains = [
+    {id:'d-mobile',label:'Mobile Devices'},
+    {id:'d-net',label:'Networking'},
+    {id:'d-hw',label:'Hardware'},
+    {id:'d-virt',label:'Virtualization'}
+  ];
+  let total = 0;
+  domains.forEach(d=>{
+    const pct = parseInt(prompt('Score for '+d.label+' (0-100):',S.aplus?.core1?.[d.id]||0))||0;
+    const val = Math.min(100,Math.max(0,pct));
+    const bar = document.getElementById(d.id);
+    const lbl = document.getElementById(d.id+'-p');
+    if(bar)bar.style.width=val+'%';
+    if(lbl)lbl.textContent=val+'%';
+    S.aplus = S.aplus||{core1:{},core2:{}};
+    S.aplus.core1 = S.aplus.core1||{};
+    S.aplus.core1[d.id] = val;
+    total += val;
+  });
+  const avg = Math.round(total/domains.length);
+  const pctEl = document.getElementById('aplus-core1-pct');
+  const barEl = document.getElementById('aplus-core1-bar');
+  if(pctEl)pctEl.textContent=avg+'%';
+  if(barEl)barEl.style.width=avg+'%';
+  S.aplus.core1.avg = avg;
+  save();
+  awardXP(20);
+}
+
+function updateAPlusCore2(){
+  const domains = [
+    {id:'d-os',label:'Operating Systems'},
+    {id:'d-sec',label:'Security'},
+    {id:'d-soft',label:'Software Troubleshooting'},
+    {id:'d-ops',label:'Operational Procedures'}
+  ];
+  let total = 0;
+  domains.forEach(d=>{
+    const pct = parseInt(prompt('Score for '+d.label+' (0-100):',S.aplus?.core2?.[d.id]||0))||0;
+    const val = Math.min(100,Math.max(0,pct));
+    const bar = document.getElementById(d.id);
+    const lbl = document.getElementById(d.id+'-p');
+    if(bar)bar.style.width=val+'%';
+    if(lbl)lbl.textContent=val+'%';
+    S.aplus = S.aplus||{core1:{},core2:{}};
+    S.aplus.core2 = S.aplus.core2||{};
+    S.aplus.core2[d.id] = val;
+    total += val;
+  });
+  const avg = Math.round(total/domains.length);
+  const pctEl = document.getElementById('aplus-core2-pct');
+  const barEl = document.getElementById('aplus-core2-bar');
+  if(pctEl)pctEl.textContent=avg+'%';
+  if(barEl)barEl.style.width=avg+'%';
+  S.aplus.core2.avg = avg;
+  save();
+  awardXP(20);
+}
+
+function restoreAPlus(){
+  if(!S.aplus)return;
+  if(S.aplus.core1){
+    ['d-mobile','d-net','d-hw','d-virt'].forEach(id=>{
+      const val=S.aplus.core1[id]||0;
+      const bar=document.getElementById(id);if(bar)bar.style.width=val+'%';
+      const lbl=document.getElementById(id+'-p');if(lbl)lbl.textContent=val+'%';
+    });
+    const avg=S.aplus.core1.avg||0;
+    const pctEl=document.getElementById('aplus-core1-pct');if(pctEl)pctEl.textContent=avg+'%';
+    const barEl=document.getElementById('aplus-core1-bar');if(barEl)barEl.style.width=avg+'%';
+  }
+  if(S.aplus.core2){
+    ['d-os','d-sec','d-soft','d-ops'].forEach(id=>{
+      const val=S.aplus.core2[id]||0;
+      const bar=document.getElementById(id);if(bar)bar.style.width=val+'%';
+      const lbl=document.getElementById(id+'-p');if(lbl)lbl.textContent=val+'%';
+    });
+    const avg=S.aplus.core2.avg||0;
+    const pctEl=document.getElementById('aplus-core2-pct');if(pctEl)pctEl.textContent=avg+'%';
+    const barEl=document.getElementById('aplus-core2-bar');if(barEl)barEl.style.width=avg+'%';
+  }
 }
 
 </script>
