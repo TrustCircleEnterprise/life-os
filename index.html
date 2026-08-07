@@ -314,6 +314,7 @@ a{color:inherit;text-decoration:none}
   <button class="ni" onclick="sv('planner')"><span class="ni-ico">📅</span>Daily Planner</button>
   <div class="nav-sec">Business</div>
   <button class="ni" onclick="sv('re')"><span class="ni-ico">🏠</span>Realtor ✓<span class="ni-xp" style="color:var(--green)">LICENSED</span></button>
+  <button class="ni" onclick="sv('newagent')"><span class="ni-ico">📋</span>New Agent Tasks<span class="ni-xp">+20 XP</span></button>
   <button class="ni" onclick="sv('cam')"><span class="ni-ico">🏢</span>CAM License<span class="ni-xp">Dec 2026</span></button>
   <button class="ni" onclick="sv('whl')"><span class="ni-ico">🤝</span>Wholesaling<span class="ni-xp">+15 XP</span></button>
   <button class="ni" onclick="sv('forex')"><span class="ni-ico">📈</span>Forex<span class="ni-xp">+15 XP</span></button>
@@ -908,6 +909,69 @@ a{color:inherit;text-decoration:none}
     <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div class="tt">Max 2 trades · Stop after 2 losses</div><span class="txp">+10</span></div>
   </div>
 </div>
+<div class="view" id="v-newagent">
+  <div class="card" style="background:linear-gradient(135deg,rgba(0,209,122,.08),rgba(45,212,191,.08));border-color:rgba(0,209,122,.3)">
+    <div class="card-line" style="background:var(--green)"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+      <div>
+        <div style="font-size:16px;font-weight:600;color:var(--green);margin-bottom:4px">New Agent Task Tracker</div>
+        <div style="font-size:11px;color:var(--text2)">Daily actions to build your real estate business from day one</div>
+      </div>
+      <a href="https://trustcircleenterprise.github.io/prosperity-ledger/" target="_blank" class="btn suc" style="text-decoration:none">Prosperity Ledger ↗</a>
+    </div>
+  </div>
+
+  <!-- DAILY NON-NEGOTIABLES -->
+  <div class="card"><div class="card-line" style="background:var(--green)"></div><div class="ct">Daily Non-Negotiables</div>
+    <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,20)"></div><div style="flex:1"><div class="tt">Make 5 prospecting calls</div><div class="ts">Sphere of influence, past clients, online leads</div></div><span class="txp">+20</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div style="flex:1"><div class="tt">Follow up with 2 active leads</div><div class="ts">Buyers, sellers, or referrals in pipeline</div></div><span class="txp">+15</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div style="flex:1"><div class="tt">Post 1 piece of real estate content</div><div class="ts">Market update, tip, listing, testimonial</div></div><span class="txp">+15</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div style="flex:1"><div class="tt">Add 3 new contacts to CRM/GHL</div><div class="ts">Open houses, social media, referrals</div></div><span class="txp">+10</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,10)"></div><div style="flex:1"><div class="tt">Preview or show 1 property</div><div class="ts">Know your inventory — be the market expert</div></div><span class="txp">+10</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div style="flex:1"><div class="tt">Log all activity in Prosperity Ledger</div><div class="ts">Track every call, showing, and follow-up</div></div><span class="txp">+15</span></div>
+  </div>
+
+  <!-- WEEKLY TASKS -->
+  <div class="card"><div class="card-line" style="background:var(--blue)"></div><div class="ct">Weekly Power Activities</div>
+    <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,25)"></div><div style="flex:1"><div class="tt">Host or attend 1 open house</div><div class="ts">Best lead generation activity for new agents</div></div><span class="txp">+25</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,20)"></div><div style="flex:1"><div class="tt">Ask 5 people for a referral</div><div class="ts">"Do you know anyone buying or selling?"</div></div><span class="txp">+20</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,20)"></div><div style="flex:1"><div class="tt">Send market update to database</div><div class="ts">Email or social — position yourself as the expert</div></div><span class="txp">+20</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div style="flex:1"><div class="tt">Network with 1 lender, attorney, or investor</div><div class="ts">Build your referral and vendor network</div></div><span class="txp">+15</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div style="flex:1"><div class="tt">Review pipeline — who needs attention?</div><div class="ts">Who is closest to a decision? Focus there.</div></div><span class="txp">+15</span></div>
+    <div class="tr"><div class="chk" onclick="ck(this,20)"></div><div style="flex:1"><div class="tt">Complete 1 training or CE module</div><div class="ts">NAR, ICOHS, brokerage training, YouTube</div></div><span class="txp">+20</span></div>
+  </div>
+
+  <!-- FIRST 90 DAYS CHECKLIST -->
+  <div class="card"><div class="card-line" style="background:var(--amber)"></div><div class="ct">First 90 Days Checklist</div>
+    <div class="tr" style="border-top:none;padding-top:0"><div class="chk" onclick="ck(this,25)"></div><div class="tt">Join brokerage and complete onboarding</div></div>
+    <div class="tr"><div class="chk" onclick="ck(this,25)"></div><div class="tt">Set up MLS access and lockbox key</div></div>
+    <div class="tr"><div class="chk" onclick="ck(this,20)"></div><div class="tt">Create professional headshot and bio</div></div>
+    <div class="tr"><div class="chk" onclick="ck(this,20)"></div><div class="tt">Set up Google Business Profile</div></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Create sphere of influence list (100+ contacts)</div></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Send "I'm now an agent!" announcement to everyone</div></div>
+    <div class="tr"><div class="chk" onclick="ck(this,20)"></div><div class="tt">Set up GHL CRM with all contacts imported</div></div>
+    <div class="tr"><div class="chk" onclick="ck(this,15)"></div><div class="tt">Join local REALTOR association</div></div>
+    <div class="tr"><div class="chk" onclick="ck(this,20)"></div><div class="tt">Close first transaction</div></div>
+    <div class="tr"><div class="chk" onclick="ck(this,50)"></div><div class="tt">Earn first commission check</div></div>
+  </div>
+
+  <!-- SCRIPTS AND TOOLS -->
+  <div class="card"><div class="card-line" style="background:var(--purple)"></div><div class="ct">Quick Scripts</div>
+    <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:8px">
+      <div style="font-size:11px;font-weight:600;color:var(--purple);margin-bottom:5px">Prospecting Call Opener</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.7">"Hi [Name], this is Makisha from [Brokerage]. I'm reaching out to let you know I'm now a licensed real estate agent helping people buy and sell in Atlanta. Are you or anyone you know thinking about making a move in the next 6-12 months?"</div>
+    </div>
+    <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r);padding:12px;margin-bottom:8px">
+      <div style="font-size:11px;font-weight:600;color:var(--blue);margin-bottom:5px">Referral Ask</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.7">"I'm building my business on referrals. If you know anyone who is thinking about buying or selling, I would truly appreciate you passing along my name. I promise to take great care of them."</div>
+    </div>
+    <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:var(--r);padding:12px">
+      <div style="font-size:11px;font-weight:600;color:var(--green);margin-bottom:5px">Follow-Up Text</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.7">"Hi [Name], just checking in! Have you had any more thoughts about [buying/selling]? I'm here whenever you're ready and happy to answer any questions."</div>
+    </div>
+  </div>
+</div>
+
 <div class="view" id="v-cam">
   <!-- HEADER -->
   <div class="card" style="background:linear-gradient(135deg,rgba(45,212,191,.08),rgba(77,158,255,.08));border-color:rgba(45,212,191,.3)">
